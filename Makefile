@@ -2,12 +2,9 @@ PYTHON := python3
 
 lint:
 	@echo "Linting..."
+	@${PYTHON} -m flake8 *.py **/*.py
+	@echo "Done!"
 
-	@# pylint can't find files properly
-	@# https://github.com/PyCQA/pylint/issues/352
-	@${PYTHON} -m pylint \
-		*.py \
-
-run: 
+run: lint
 	@${PYTHON} app.py
 

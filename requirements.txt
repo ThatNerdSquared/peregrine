@@ -3,5 +3,5 @@ PySide6>=6.2.2.1
 python-dotenv>=0.19.2
 
 # Dev
-pylint>=2.12.2
+flake8>=4.0.1
 pytest>=6.2.5

@@ -3,6 +3,7 @@ import json
 from datetime import datetime
 from peregrine.config import Config
 
+
 def add_log_item(input_text):
     """Adds a new entry to the log."""
 
@@ -14,7 +15,7 @@ def add_log_item(input_text):
     path = "".join([str(Config.LOG_PATH), 'peregrinelog.json'])
     if not os.path.exists(path):
         with open(path, 'w+', encoding='UTF-8') as log_file:
-            entries = [ new_entry ]
+            entries = [new_entry]
             json.dump(entries, log_file)
     else:
         with open(path, 'r', encoding='UTF-8') as log_file:

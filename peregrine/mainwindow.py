@@ -1,8 +1,9 @@
-from PySide6.QtCore import QSize, Qt
-from PySide6.QtWidgets import QHBoxLayout, QLabel, QLineEdit, QMainWindow, QPushButton, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QHBoxLayout, QLabel, QLineEdit, QMainWindow, QPushButton, QVBoxLayout, QWidget  # noqa: E501
 from peregrine.add_item import add_log_item
 
+
 class MainWindow(QMainWindow):
+    """The main window for the app."""
     def __init__(self):
         super().__init__()
 
@@ -22,6 +23,7 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(widget)
 
     def text_entry(self):
+        """Lay out text entry box and button."""
         text_entry_layout = QHBoxLayout()
 
         self.textbox = QLineEdit()
@@ -36,8 +38,7 @@ class MainWindow(QMainWindow):
 
         return text_entry
 
-
     def add_item(self):
+        """Handle submitted text in textbox."""
         add_log_item(self.textbox.text())
         self.textbox.clear()
-
