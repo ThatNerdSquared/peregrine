@@ -9,7 +9,6 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.resize(QSize(500, 300))
         self.setMinimumSize(QSize(200, 200))
         self.set_up_window()
 
@@ -50,3 +49,4 @@ class MainWindow(QMainWindow):
         add_log_item(self.textbox.text())
         self.textbox.clear()
         self.set_up_window()
+        self.textbox.setFocus()
