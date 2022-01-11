@@ -5,6 +5,11 @@ lint:
 	@${PYTHON} -m flake8 *.py **/*.py
 	@echo "Done!"
 
-run: lint
+test:
+	@echo "Testing..."
+	@${PYTHON} -m pytest tests
+	@echo "Done!"
+
+run: test lint
 	@${PYTHON} app.py
 
