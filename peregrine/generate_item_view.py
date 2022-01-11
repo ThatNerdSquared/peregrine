@@ -2,7 +2,7 @@ from datetime import datetime
 import os
 import json
 
-from PySide6.QtWidgets import QHBoxLayout, QLabel, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QHBoxLayout, QLabel, QScrollArea, QVBoxLayout, QWidget  # noqa: E501
 from peregrine.config import Config
 
 
@@ -30,12 +30,20 @@ def generate_item_view():
             datetime_layout.addWidget(QLabel(formatted_date))
             datetime_layout.addWidget(QLabel(formatted_time))
 
+            entry_text = QLabel(entry['input'])
+            entry_text.setWordWrap(True)
+
             item_layout.addLayout(datetime_layout)
-            item_layout.addWidget(QLabel(entry['input']))
+            item_layout.addWidget(entry_text)
 
             entry_rows_layout.addLayout(item_layout)
 
         entry_rows = QWidget()
         entry_rows.setLayout(entry_rows_layout)
 
-        return entry_rows
+        scroll_area = QScrollArea()
+        scroll_area.setWidget(entry_rows)
+        bar = scroll_area.verticalScrollBar()
+        bar.rangeChanged.connect(lambda x, y: bar.setValue(y))
+
+        return scroll_area
