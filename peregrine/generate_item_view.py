@@ -28,8 +28,10 @@ def generate_item_view():
             formatted_time = time.isoformat(timespec='seconds')
             datetime_text = ''.join([formatted_date, '\n', formatted_time])
             date_and_time = QLabel(datetime_text)
+            date_and_time.setObjectName('datetimetext')
 
             entry_text = QLabel(entry['input'])
+            entry_text.setObjectName('entrytext')
             entry_text.setWordWrap(True)
             entry_text.setMinimumWidth(300)
             entry_text.setMaximumHeight(1000)
@@ -42,10 +44,12 @@ def generate_item_view():
 
         entry_rows = QWidget()
         entry_rows.setLayout(entry_rows_layout)
+        entry_rows.setObjectName('entryview')
 
         scroll_area = QScrollArea()
         scroll_area.setWidget(entry_rows)
         scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         bar = scroll_area.verticalScrollBar()
         bar.rangeChanged.connect(lambda x, y: bar.setValue(y))
 

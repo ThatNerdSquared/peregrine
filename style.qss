@@ -1,0 +1,30 @@
+QMainWindow, QScrollBar, QScrollArea, #entryview {
+    background-color: #170C19;
+}
+
+#entrytext {
+    color: #D7B4D4;
+    font-family: Baskerville;
+    font-size: 18pt;
+}
+
+#datetimetext {
+    color: #D7B4D4;
+    font-family: Menlo;
+    font-size: 13pt;
+}
+
+QLineEdit {
+    background-color: #170C19;
+    border: 3px solid #543B61;
+    border-radius: 5px;
+    color: #D7B4D4;
+}
+
+QPushButton {
+    background-color: #170C19;
+    border: 3px solid #543B61;
+    border-radius: 5px;
+    color: #D7B4D4;
+    min-width: 3em;
+}
