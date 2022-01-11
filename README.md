@@ -2,14 +2,19 @@
 
 Peregrine is a rapid, append-only logging and note-taking app, inspired by thesephist's [Inc](https://github.com/thesephist/inc). 
 
-<img src="assets/readme-image.png" width=50% height=auto>
+<img src="assets/readme-image.png" style="max-width:800px">
 
 ## Installing
 Right now Peregrine runs via a Python install on your computer, but I'm hoping to provided pre-packaged binaries and app packages soon. Windows, macOS, and Linux will be supported but only macOS has been tested as of yet.
+
+I'm still moving fast and breaking things, so I wouldn't suggest logging anything important in Peregrine right now. You can find logged entries as a file called `peregrinelog.json`, in whatever directory you've specified in `.env`.
+
+### Incomplete Installation Instructions
 ```bash
 git clone git@github.com:ThatNerdSquared/peregrine.git
 cd peregrine
 pip3 install -r requirements.txt
+# Copy `.env.example` as `.env` and set configuration options before continuing.
 make run
 ```
 
