@@ -1,5 +1,6 @@
-from PySide6.QtWidgets import QHBoxLayout, QLabel, QLineEdit, QMainWindow, QPushButton, QVBoxLayout, QWidget  # noqa: E501
+from PySide6.QtWidgets import QHBoxLayout, QLineEdit, QMainWindow, QPushButton, QVBoxLayout, QWidget  # noqa: E501
 from peregrine.add_item import add_log_item
+from peregrine.generate_item_view import generate_item_view
 
 
 class MainWindow(QMainWindow):
@@ -11,10 +12,10 @@ class MainWindow(QMainWindow):
 
         layout = QVBoxLayout()
 
-        label = QLabel("Test")
+        entries = generate_item_view()
         textentry = self.text_entry()
 
-        layout.addWidget(label)
+        layout.addWidget(entries)
         layout.addWidget(textentry)
         widget = QWidget()
         widget.setLayout(layout)
@@ -29,6 +30,7 @@ class MainWindow(QMainWindow):
         self.textbox = QLineEdit()
         self.textbox.returnPressed.connect(self.add_item)
         log_button = QPushButton("Log")
+        log_button.setEnabled(True)
         log_button.clicked.connect(self.add_item)
 
         text_entry_layout.addWidget(self.textbox)
@@ -42,3 +44,4 @@ class MainWindow(QMainWindow):
         """Handle submitted text in textbox."""
         add_log_item(self.textbox.text())
         self.textbox.clear()
+        generate_item_view()
