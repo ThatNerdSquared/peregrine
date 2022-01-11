@@ -32,6 +32,7 @@ def generate_item_view():
             entry_text = QLabel(entry['input'])
             entry_text.setWordWrap(True)
             entry_text.setMinimumWidth(300)
+            entry_text.setMaximumHeight(1000)
 
             item_layout.addWidget(date_and_time, alignment=Qt.AlignTop)
             item_layout.addWidget(entry_text, alignment=Qt.AlignTop)
@@ -44,7 +45,6 @@ def generate_item_view():
 
         scroll_area = QScrollArea()
         scroll_area.setWidget(entry_rows)
-        scroll_area.setWidgetResizable(True)
         scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         bar = scroll_area.verticalScrollBar()
         bar.rangeChanged.connect(lambda x, y: bar.setValue(y))
