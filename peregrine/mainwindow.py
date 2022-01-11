@@ -1,3 +1,4 @@
+from PySide6.QtCore import QSize
 from PySide6.QtWidgets import QHBoxLayout, QLineEdit, QMainWindow, QPushButton, QVBoxLayout, QWidget  # noqa: E501
 from peregrine.add_item import add_log_item
 from peregrine.generate_item_view import generate_item_view
@@ -8,6 +9,11 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
+        self.resize(QSize(500, 300))
+        self.setMinimumSize(QSize(200, 200))
+        self.set_up_window()
+
+    def set_up_window(self):
         self.setWindowTitle("Peregrine")
 
         layout = QVBoxLayout()
@@ -20,7 +26,6 @@ class MainWindow(QMainWindow):
         widget = QWidget()
         widget.setLayout(layout)
 
-        self.resize(500, 300)
         self.setCentralWidget(widget)
 
     def text_entry(self):
@@ -44,4 +49,4 @@ class MainWindow(QMainWindow):
         """Handle submitted text in textbox."""
         add_log_item(self.textbox.text())
         self.textbox.clear()
-        generate_item_view()
+        self.set_up_window()
