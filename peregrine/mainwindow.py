@@ -9,7 +9,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.setMinimumSize(QSize(200, 200))
+        self.setMinimumSize(QSize(300, 200))
         self.set_up_window()
 
     def set_up_window(self):
