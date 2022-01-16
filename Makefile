@@ -13,3 +13,8 @@ test:
 run: test lint
 	@${PYTHON} app.py
 
+build: test lint
+	pyinstaller --name="Peregrine" --add-data "style.qss, .env:." --windowed --onefile  app.py
+
+remove-build-files:
+	rm -rf app.spec build dist
