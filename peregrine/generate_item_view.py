@@ -9,8 +9,9 @@ from peregrine.config import Config
 def generate_item_view():
     path = ''.join([str(Config.LOG_PATH), 'peregrinelog.json'])
     if not os.path.exists(path):
-        label = QLabel('No entries have been logged yet.')
-        return label
+        nonexistent_log_label = QLabel('No entries have been logged yet.')
+        nonexistent_log_label.setObjectName('nonexistent_log_label')
+        return nonexistent_log_label
     else:
         with open(path, 'r', encoding='UTF-8') as log_file:
             entries = json.load(log_file)

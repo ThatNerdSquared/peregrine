@@ -2,7 +2,7 @@ QMainWindow, QScrollBar, QScrollArea, #entryview {
     background-color: #170C19;
 }
 
-#entrytext {
+#entrytext, #nonexistent_log_label {
     color: #D7B4D4;
     font-family: Baskerville;
     font-size: 18pt;

@@ -25,7 +25,8 @@ I'm iterating on Peregrine rapidly, so if a feature you'd like isn't checked off
 - [x] Fast and light GUI
 - [ ] Packaged apps for Windows/macOS/Linux using PyInstaller
 - [ ] Tag support (can tag entries and create views with filters for certain tags)
-- [ ] Markdown, emoji, and syntax highlighting support
+- [ ] Set entries to be password-protected by tagging them as #secret
+- [ ] Markdown and syntax highlighting support
 - [ ] Light/dark themes
 - [ ] Automatically export logs to .md/.json/.docx/.pdf files
 - [ ] Automatically create and update webpage with entries tagged #public
