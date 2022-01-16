@@ -4,7 +4,7 @@ PYTHON := python3
 
 lint:
 	@echo "Linting..."
-	@${PYTHON} -m flake8 *.py **/*.py
+	@${PYTHON} -m flake8 peregrine
 	@echo "Done!"
 
 test:
@@ -23,11 +23,11 @@ build-macos: test lint
 		--windowed --onefile app.py
 		@# --osx-bundle-identifier io.github.thatnerdsquared.peregrine
 
-build-windows: test lint iconset
-	@pyinstaller --name="Peregrine" \
-		--add-data "style.qss:." \
-		--add-data ".env:." \
-		--icon assets/Peregrine.ico
+build-windows: test lint
+	@${PYTHON} -m PyInstaller --name="Peregrine" \
+		--add-data "style.qss;." \
+		--add-data ".env;." \
+		--icon assets/peregrine-icon.ico \
 		--windowed --onefile app.py
 
 remove-build-files:
