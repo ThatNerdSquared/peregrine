@@ -1,6 +1,6 @@
 PYTHON := python3
 
-.PHONY = lint test run build_macos build_windows remove-build-files iconset
+.PHONY = lint test run build_macos build_windows remove-build-files
 
 lint:
 	@echo "Linting..."
@@ -15,7 +15,7 @@ test:
 run: test lint
 	@${PYTHON} app.py
 
-build-macos: test lint iconset
+build-macos: test lint
 	@pyinstaller --name="Peregrine" \
 		--add-data "style.qss:." \
 		--add-data ".env:." \
