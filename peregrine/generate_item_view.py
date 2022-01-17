@@ -3,11 +3,12 @@ import os
 import json
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QHBoxLayout, QLabel, QScrollArea, QVBoxLayout, QWidget  # noqa: E501
-from peregrine.config import Config
+# from peregrine.config import Config
 
 
 def generate_item_view():
-    path = ''.join([str(Config.LOG_PATH), 'peregrinelog.json'])
+    # path = ''.join([str(Config.LOG_PATH), 'peregrinelog.json'])
+    path = os.path.join(str(os.path.expanduser('~')), 'peregrinelog.json')
     if not os.path.exists(path):
         nonexistent_log_label = QLabel('No entries have been logged yet.')
         nonexistent_log_label.setObjectName('nonexistent_log_label')

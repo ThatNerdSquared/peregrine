@@ -4,13 +4,13 @@ QMainWindow, QScrollBar, QScrollArea, #entryview {
 
 #entrytext, #nonexistent_log_label {
     color: #D7B4D4;
-    font-family: Baskerville, Constantia, Georgia;
+    font-family: Baskerville, Georgia;
     font-size: 18pt;
 }
 
 #datetimetext {
     color: #D7B4D4;
-    font-family: Menlo, Lucida Sans Typewriter, Courier New;
+    font-family: Menlo, Courier New;
     font-size: 13pt;
 }
 
