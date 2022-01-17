@@ -12,7 +12,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        if (platform.platform() == 'Windows'):
+        if (platform.system() == 'Windows'):
             windowsicon_path = get_data_file_path('peregrine-icon.png')
             self.setWindowIcon(QIcon(windowsicon_path))
 
@@ -61,14 +61,17 @@ class MainWindow(QMainWindow):
 
 def main():
     app = QApplication([])
-    stylesheet_path = get_data_file_path('style.qss')
+    if (platform.system() == 'Windows'):
+        print('test')
+        stylesheet_path = get_data_file_path('windows-style.qss')
+        windowsicon_path = get_data_file_path('peregrine-icon.png')
+        app.setWindowIcon(QIcon(windowsicon_path))
+    else:
+        stylesheet_path = get_data_file_path('macos-style.qss')
     with open(stylesheet_path, 'r') as qss_file:
         app.setStyleSheet(qss_file.read())
     window = MainWindow()
     window.show()
-    if (platform.platform() == 'Windows'):
-        windowsicon_path = get_data_file_path('peregrine-icon.png')
-        app.setWindowIcon(QIcon(windowsicon_path))
     QCoreApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
     app.exec()
 

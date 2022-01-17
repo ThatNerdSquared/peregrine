@@ -17,7 +17,7 @@ run: test lint
 
 build-macos: test lint
 	@pyinstaller --name="Peregrine" \
-		--add-data "style.qss:." \
+		--add-data "macos-style.qss:." \
 		--icon assets/Peregrine.icns \
 		--windowed --onefile app.py
 		@#--add-data ".env:." \
@@ -25,7 +25,7 @@ build-macos: test lint
 
 build-windows: test lint
 	@${PYTHON} -m PyInstaller --name="Peregrine" \
-		--add-data "style.qss;." \
+		--add-data "windows-style.qss;." \
 		--add-data "assets/peregrine-icon.png;." \
 		--icon assets/peregrine-icon.ico \
 		--windowed --onefile app.py
