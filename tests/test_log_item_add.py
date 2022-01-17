@@ -33,4 +33,9 @@ def test_file_creates_with_correct_data(monkeypatch, tmp_path):
 
     # Ideally we'd test the full entries array against a mock one
     # but the date value ends up being a bit off.
+    assert 'date' in entries[0]
+    assert 'input' in entries[0]
+    assert 'encrypted' in entries[0]
+    assert 'tags' in entries[0]
+
     assert entries[0]['input'] == 'test string'

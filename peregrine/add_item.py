@@ -10,7 +10,9 @@ def add_log_item(input_text):
     now = datetime.now()
     new_entry = {
         "date": now.isoformat(),
-        "input": input_text
+        "input": input_text,
+        "encrypted": False,
+        "tags": []
     }
     # path = "".join([str(Config.LOG_PATH), 'peregrinelog.json'])
     path = os.path.join(str(os.path.expanduser('~')), 'peregrinelog.json')

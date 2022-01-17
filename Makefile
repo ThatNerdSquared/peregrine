@@ -18,7 +18,7 @@ run: test lint
 build-macos: test lint
 	@pyinstaller --name="Peregrine" \
 		--add-data "macos-style.qss:." \
-		--add-data "fonts/*.ttf;fonts/" \
+		--add-data "fonts/*.ttf:fonts/" \
 		--icon assets/Peregrine.icns \
 		--windowed --onefile app.py
 		@#--add-data ".env:." \
