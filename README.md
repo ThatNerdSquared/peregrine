@@ -41,4 +41,5 @@ I'm iterating on Peregrine rapidly, so if a feature you'd like isn't checked off
 - ... peregrine?
     - Yup, [peregrine falcons](https://en.wikipedia.org/wiki/Peregrine_falcon), which are both cool and fast (hopefully like this app)!
 - If you enjoy using Peregrine and/or want to support further develop, feel free to donate below!
-<script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="nathanyeung" data-color="#FFDD00" data-emoji=""  data-font="Cookie" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff" ></script>
+
+<a href="https://www.buymeacoffee.com/nathanyeung" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
