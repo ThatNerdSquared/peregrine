@@ -1,5 +1,7 @@
-from PySide6.QtCore import QSize
+from PySide6.QtCore import QCoreApplication, QSize, Qt
+from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication, QHBoxLayout, QLineEdit, QMainWindow, QPushButton, QVBoxLayout, QWidget  # noqa: E501
+import platform
 from peregrine.add_item import add_log_item
 from peregrine.generate_item_view import generate_item_view
 from peregrine.utils import get_data_file_path
@@ -9,6 +11,10 @@ class MainWindow(QMainWindow):
     """The main window for the app."""
     def __init__(self):
         super().__init__()
+
+        if (platform.platform() == 'Windows'):
+            windowsicon_path = get_data_file_path('peregrine-icon.png')
+            self.setWindowIcon(QIcon(windowsicon_path))
 
         self.setMinimumSize(QSize(450, 200))
         self.set_up_window()
@@ -60,6 +66,10 @@ def main():
         app.setStyleSheet(qss_file.read())
     window = MainWindow()
     window.show()
+    if (platform.platform() == 'Windows'):
+        windowsicon_path = get_data_file_path('peregrine-icon.png')
+        app.setWindowIcon(QIcon(windowsicon_path))
+    QCoreApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
     app.exec()
 
 

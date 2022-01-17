@@ -27,6 +27,7 @@ build-windows: test lint
 	@${PYTHON} -m PyInstaller --name="Peregrine" \
 		--add-data "style.qss;." \
 		--add-data ".env;." \
+		--add-data "assets/peregrine-icon.png;." \
 		--icon assets/peregrine-icon.ico \
 		--windowed --onefile app.py
 
