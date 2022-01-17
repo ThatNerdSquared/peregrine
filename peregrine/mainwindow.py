@@ -1,5 +1,5 @@
-from PySide6.QtCore import QCoreApplication, QSize, Qt
-from PySide6.QtGui import QIcon
+from PySide6.QtCore import QCoreApplication, QDir, QSize, Qt
+from PySide6.QtGui import QIcon, QFontDatabase
 from PySide6.QtWidgets import QApplication, QHBoxLayout, QLineEdit, QMainWindow, QPushButton, QVBoxLayout, QWidget  # noqa: E501
 import platform
 from peregrine.add_item import add_log_item
@@ -61,15 +61,22 @@ class MainWindow(QMainWindow):
 
 def main():
     app = QApplication([])
+
+    # Windows optimizations.
     if (platform.system() == 'Windows'):
-        print('test')
         stylesheet_path = get_data_file_path('windows-style.qss')
         windowsicon_path = get_data_file_path('peregrine-icon.png')
         app.setWindowIcon(QIcon(windowsicon_path))
     else:
         stylesheet_path = get_data_file_path('macos-style.qss')
+
+    # Styling.
+    fonts = get_data_file_path('fonts')
+    for font in QDir(fonts).entryInfoList("*.ttf"):
+        QFontDatabase.addApplicationFont(font.absoluteFilePath())
     with open(stylesheet_path, 'r') as qss_file:
         app.setStyleSheet(qss_file.read())
+
     window = MainWindow()
     window.show()
     QCoreApplication.setAttribute(Qt.AA_EnableHighDpiScaling)

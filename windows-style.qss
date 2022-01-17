@@ -4,14 +4,14 @@ QMainWindow, QScrollBar, QScrollArea, #entryview {
 
 #entrytext, #nonexistent_log_label {
     color: #D7B4D4;
-    font-family: Georgia;
-    font-size: 12pt;
+    font-family: Georgia, Baskerville;
+    font-size: 12pt; /* changed between platforms */
 }
 
 #datetimetext {
     color: #D7B4D4;
-    font-family: Courier New;
-    font-size: 10pt;
+    font-family: Courier New, Menlo;
+    font-size: 10pt; /* changed between platforms */
 }
 
 QLineEdit {
