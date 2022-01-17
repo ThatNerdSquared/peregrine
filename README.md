@@ -4,18 +4,20 @@ Peregrine is a rapid, append-only logging and note-taking app, inspired by these
 
 <img src="assets/readme-image.png" style="max-width:800px">
 
-## Installing
-Right now Peregrine runs via a Python install on your computer, but I'm hoping to provided pre-packaged binaries and app packages soon. Windows, macOS, and Linux will be supported but only macOS has been tested as of yet.
+## Installation
+Peregrine now offers prebuilt app packages! You can get the lastest one on our [releases page](). I currently have releases for Windows and M1 macs. On macOS, copy the `.app` bundle into `/Applications/`. On Windows, copy the `.exe` into `C:\Program Files`. If you're on an Intel mac or Linux, follow the instructions below to build from source. 
 
-I'm still moving fast and breaking things, so I wouldn't suggest logging anything important in Peregrine right now. You can find logged entries as a file called `peregrinelog.json`, in whatever directory you've specified in `.env`.
+You can find logged entries as a file called `~/peregrinelog.json` or `C:\Users\yourusername\peregrinelog.json`, depending on your OS. Breaking changes with the current log file format are unlikely but still possible at this time.
 
-### Incomplete Installation Instructions
+### Build from Source
 ```bash
 git clone git@github.com:ThatNerdSquared/peregrine.git
 cd peregrine
 pip3 install -r requirements.txt
-# Copy `.env.example` as `.env` and set configuration options before continuing.
-make run
+make run # run Peregrine from the current python install and shell
+# MAKE BUILD IS CURRENTLY NOT SUPPORTED FOR LINUX.
+make build-macos # build a .app file for macOS on the current architecture.
+make build-windows # build a .exe file for Windows on the current architecture.
 ```
 
 ## Features
@@ -23,7 +25,7 @@ I'm iterating on Peregrine rapidly, so if a feature you'd like isn't checked off
 - [x] Append-only note-taking
 - [x] Rapid text input that automatically records the date and time (down to the seconds) of each entry
 - [x] Fast and light GUI
-- [ ] Packaged apps for Windows/macOS/Linux using PyInstaller
+- [x] Packaged apps for Windows/macOS using PyInstaller
 - [ ] Tag support (can tag entries and create views with filters for certain tags)
 - [ ] Set entries to be password-protected by tagging them as #secret
 - [ ] Markdown and syntax highlighting support
@@ -33,9 +35,10 @@ I'm iterating on Peregrine rapidly, so if a feature you'd like isn't checked off
 
 ## Other Details
 - What's the idea behind Peregrine?
-    - I'd suggest checking out Linus' [original article on incremental note-taking](https://thesephist.com/posts/inc/); his project based on that idea, Inc, is what inspired me to build Peregrine.
+    - I'd suggest checking out Linus' [original article on incremental note-taking](https://thesephist.com/posts/inc/); his project based on that idea, Inc, is what inspired me to build Peregrine. Mainly I wanted something like Inc, but with GUI support and better tagging views, as well as being built in Python which makes the project easier for others to iterate on.
 - What did you build this with?
     - Python, PySide6, and Qt6! I'm most comfortable with Python and also wanted to avoid Electron for an app that needed to be this fast.
 - ... peregrine?
     - Yup, [peregrine falcons](https://en.wikipedia.org/wiki/Peregrine_falcon), which are both cool and fast (hopefully like this app)!
-- If you enjoy using Peregrine and/or want to support further develop, feel free to [donate!](https://www.buymeacoffee.com/nathanyeung)
+- If you enjoy using Peregrine and/or want to support further develop, feel free to donate below!
+<script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="nathanyeung" data-color="#FFDD00" data-emoji=""  data-font="Cookie" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff" ></script>
