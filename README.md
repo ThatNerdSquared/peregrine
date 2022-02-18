@@ -5,7 +5,7 @@ Peregrine is a rapid, append-only logging and note-taking app, inspired by these
 <img src="assets/readme-image.png" style="max-width:800px">
 
 ## Installation
-Peregrine now offers prebuilt app packages! You can get the lastest one on our [releases page](). I currently have releases for Windows and M1 macs. On macOS, copy the `.app` bundle into `/Applications/`. On Windows, copy the `.exe` into `C:\Program Files`. If you're on an Intel mac or Linux, follow the instructions below to build from source. 
+Peregrine now offers prebuilt app packages! You can get the latest one on our [releases page](https://github.com/ThatNerdSquared/peregrine/releases/latest). I currently have releases for Windows and M1 macs. On macOS, copy the `.app` bundle into `/Applications/`. On Windows, copy the `.exe` into `C:\Program Files`. If you're on an Intel mac or Linux, follow the instructions below to build from source. 
 
 You can find logged entries as a file called `~/peregrinelog.json` or `C:\Users\yourusername\peregrinelog.json`, depending on your OS. Breaking changes with the current log file format are unlikely but still possible at this time.
 
@@ -40,6 +40,6 @@ I'm iterating on Peregrine rapidly, so if a feature you'd like isn't checked off
     - Python, PySide6, and Qt6! I'm most comfortable with Python and also wanted to avoid Electron for an app that needed to be this fast.
 - ... peregrine?
     - Yup, [peregrine falcons](https://en.wikipedia.org/wiki/Peregrine_falcon), which are both cool and fast (hopefully like this app)!
-- If you enjoy using Peregrine and/or want to support further develop, feel free to donate below!
+- If you enjoy using Peregrine and/or want to support further development, feel free to donate below!
 
 <a href="https://www.buymeacoffee.com/nathanyeung" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
