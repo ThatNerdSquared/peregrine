@@ -1,3 +1,4 @@
+import darkdetect
 from PySide6.QtCore import QCoreApplication, QDir, QSize, Qt
 from PySide6.QtGui import QIcon, QFontDatabase
 from PySide6.QtWidgets import QApplication, QHBoxLayout, QLineEdit, QMainWindow, QPushButton, QVBoxLayout, QWidget  # noqa: E501
@@ -64,17 +65,18 @@ def main():
 
     # Windows optimizations.
     if (platform.system() == 'Windows'):
-        stylesheet_path = get_data_file_path('windows-style.qss')
         windowsicon_path = get_data_file_path('peregrine-icon.png')
         app.setWindowIcon(QIcon(windowsicon_path))
 
         fonts = get_data_file_path('fonts')
         for font in QDir(fonts).entryInfoList("*.ttf"):
             QFontDatabase.addApplicationFont(font.absoluteFilePath())
-    else:
-        stylesheet_path = get_data_file_path('macos-style.qss')
 
     # Styling.
+    if darkdetect.isDark():
+        stylesheet_path = get_data_file_path('dark-academia.qss')
+    else:
+        stylesheet_path = get_data_file_path('light-academia.qss')
     with open(stylesheet_path, 'r') as qss_file:
         app.setStyleSheet(qss_file.read())
 

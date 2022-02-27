@@ -2,7 +2,7 @@ from datetime import datetime
 import os
 import json
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QHBoxLayout, QLabel, QScrollArea, QVBoxLayout, QWidget  # noqa: E501
+from PySide6.QtWidgets import QFrame, QHBoxLayout, QLabel, QScrollArea, QVBoxLayout, QWidget  # noqa: E501
 # from peregrine.config import Config
 
 
@@ -49,6 +49,7 @@ def generate_item_view():
         entry_rows.setObjectName('entryview')
 
         scroll_area = QScrollArea()
+        scroll_area.setFrameShape(QFrame.NoFrame)
         scroll_area.setWidget(entry_rows)
         scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)

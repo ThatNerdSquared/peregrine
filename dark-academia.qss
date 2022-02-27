@@ -1,0 +1,36 @@
+/*
+MAIN_BG_COLOR: #000000
+MAIN_TEXT_COLOR: #b69d7c
+MAIN_ELEMENT_COLOR: #b69d7c
+*/
+QMainWindow, QScrollBar, QScrollArea, #entryview {
+    background-color: #000000;
+}
+
+#entrytext, #nonexistent_log_label {
+    color: #b69d7c;
+    font-family: Atkinson Hyperlegible;
+    font-size: 16pt; /* changed between platforms */
+}
+
+#datetimetext {
+    color: #b69d7c;
+    font-family: Atkinson Hyperlegible;
+    font-size: 13pt; /* changed between platforms */
+}
+
+QLineEdit {
+    background-color: #000000;
+    border: 3px solid #b69d7c;
+    border-radius: 5px;
+    color: #b69d7c;
+}
+
+QPushButton {
+    background-color: #000000;
+    border: 3px solid #b69d7c;
+    border-radius: 5px;
+    color: #b69d7c;
+    min-width: 3em;
+    font-family: Atkinson Hyperlegible;
+}
