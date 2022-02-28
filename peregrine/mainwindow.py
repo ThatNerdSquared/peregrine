@@ -1,10 +1,9 @@
 import darkdetect
 from PySide6.QtCore import QCoreApplication, QDir, QSize, Qt
-from PySide6.QtGui import QIcon, QFontDatabase, QKeySequence, QShortcut  # noqa: E501
-from PySide6.QtWidgets import QApplication, QHBoxLayout, QMainWindow, QPushButton, QTextEdit, QVBoxLayout, QWidget  # noqa: E501
+from PySide6.QtGui import QIcon, QFontDatabase  # noqa: E501
+from PySide6.QtWidgets import QApplication, QMainWindow  # noqa: E501
 import platform
-from peregrine.add_item import add_log_item
-from peregrine.generate_item_view import generate_item_view
+from peregrine.components.main_log_view import MainLogView
 from peregrine.utils import get_data_file_path
 
 
@@ -22,47 +21,8 @@ class MainWindow(QMainWindow):
 
     def set_up_window(self):
         self.setWindowTitle("Peregrine")
-
-        layout = QVBoxLayout()
-
-        entries = generate_item_view()
-        textentry = self.text_entry()
-        textentry.setMaximumHeight(100)
-
-        layout.addWidget(entries)
-        layout.addWidget(textentry)
-        widget = QWidget()
-        widget.setLayout(layout)
-
+        widget = MainLogView()
         self.setCentralWidget(widget)
-
-    def text_entry(self):
-        """Lay out text entry box and button."""
-        text_entry_layout = QHBoxLayout()
-
-        self.textbox = QTextEdit()
-        enter_key_shortcut = QShortcut(
-            QKeySequence('Ctrl+Return'),
-            self.textbox
-        )
-        enter_key_shortcut.activated.connect(self.add_item)
-        log_button = QPushButton("Log")
-        log_button.setEnabled(True)
-        log_button.clicked.connect(self.add_item)
-
-        text_entry_layout.addWidget(self.textbox)
-        text_entry_layout.addWidget(log_button)
-        text_entry = QWidget()
-        text_entry.setLayout(text_entry_layout)
-
-        return text_entry
-
-    def add_item(self):
-        """Handle submitted text in textbox."""
-        add_log_item(self.textbox.toMarkdown())
-        self.textbox.clear()
-        self.set_up_window()
-        self.textbox.setFocus()
 
 
 def main():
