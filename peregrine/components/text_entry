@@ -14,7 +14,6 @@ class LogItemEntry(QWidget):
         text_entry_layout = QHBoxLayout()
 
         self.textbox = QTextEdit()
-        self.textbox.setFocus()
         enter_key_shortcut = QShortcut(
             QKeySequence('Ctrl+Return'),
             self.textbox

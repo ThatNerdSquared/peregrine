@@ -21,8 +21,11 @@ class MainWindow(QMainWindow):
 
     def set_up_window(self):
         self.setWindowTitle("Peregrine")
-        widget = MainLogView()
+        widget = MainLogView(self.refresh_event)
         self.setCentralWidget(widget)
+
+    def refresh_event(self):
+        self.set_up_window()
 
 
 def main():
