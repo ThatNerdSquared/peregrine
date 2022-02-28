@@ -19,7 +19,7 @@ QMainWindow, QScrollBar, QScrollArea, #entryview {
     font-size: 13pt; /* changed between platforms */
 }
 
-QLineEdit {
+QTextEdit {
     background-color: #000000;
     border: 3px solid #b69d7c;
     border-radius: 5px;

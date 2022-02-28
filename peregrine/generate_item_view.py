@@ -33,6 +33,10 @@ def generate_item_view():
             date_and_time.setObjectName('datetimetext')
 
             entry_text = QLabel(entry['input'])
+            entry_text.setTextInteractionFlags(Qt.TextSelectableByMouse)
+            entry_text.setTextInteractionFlags(Qt.LinksAccessibleByMouse)
+            entry_text.setTextFormat(Qt.MarkdownText)
+            entry_text.setOpenExternalLinks(True)
             entry_text.setObjectName('entrytext')
             entry_text.setWordWrap(True)
             entry_text.setMinimumWidth(300)
