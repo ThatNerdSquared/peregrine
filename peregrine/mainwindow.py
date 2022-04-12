@@ -3,7 +3,7 @@ from PySide6.QtCore import QCoreApplication, QDir, QSize, Qt
 from PySide6.QtGui import QIcon, QFontDatabase  # noqa: E501
 from PySide6.QtWidgets import QApplication, QMainWindow  # noqa: E501
 import platform
-from peregrine.components.main_log_view import MainLogView
+from peregrine.main_log_view import MainLogView
 from peregrine.utils import get_data_file_path
 
 
@@ -11,10 +11,6 @@ class MainWindow(QMainWindow):
     """The main window for the app."""
     def __init__(self):
         super().__init__()
-
-        if (platform.system() == 'Windows'):
-            windowsicon_path = get_data_file_path('peregrine-icon.png')
-            self.setWindowIcon(QIcon(windowsicon_path))
 
         self.setMinimumSize(QSize(450, 200))
         self.set_up_window()

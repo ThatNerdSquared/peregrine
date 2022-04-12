@@ -1,6 +1,5 @@
 # Prod
 PySide6>=6.2.2.1
-python-dotenv>=0.19.2
 darkdetect>=0.5.1
 
 # Dev

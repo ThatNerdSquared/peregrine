@@ -1,10 +1,11 @@
 """App instance configuration."""
 import os
-import dotenv
-from peregrine import utils
-
-dotenv.load_dotenv(dotenv_path=utils.get_data_file_path('.env'), override=True)
+import platform
+from pathlib import Path
 
 
 class Config:
-    LOG_PATH = os.getenv('LOG_PATH')
+    HOME_FOLDER = Path(str(
+        os.getenv('USERPROFILE' if platform.system() == 'Windows' else 'HOME')
+    ))
+    LOG_PATH = HOME_FOLDER / 'peregrinelog.json'
