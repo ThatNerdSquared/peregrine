@@ -1,32 +1,39 @@
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QFrame, QScrollArea, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QAbstractItemView, QFrame, QTableView, QVBoxLayout, QWidget
+from peregrine.data_store import DataStore
+from peregrine.entry_list import EntryListModel
 from peregrine.log_item_entry import LogItemEntry
-from peregrine.generate_item_view import LogScroll
 
 
 class MainLogView(QWidget):
     """The main view that shows all logged items. Used as the default view"""
     def __init__(self, refresh):
         super().__init__()
+        print(refresh)
         layout = QVBoxLayout()
 
-        log_scroll = LogScroll()
+        entry_model = EntryListModel(entries=DataStore().read_data())
+        entries = QTableView()
+        entries.setModel(entry_model)
 
-        scroll_area = QScrollArea()
-        scroll_area.setFrameShape(QFrame.NoFrame)
-        scroll_area.setWidget(log_scroll)
-        scroll_area.setWidgetResizable(True)
-        scroll_area.setMinimumWidth(300)
-        scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        scroll_area.setEnabled(True)
-        bar = scroll_area.verticalScrollBar()
-        bar.rangeChanged.connect(lambda x, y: bar.setValue(y))
+        entries.horizontalHeader().setStretchLastSection(True)
+        entries.resizeColumnsToContents()
+        entries.resizeRowsToContents()
 
-        textentry = LogItemEntry(refresh)
+        entries.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        entries.setVerticalScrollMode(QAbstractItemView.ScrollPerPixel)
+        entries.setHorizontalScrollMode(QAbstractItemView.ScrollPerPixel)
+
+        entries.setFrameShape(QFrame.NoFrame)
+        entries.setShowGrid(False)
+        entries.horizontalHeader().setVisible(False)
+        entries.verticalHeader().setVisible(False)
+        entries.scrollToBottom()
+
+        textentry = LogItemEntry(entry_model)
         textentry.setMaximumHeight(100)
 
-        layout.addWidget(scroll_area)
+        layout.addWidget(entries)
         layout.addWidget(textentry)
 
         self.setLayout(layout)

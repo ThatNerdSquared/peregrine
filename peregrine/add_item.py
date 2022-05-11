@@ -1,10 +1,8 @@
-import os
-import json
 from datetime import datetime
-# from peregrine.config import Config
+from peregrine.data_store import DataStore
 
 
-def add_log_item(input_text):
+def add_log_item(input_text, MODEL):
     """Adds a new entry to the log."""
 
     now = datetime.now()
@@ -14,15 +12,5 @@ def add_log_item(input_text):
         "encrypted": False,
         "tags": []
     }
-    # path = "".join([str(Config.LOG_PATH), 'peregrinelog.json'])
-    path = os.path.join(str(os.path.expanduser('~')), 'peregrinelog.json')
-    if not os.path.exists(path):
-        with open(path, 'w+', encoding='UTF-8') as log_file:
-            entries = [new_entry]
-            json.dump(entries, log_file)
-    else:
-        with open(path, 'r', encoding='UTF-8') as log_file:
-            entries = json.load(log_file)
-        entries.append(new_entry)
-        with open(path, 'w', encoding='UTF-8') as log_file:
-            json.dump(entries, log_file)
+    MODEL.entries.append(new_entry)
+    DataStore().write_data(MODEL.entries)

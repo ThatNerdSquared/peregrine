@@ -6,10 +6,10 @@ from peregrine.add_item import add_log_item
 class LogItemEntry(QWidget):
     """Lay out text entry box and button."""
 
-    def __init__(self, refresh):
+    def __init__(self, entry_model):
         super().__init__()
 
-        self.refresh = refresh
+        self.MODEL = entry_model
 
         text_entry_layout = QHBoxLayout()
 
@@ -30,7 +30,9 @@ class LogItemEntry(QWidget):
 
     def add_item(self):
         """Handle submitted text in textbox."""
-        add_log_item(self.textbox.toMarkdown())
-        self.refresh()
-        self.textbox.clear()
+        input = self.textbox.toMarkdown()
+        if input:
+            add_log_item(input, self.MODEL)
+            self.MODEL.layoutChanged.emit()
+            self.textbox.clear()
         self.textbox.setFocus()
