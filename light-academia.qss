@@ -7,6 +7,11 @@ QMainWindow, QScrollBar, QScrollArea, QTableView {
     background-color: #f7f3ee;
 }
 
+QTableView::item {
+    padding-bottom: 30px;
+    border: 0;
+}
+
 QTextEdit {
     background-color: #f7f3ee;
     border: 3px solid #b69d7c;
