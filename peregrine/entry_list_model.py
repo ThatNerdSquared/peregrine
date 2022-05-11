@@ -25,5 +25,5 @@ class EntryListModel(QAbstractTableModel):
     def rowCount(self, index=None):
         return len(self.entries)
 
-    def columnCount(self, index):
+    def columnCount(self, index=None):
         return 2

@@ -17,11 +17,8 @@ class MainWindow(QMainWindow):
 
     def set_up_window(self):
         self.setWindowTitle("Peregrine")
-        widget = MainLogView(self.refresh_event)
+        widget = MainLogView()
         self.setCentralWidget(widget)
-
-    def refresh_event(self):
-        self.set_up_window()
 
 
 def main():
@@ -30,7 +27,7 @@ def main():
     # Windows optimizations.
     if (platform.system() == 'Windows'):
         windowsicon_path = get_data_file_path('peregrine-icon.png')
-        app.setWindowIcon(QIcon(windowsicon_path))
+        app.setWindowIcon(QIcon(str(windowsicon_path)))
 
         fonts = get_data_file_path('fonts')
         for font in QDir(fonts).entryInfoList("*.ttf"):

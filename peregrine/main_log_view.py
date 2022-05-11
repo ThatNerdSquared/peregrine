@@ -7,18 +7,22 @@ from peregrine.log_item_entry import LogItemEntry
 
 class MainLogView(QWidget):
     """The main view that shows all logged items. Used as the default view"""
-    def __init__(self, refresh):
+    def __init__(self):
         super().__init__()
-        print(refresh)
         layout = QVBoxLayout()
 
         entry_model = EntryListModel(entries=DataStore().read_data())
         entries = QTableView()
         entries.setModel(entry_model)
+        entries.setSelectionBehavior(QAbstractItemView.SelectRows)
 
         entries.horizontalHeader().setStretchLastSection(True)
-        entries.resizeColumnsToContents()
-        entries.resizeRowsToContents()
+        entries.horizontalHeader().sectionResized.connect(
+            entries.resizeRowsToContents
+        )
+        entries.verticalHeader().sectionResized.connect(
+            entries.resizeColumnsToContents
+        )
 
         entries.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         entries.setVerticalScrollMode(QAbstractItemView.ScrollPerPixel)
