@@ -1,6 +1,6 @@
 from PySide6.QtGui import QKeySequence, QShortcut
 from PySide6.QtWidgets import QHBoxLayout, QPushButton, QTextEdit, QWidget
-from peregrine.add_item import add_log_item
+from peregrine.data_store import DataStore
 
 
 class LogItemEntry(QWidget):
@@ -32,7 +32,7 @@ class LogItemEntry(QWidget):
         """Handle submitted text in textbox."""
         input = self.textbox.toMarkdown()
         if input:
-            add_log_item(input, self.MODEL)
+            DataStore().add_log_item(input, self.MODEL)
             self.MODEL.layoutChanged.emit()
             self.textbox.clear()
         self.textbox.setFocus()
