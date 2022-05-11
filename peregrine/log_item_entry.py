@@ -6,10 +6,11 @@ from peregrine.data_store import DataStore
 class LogItemEntry(QWidget):
     """Lay out text entry box and button."""
 
-    def __init__(self, entry_model):
+    def __init__(self, entry_model, view):
         super().__init__()
 
         self.MODEL = entry_model
+        self.VIEW = view
 
         text_entry_layout = QHBoxLayout()
 
@@ -30,9 +31,10 @@ class LogItemEntry(QWidget):
 
     def add_item(self):
         """Handle submitted text in textbox."""
-        input = self.textbox.toMarkdown()
+        input = self.textbox.toPlainText().strip()
         if input:
             DataStore().add_log_item(input, self.MODEL)
             self.MODEL.layoutChanged.emit()
             self.textbox.clear()
+        self.VIEW.scrollToBottom()
         self.textbox.setFocus()

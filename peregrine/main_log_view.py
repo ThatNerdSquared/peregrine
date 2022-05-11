@@ -34,7 +34,7 @@ class MainLogView(QWidget):
         entries.verticalHeader().setVisible(False)
         entries.scrollToBottom()
 
-        textentry = LogItemEntry(entry_model)
+        textentry = LogItemEntry(entry_model, entries)
         textentry.setMaximumHeight(100)
 
         layout.addWidget(entries)

@@ -3,20 +3,8 @@ MAIN_BG_COLOR: #f7f3ee
 MAIN_TEXT_COLOR: #000000
 MAIN_ELEMENT_COLOR: #b69d7c
 */
-QMainWindow, QScrollBar, QScrollArea, #entryview {
+QMainWindow, QScrollBar, QScrollArea, QTableView {
     background-color: #f7f3ee;
-}
-
-#entrytext, #nonexistent_log_label {
-    color: #000000;
-    font-family: Atkinson Hyperlegible;
-    font-size: 16pt; /* changed between platforms */
-}
-
-#datetimetext {
-    color: #000000;
-    font-family: Atkinson Hyperlegible;
-    font-size: 13pt; /* changed between platforms */
 }
 
 QTextEdit {
@@ -32,5 +20,5 @@ QPushButton {
     border-radius: 5px;
     color: #000000;
     min-width: 3em;
-    font-family: Atkinson Hyperlegible;
+    font-family: Spectral;
 }

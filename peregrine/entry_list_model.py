@@ -1,4 +1,5 @@
 from PySide6.QtCore import QAbstractTableModel, Qt
+from PySide6.QtGui import QFont
 from peregrine import utils
 
 
@@ -21,6 +22,14 @@ class EntryListModel(QAbstractTableModel):
                 return value
             case Qt.TextAlignmentRole:
                 return Qt.AlignTop
+            case Qt.FontRole:
+                font = QFont('Spectral')
+                match index.column():
+                    case 0:
+                        font.setPointSize(14)
+                    case 1:
+                        font.setPointSize(16)
+                return font
 
     def rowCount(self, index=None):
         return len(self.entries)
