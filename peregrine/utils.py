@@ -1,15 +1,15 @@
-import os
 import sys
 from datetime import datetime
+from pathlib import Path
 
 
 def get_data_file_path(relative_path):
     try:
-        base = sys._MEIPASS
+        base = Path(sys._MEIPASS)
     except Exception:
-        base = os.path.abspath('.')
+        base = Path('.').resolve()
 
-    return os.path.join(base, relative_path)
+    return base / Path(relative_path)
 
 
 def get_formatted_date(input_date):

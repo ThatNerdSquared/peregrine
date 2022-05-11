@@ -4,13 +4,18 @@ PYTHON := python3
 
 lint:
 	@echo "Linting..."
-	@${PYTHON} -m flake8 peregrine
+	@${PYTHON} -m flake8 peregrine tests
 	@echo "Done!"
 
 test:
 	@echo "Testing..."
 	@${PYTHON} -m pytest tests
 	@echo "Done!"
+
+vtest:
+	@echo Testing...
+	@${PYTHON} -m pytest -vv tests
+	@echo Done!
 
 run: test lint
 	@${PYTHON} app.py
