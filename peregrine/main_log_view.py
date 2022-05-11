@@ -1,5 +1,5 @@
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QAbstractItemView, QFrame, QTableView, QVBoxLayout, QWidget  # noqa: E501
+from PySide6.QtWidgets import QAbstractItemView, QFrame, QHeaderView, QTableView, QVBoxLayout, QWidget  # noqa: E501
 from peregrine.data_store import DataStore
 from peregrine.entry_list_model import EntryListModel
 from peregrine.log_item_entry import LogItemEntry
@@ -17,11 +17,11 @@ class MainLogView(QWidget):
         entries.setSelectionBehavior(QAbstractItemView.SelectRows)
 
         entries.horizontalHeader().setStretchLastSection(True)
-        entries.horizontalHeader().sectionResized.connect(
-            entries.resizeRowsToContents
+        entries.verticalHeader().setSectionResizeMode(
+            QHeaderView.ResizeToContents
         )
-        entries.verticalHeader().sectionResized.connect(
-            entries.resizeColumnsToContents
+        entries.horizontalHeader().setSectionResizeMode(
+            QHeaderView.ResizeToContents
         )
 
         entries.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
