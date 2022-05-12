@@ -1,6 +1,7 @@
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QAbstractItemView, QFrame, QHeaderView, QTableView, QVBoxLayout, QWidget  # noqa: E501
 from peregrine.data_store import DataStore
+from peregrine.entry_delegate import EntryDelegate
 from peregrine.entry_list_model import EntryListModel
 from peregrine.log_item_entry import LogItemEntry
 
@@ -14,6 +15,7 @@ class MainLogView(QWidget):
         entry_model = EntryListModel(entries=DataStore().read_data())
         entries = QTableView()
         entries.setModel(entry_model)
+        entries.setItemDelegateForColumn(1, EntryDelegate())
         entries.setSelectionBehavior(QAbstractItemView.SelectRows)
 
         entries.horizontalHeader().setStretchLastSection(True)

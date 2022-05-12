@@ -31,7 +31,7 @@ class LogItemEntry(QWidget):
 
     def add_item(self):
         """Handle submitted text in textbox."""
-        input = self.textbox.toPlainText().strip()
+        input = self.textbox.toMarkdown().strip()
         if input:
             DataStore().add_log_item(input, self.MODEL)
             self.MODEL.layoutChanged.emit()
