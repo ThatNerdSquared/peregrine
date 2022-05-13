@@ -18,7 +18,7 @@ vtest:
 	@echo Done!
 
 run: test lint
-	@${PYTHON} app.py
+	@${PYTHON} -m peregrine
 
 build-macos: test lint
 	@pyinstaller --name="Peregrine" \
@@ -26,7 +26,7 @@ build-macos: test lint
 		--add-data "dark-academia.qss:." \
 		--add-data "fonts/*.ttf:fonts/" \
 		--icon assets/Peregrine.icns \
-		--windowed --onefile app.py
+		--windowed --onefile peregrine/__main__.py
 		@#--add-data ".env:." \
 		@# --osx-bundle-identifier io.github.thatnerdsquared.peregrine
 
@@ -36,7 +36,7 @@ build-windows: test lint
 		--add-data "fonts/*.ttf;fonts/" \
 		--add-data "assets/peregrine-icon.png;." \
 		--icon assets/peregrine-icon.ico \
-		--windowed --onefile app.py
+		--windowed --onefile peregrine/__main__.py
 
 remove-build-files:
 	@rm -rf Peregrine.spec build dist
