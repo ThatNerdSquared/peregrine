@@ -5,6 +5,7 @@ MAIN_ELEMENT_COLOR: #b69d7c
 */
 QMainWindow, QScrollBar, QScrollArea, QTableView {
     background-color: #f7f3ee;
+    selection-background-color: #b69d7c;
 }
 
 QTableView::item {
@@ -12,11 +13,13 @@ QTableView::item {
     border: 0;
 }
 
-QTextEdit {
+QLineEdit, QPlainTextEdit {
     background-color: #f7f3ee;
     border: 3px solid #b69d7c;
     border-radius: 5px;
     color: #000000;
+    font-family: Spectral;
+    font-size: 13;
 }
 
 QPushButton {

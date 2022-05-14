@@ -4,6 +4,7 @@ from peregrine.data_store import DataStore
 from peregrine.entry_delegate import EntryDelegate
 from peregrine.entry_list_model import EntryListModel
 from peregrine.log_item_entry import LogItemEntry
+from peregrine.search_box import SearchBox
 
 
 class MainLogView(QWidget):
@@ -11,8 +12,12 @@ class MainLogView(QWidget):
     def __init__(self):
         super().__init__()
         layout = QVBoxLayout()
+        DS = DataStore()
+        self.master_entries_list = []
+        for item in DS.read_data():
+            self.master_entries_list.append(item['input'])
 
-        entry_model = EntryListModel(entries=DataStore().read_data())
+        entry_model = EntryListModel(entries=DS.read_data())
         entries = QTableView()
         entries.setModel(entry_model)
         entries.setItemDelegateForColumn(1, EntryDelegate())
@@ -37,8 +42,10 @@ class MainLogView(QWidget):
         entries.scrollToBottom()
 
         textentry = LogItemEntry(entry_model, entries)
-        textentry.setMaximumHeight(100)
+        textentry.textbox.setFocus()
 
+        search_box = SearchBox(entries, self.master_entries_list)
+        layout.addWidget(search_box)
         layout.addWidget(entries)
         layout.addWidget(textentry)
 
