@@ -19,7 +19,7 @@ QLineEdit, QPlainTextEdit {
     border-radius: 5px;
     color: #000000;
     font-family: Spectral;
-    font-size: 13;
+    font-size: 14px;
 }
 
 QPushButton {

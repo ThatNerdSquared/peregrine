@@ -1,5 +1,5 @@
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QAbstractItemView, QFrame, QHeaderView, QTableView, QVBoxLayout, QWidget  # noqa: E501
+from PySide6.QtWidgets import QAbstractItemView, QFrame, QHeaderView, QSizePolicy, QTableView, QVBoxLayout, QWidget  # noqa: E501
 from peregrine.data_store import DataStore
 from peregrine.entry_delegate import EntryDelegate
 from peregrine.entry_list_model import EntryListModel
@@ -9,8 +9,9 @@ from peregrine.search_box import SearchBox
 
 class MainLogView(QWidget):
     """The main view that shows all logged items. Used as the default view"""
-    def __init__(self):
+    def __init__(self, mainwindow):
         super().__init__()
+        self.MAINWINDOW = mainwindow
         layout = QVBoxLayout()
         DS = DataStore()
         self.master_entries_list = []
@@ -40,13 +41,25 @@ class MainLogView(QWidget):
         entries.horizontalHeader().setVisible(False)
         entries.verticalHeader().setVisible(False)
         entries.scrollToBottom()
+        entries.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
 
-        textentry = LogItemEntry(entry_model, entries)
-        textentry.textbox.setFocus()
+        self.textentry = LogItemEntry(entry_model, entries, self.MAINWINDOW)
+        self.textentry.textbox.setFocus()
+        self.textentry.setSizePolicy(
+            QSizePolicy.Preferred,
+            QSizePolicy.MinimumExpanding,
+        )
+        self.textentry.setMaximumHeight(
+            self.textentry.textbox.size().height() + 30
+        )
+        self.textentry.TEXTENTRY_RESIZE.connect(
+            lambda x: self.textentry.setMaximumHeight(x)
+        )
 
         search_box = SearchBox(entries, self.master_entries_list)
+        search_box.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
         layout.addWidget(search_box)
         layout.addWidget(entries)
-        layout.addWidget(textentry)
+        layout.addWidget(self.textentry)
 
         self.setLayout(layout)
