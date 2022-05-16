@@ -18,7 +18,6 @@ class LogItemEntry(QWidget):
         text_entry_layout = QHBoxLayout()
 
         self.textbox = QPlainTextEdit()
-        self.textbox.setFocus()
         self.textbox.textChanged.connect(
             self.fit_height
         )

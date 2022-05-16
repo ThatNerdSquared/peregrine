@@ -44,7 +44,6 @@ class MainLogView(QWidget):
         entries.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
 
         self.textentry = LogItemEntry(entry_model, entries, self.MAINWINDOW)
-        self.textentry.textbox.setFocus()
         self.textentry.setSizePolicy(
             QSizePolicy.Preferred,
             QSizePolicy.MinimumExpanding,

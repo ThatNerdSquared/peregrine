@@ -19,6 +19,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Peregrine")
         widget = MainLogView(self)
         self.setCentralWidget(widget)
+        widget.textentry.textbox.setFocus()
 
 
 def main():
