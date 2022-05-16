@@ -7,4 +7,4 @@ build/
 dist/
 # technically this should be included but we can't use it due to PySide6 issues so exclude it anyway
 Peregrine.spec
-
+dev_log.json

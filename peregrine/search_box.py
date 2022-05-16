@@ -1,12 +1,13 @@
-from PySide6.QtGui import QKeySequence, QShortcut
+from PySide6.QtGui import QShortcut
 from PySide6.QtWidgets import QLineEdit, QVBoxLayout, QWidget
+
+from peregrine.config import Keybinds
 
 
 class SearchBox(QWidget):
-    def __init__(self, table, master_list):
+    def __init__(self, table):
         super().__init__()
         self.TABLE = table
-        self.MASTER_LIST = master_list
         self.user_input = ''
         self.matches = []
         self.current_match = 0
@@ -16,7 +17,7 @@ class SearchBox(QWidget):
         self.search_box.setPlaceholderText('Search...')
         self.search_box.returnPressed.connect(self.search)
         previous_item_keybind = QShortcut(
-            QKeySequence('Shift+Return'),
+            Keybinds.PREVIOUS_ITEM,
             self.search_box
         )
         previous_item_keybind.activated.connect(self.previous_item)
@@ -38,8 +39,8 @@ class SearchBox(QWidget):
             self.current_match = 0
             self.user_input = self.search_box.text().lower()
             idx = 0
-            for item in self.MASTER_LIST:
-                if self.user_input in item:
+            for item in self.TABLE.model().entries:
+                if self.user_input in item['input'].lower():
                     self.matches.append(idx)
                 idx += 1
             self.TABLE.selectRow(self.matches[self.current_match])

@@ -1,6 +1,7 @@
 # Prod
 PySide6>=6.2.2.1
 darkdetect>=0.5.1
+python-dotenv>=0.20.0
 
 # Dev
 flake8>=4.0.1

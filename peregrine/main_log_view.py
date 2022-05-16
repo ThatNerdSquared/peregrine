@@ -15,10 +15,6 @@ class MainLogView(QWidget):
         self.MAINWINDOW = mainwindow
         layout = QVBoxLayout()
         DS = DataStore()
-        self.master_entries_list = []
-        for item in DS.read_data():
-            self.master_entries_list.append(item['input'].lower())
-
         entry_model = EntryListModel(entries=DS.read_data())
         entries = QTableView()
         entries.setModel(entry_model)
@@ -56,7 +52,7 @@ class MainLogView(QWidget):
             lambda x: self.textentry.setMaximumHeight(x)
         )
 
-        search_box = SearchBox(entries, self.master_entries_list)
+        search_box = SearchBox(entries)
         search_box.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
 
         MenuActions(

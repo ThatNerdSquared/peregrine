@@ -1,6 +1,7 @@
 from PySide6.QtCore import Signal
-from PySide6.QtGui import QFont, QKeySequence, QShortcut, QTextDocument
-from PySide6.QtWidgets import QHBoxLayout, QPlainTextEdit, QPushButton, QWidget  # noqa: E501
+from PySide6.QtGui import QFont, QShortcut, QTextDocument
+from PySide6.QtWidgets import QHBoxLayout, QPlainTextEdit, QPushButton, QWidget
+from peregrine.config import Keybinds
 from peregrine.data_store import DataStore
 
 
@@ -26,7 +27,7 @@ class LogItemEntry(QWidget):
         )
         self.fit_height()
         enter_key_shortcut = QShortcut(
-            QKeySequence('Ctrl+Return'),
+            Keybinds.ADD_ENTRY,
             self.textbox
         )
         enter_key_shortcut.activated.connect(self.add_item)
