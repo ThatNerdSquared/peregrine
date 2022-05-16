@@ -16,7 +16,7 @@ class MainLogView(QWidget):
         DS = DataStore()
         self.master_entries_list = []
         for item in DS.read_data():
-            self.master_entries_list.append(item['input'])
+            self.master_entries_list.append(item['input'].lower())
 
         entry_model = EntryListModel(entries=DS.read_data())
         entries = QTableView()
