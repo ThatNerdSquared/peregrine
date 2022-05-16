@@ -17,7 +17,8 @@ class MainWindow(QMainWindow):
 
     def set_up_window(self):
         self.setWindowTitle("Peregrine")
-        widget = MainLogView(self)
+        menu_bar = self.menuBar()
+        widget = MainLogView(self, menu_bar)
         self.setCentralWidget(widget)
         widget.textentry.textbox.setFocus()
 

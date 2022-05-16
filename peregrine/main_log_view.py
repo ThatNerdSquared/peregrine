@@ -4,12 +4,13 @@ from peregrine.data_store import DataStore
 from peregrine.entry_delegate import EntryDelegate
 from peregrine.entry_list_model import EntryListModel
 from peregrine.log_item_entry import LogItemEntry
+from peregrine.menu_actions import MenuActions
 from peregrine.search_box import SearchBox
 
 
 class MainLogView(QWidget):
     """The main view that shows all logged items. Used as the default view"""
-    def __init__(self, mainwindow):
+    def __init__(self, mainwindow, menu_bar):
         super().__init__()
         self.MAINWINDOW = mainwindow
         layout = QVBoxLayout()
@@ -57,6 +58,14 @@ class MainLogView(QWidget):
 
         search_box = SearchBox(entries, self.master_entries_list)
         search_box.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+
+        MenuActions(
+            mainwindow,
+            menu_bar,
+            search_box,
+            entries,
+            self.textentry
+        )
         layout.addWidget(search_box)
         layout.addWidget(entries)
         layout.addWidget(self.textentry)
