@@ -3,7 +3,6 @@ import dotenv
 import os
 import platform
 from pathlib import Path
-from PySide6.QtGui import QKeySequence
 
 dotenv.load_dotenv(override=True)
 
@@ -22,9 +21,9 @@ class Config:
 
 
 class Keybinds:
-    NEW_ENTRY = QKeySequence('Ctrl+N')
-    FIND = QKeySequence('Ctrl+F')
-    FOCUS_LIST = QKeySequence('Ctrl+\\')
-    REFRESH = QKeySequence('Ctrl+R')
-    PREVIOUS_ITEM = QKeySequence('Shift+Return')
-    ADD_ENTRY = QKeySequence('Ctrl+Return')
+    NEW_ENTRY = 'Ctrl+N'
+    FIND = 'Ctrl+F'
+    FOCUS_LIST = 'Ctrl+\\'
+    REFRESH = 'Ctrl+R'
+    PREVIOUS_ITEM = 'Shift+Return'
+    ADD_ENTRY = 'Ctrl+Return'
