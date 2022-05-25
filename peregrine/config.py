@@ -9,7 +9,7 @@ dotenv.load_dotenv(override=True)
 
 class Config:
     PEREGRINE_DEV_MODE = str(os.getenv('PEREGRINE_DEV_MODE')).lower()
-    APP_VERSION = 1.0
+    APP_VERSION = "1.0.0"
     HOME_FOLDER = Path(str(
         os.getenv('USERPROFILE' if platform.system() == 'Windows' else 'HOME')
     ))
@@ -25,5 +25,5 @@ class Keybinds:
     FIND = 'Ctrl+F'
     FOCUS_LIST = 'Ctrl+\\'
     REFRESH = 'Ctrl+R'
-    PREVIOUS_ITEM = 'Shift+Return'
+    PREVIOUS_ITEM = 'Alt+Return'
     ADD_ENTRY = 'Ctrl+Return'
