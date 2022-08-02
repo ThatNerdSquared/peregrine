@@ -26,13 +26,14 @@ build-macos: test lint
 		--add-data "dark-academia.qss:." \
 		--add-data "fonts/*.ttf:fonts/" \
 		--icon assets/Peregrine.icns \
-		--windowed --onefile peregrine/__main__.py
+		--windowed peregrine/__main__.py
 		@#--add-data ".env:." \
 		@# --osx-bundle-identifier io.github.thatnerdsquared.peregrine
 
 build-windows: test lint
 	@${PYTHON} -m PyInstaller --name="Peregrine" \
-		--add-data "windows-style.qss;." \
+		--add-data "light-academia.qss;." \
+		--add-data "dark-academia.qss;." \
 		--add-data "fonts/*.ttf;fonts/" \
 		--add-data "assets/peregrine-icon.png;." \
 		--icon assets/peregrine-icon.ico \
