@@ -24,7 +24,7 @@ build-macos: test lint
 	@pyinstaller --name="Peregrine" \
 		--add-data "light-academia.qss:." \
 		--add-data "dark-academia.qss:." \
-		--add-data "fonts/*.ttf:fonts/" \
+		--add-data "fonts/*tf:fonts/" \
 		--icon assets/Peregrine.icns \
 		--windowed peregrine/__main__.py
 		@#--add-data ".env:." \
@@ -34,7 +34,7 @@ build-windows: test lint
 	@${PYTHON} -m PyInstaller --name="Peregrine" \
 		--add-data "light-academia.qss;." \
 		--add-data "dark-academia.qss;." \
-		--add-data "fonts/*.ttf;fonts/" \
+		--add-data "fonts/*tf;fonts/" \
 		--add-data "assets/peregrine-icon.png;." \
 		--icon assets/peregrine-icon.ico \
 		--windowed --onefile peregrine/__main__.py
