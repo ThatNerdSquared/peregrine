@@ -31,9 +31,11 @@ def main():
         windowsicon_path = get_data_file_path('peregrine-icon.png')
         app.setWindowIcon(QIcon(str(windowsicon_path)))
 
-        fonts = get_data_file_path('fonts')
-        for font in QDir(fonts).entryInfoList("*.ttf"):
-            QFontDatabase.addApplicationFont(font.absoluteFilePath())
+    fonts = get_data_file_path('fonts')
+    for font in QDir(fonts).entryInfoList("*.ttf"):
+        QFontDatabase.addApplicationFont(font.absoluteFilePath())
+    for font in QDir(fonts).entryInfoList("*.otf"):
+        QFontDatabase.addApplicationFont(font.absoluteFilePath())
 
     # Styling.
     if darkdetect.isDark():

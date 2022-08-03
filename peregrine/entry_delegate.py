@@ -1,6 +1,8 @@
 from PySide6.QtCore import QSize
-from PySide6.QtGui import QAbstractTextDocumentLayout, QFont, QTextDocument
+from PySide6.QtGui import QAbstractTextDocumentLayout, QTextDocument
 from PySide6.QtWidgets import QStyle, QStyleOptionViewItem, QStyledItemDelegate
+
+from peregrine.config import Config
 
 
 class EntryDelegate(QStyledItemDelegate):
@@ -35,7 +37,5 @@ def EntryDocument(style_option):
     doc = QTextDocument()
     doc.setMarkdown(style_option.text)
     doc.setTextWidth(style_option.rect.width())
-    font = QFont("Spectral")
-    font.setPointSize(16)
-    doc.setDefaultFont(font)
+    doc.setDefaultFont(Config.ENTRY_FONT)
     return doc

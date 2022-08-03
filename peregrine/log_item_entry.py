@@ -1,7 +1,7 @@
 from PySide6.QtCore import Signal
-from PySide6.QtGui import QFont, QShortcut, QTextDocument
+from PySide6.QtGui import QShortcut, QTextDocument
 from PySide6.QtWidgets import QHBoxLayout, QPlainTextEdit, QPushButton, QWidget
-from peregrine.config import Keybinds
+from peregrine.config import Config, Keybinds
 from peregrine.data_store import DataStore
 
 
@@ -67,9 +67,7 @@ class LogItemEntry(QWidget):
         doc = QTextDocument()
         doc.setPlainText(entrybox.toPlainText())
         doc.setTextWidth(entrybox.rect().width())
-        font = QFont('Spectral')
-        font.setPointSize(14)
-        doc.setDefaultFont(font)
+        doc.setDefaultFont(Config.ENTRY_FONT)
 
         width = entrybox.width()
         height = doc.size().height() + 30

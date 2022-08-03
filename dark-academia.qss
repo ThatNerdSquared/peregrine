@@ -1,10 +1,10 @@
 /*
-MAIN_BG_COLOR: #202e32
+MAIN_BG_COLOR: #001e38
 MAIN_TEXT_COLOR: #dfdcb9
 MAIN_ELEMENT_COLOR: #b69d7c
 */
 QMainWindow, QScrollBar, QScrollArea, QTableView {
-    background-color: #202e32;
+    background-color: #001e38;
     selection-background-color: #b69d7c;
 }
 
@@ -14,19 +14,19 @@ QTableView::item {
 }
 
 QLineEdit, QPlainTextEdit {
-    background-color: #202e32;
+    background-color: #001e38;
     border: 3px solid #b69d7c;
     border-radius: 5px;
     color: #dfdcb9;
-    font-family: Spectral;
-    font-size: 14px;
+    font-family: Krete;
+    font-size: 14pt;
 }
 
 QPushButton {
-    background-color: #202e32;
+    background-color: #001e38;
     border: 3px solid #b69d7c;
     border-radius: 5px;
     color: #dfdcb9;
     min-width: 3em;
-    font-family: Spectral;
+    font-family: Krete;
 }

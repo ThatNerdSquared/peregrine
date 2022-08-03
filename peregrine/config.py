@@ -1,4 +1,5 @@
 """App instance configuration."""
+from PySide6.QtGui import QFont
 import dotenv
 import os
 import platform
@@ -18,6 +19,8 @@ class Config:
         'dev_log.json' if PEREGRINE_DEV_MODE == 'true'
         else HOME_FOLDER / 'peregrinelog.json'
     ))
+    DATE_FONT = QFont('Krete', 14)
+    ENTRY_FONT = QFont('Krete', 11)
 
 
 class Keybinds:
