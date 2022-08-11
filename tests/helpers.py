@@ -1,10 +1,11 @@
 from pathlib import Path
+from peregrine.types import LogSchema
 
 
 class FakeModel:
     def __init__(self):
         super().__init__()
-        self.entries = [{'test': 42}]
+        self.entries = [LogSchema(input='test')]
 
 
 class FakeDatetime():
