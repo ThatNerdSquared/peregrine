@@ -15,10 +15,10 @@ class EntryListModel(QAbstractTableModel):
                 match index.column():
                     case 0:
                         value = utils.get_formatted_date(
-                            self.entries[index.row()]['date']
+                            self.entries[index.row()].date
                         )
                     case 1:
-                        value = self.entries[index.row()]['input']
+                        value = self.entries[index.row()].input
                 return value
             case Qt.TextAlignmentRole:
                 return Qt.AlignTop

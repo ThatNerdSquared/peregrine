@@ -1,6 +1,7 @@
 import json
 from peregrine.config import Config
 from peregrine.types import LogSchema
+from pydantic import parse_obj_as
 from pydantic.json import pydantic_encoder
 
 
@@ -10,7 +11,10 @@ class DataStore():
 
     def read_data(self):
         try:
-            log_data: list[LogSchema] = json.loads(Config.LOG_PATH.read_text())
+            log_data = parse_obj_as(
+                list[LogSchema],
+                json.loads(Config.LOG_PATH.read_text())
+            )
         except FileNotFoundError:
             return []
         return log_data
