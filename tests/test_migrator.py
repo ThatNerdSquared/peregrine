@@ -9,7 +9,7 @@ from pathlib import Path
 @pytest.mark.skip
 def test_migrator_init(monkeypatch, tmp_path):
     mock_v1_to_v2 = MagicMock()
-    monkeypatch.setattr(Migrator, "road_to_v1", mock_v1_to_v2)
+    monkeypatch.setattr(Migrator, "v1_to_v2", mock_v1_to_v2)
     monkeypatch.setattr(Config, "APPDATA_PATH", Path(tmp_path))
     monkeypatch.setattr(
         Config,
