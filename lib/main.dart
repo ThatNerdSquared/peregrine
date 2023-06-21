@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
-import 'config.dart';
 import 'model/entry_data.dart';
 import 'widgets/entry_list_view.dart';
+import 'widgets/sidebar.dart';
 import 'widgets/splitview.dart';
 
 const uuID = Uuid();
@@ -63,18 +63,12 @@ class PeregrineHomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: SplitView(
         axis: Axis.horizontal,
         providedFirstFraction: 0.3,
-        child1: Container(
-          color: const Color(0xffb69d7c),
-          child: const Text('whee'),
-        ),
-        child2: const Padding(
-          padding: EdgeInsets.all(Config.defaultElementSpacing),
-          child: EntryListView(),
-        ),
+        child1: Sidebar(),
+        child2: EntryListView(),
       ),
     );
   }
