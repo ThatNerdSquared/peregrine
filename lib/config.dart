@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 
 class Config {
   static const defaultBorderRounding = Radius.circular(20);
@@ -12,4 +14,11 @@ class Config {
     offset: Offset(0, 4),
     blurRadius: 20.0,
   );
+
+  Future<String> get logFilePath async {
+    return p.join(
+      (await getApplicationSupportDirectory()).toString(),
+      'peregrinelog.json',
+    );
+  }
 }
