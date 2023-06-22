@@ -18,7 +18,8 @@ class JsonBackend {
   void writeJsonToFile(Map<String, dynamic> mappifiedLog) async {
     _checkForLogFile();
     final logFile = File(await Config().logFilePath);
-    final stringifiedLog = jsonEncode(mappifiedLog);
+    const encoder = JsonEncoder.withIndent('    ');
+    final stringifiedLog = encoder.convert(mappifiedLog);
     logFile.writeAsString(stringifiedLog);
   }
 
@@ -47,18 +48,15 @@ class JsonBackend {
 
   Map<String, PeregrineEntry> _parseV2(contentsMap) {
     final entriesMap = contentsMap['entries'];
-    return entriesMap.map((key, value) => MapEntry(
-        key,
-        PeregrineEntry(
-          date: value['date'],
-          input: value['input'],
-          isEncrypted: value['isEncrypted'],
-          tags: value['tags'],
-          mentionedContacts: value['mentionedContacts'],
-        )));
+    return Map<String, PeregrineEntry>.from(
+        entriesMap.map((key, value) => MapEntry(
+            key,
+            PeregrineEntry(
+              date: DateTime.parse(value['date']),
+              input: value['input'],
+              isEncrypted: value['isEncrypted'],
+              tags: List<String>.from(value['tags']),
+              mentionedContacts: List<String>.from(value['mentionedContacts']),
+            ))));
   }
-}
-
-Future<Map<String, PeregrineEntry>> readEntries() async {
-  return await JsonBackend().readEntriesFromJson();
 }

@@ -16,8 +16,14 @@ class Config {
   );
 
   Future<String> get logFilePath async {
+    //  I'm aware that according to the `path_provider` docs, we
+    // 'should not use this directory for user data files'.
+    // HOWEVER: it is one of the few besides documents and temp
+    // that are available on all platforms. Will consider
+    // changing later.
+    print((await getApplicationSupportDirectory()).path);
     return p.join(
-      (await getApplicationSupportDirectory()).toString(),
+      (await getApplicationSupportDirectory()).path,
       'peregrinelog.json',
     );
   }

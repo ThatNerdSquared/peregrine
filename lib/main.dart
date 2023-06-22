@@ -13,40 +13,19 @@ final mockIds = [uuID.v4(), uuID.v4(), uuID.v4()];
 
 final entryListProvider =
     StateNotifierProvider<PeregrineEntryList, Map<String, PeregrineEntry>>(
-  (ref) => PeregrineEntryList(initialEntries: {
-    mockIds[0]: PeregrineEntry(
-      date: DateTime.now(),
-      input: 'whee',
-      isEncrypted: false,
-      tags: const [],
-      mentionedContacts: const [],
-    ),
-    mockIds[1]: PeregrineEntry(
-      date: DateTime.now(),
-      input: 'whee2',
-      isEncrypted: false,
-      tags: const [],
-      mentionedContacts: const [],
-    ),
-    mockIds[2]: PeregrineEntry(
-      date: DateTime.now(),
-      input: 'whee3',
-      isEncrypted: false,
-      tags: const [],
-      mentionedContacts: const [],
-    ),
-  }),
+  (_) => PeregrineEntryList(),
 );
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.read(entryListProvider.notifier).readLog();
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(

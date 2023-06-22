@@ -10,6 +10,10 @@ class PeregrineEntryList extends StateNotifier<Map<String, PeregrineEntry>> {
     Map<String, PeregrineEntry>? initialEntries,
   }) : super(initialEntries ?? <String, PeregrineEntry>{});
 
+  void readLog() async {
+    state = await JsonBackend().readEntriesFromJson();
+  }
+
   void writeLog() {
     var mappifiedLog = state.map((key, value) => MapEntry(key, value.toJson()));
     JsonBackend().writeJsonToFile({'schema': '2.0.0', 'entries': mappifiedLog});
