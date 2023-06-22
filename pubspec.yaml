@@ -40,6 +40,8 @@ dependencies:
   path: ^1.8.3
   path_provider: ^2.0.15
   markdown_widget: ^2.2.0
+  flutter_math_fork: ^0.7.1
+  markdown: ^7.1.0
 
 dev_dependencies:
   flutter_test:

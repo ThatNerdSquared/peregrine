@@ -1,11 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:markdown_widget/config/all.dart';
+import 'package:markdown_widget/markdown_widget.dart';
 
 import '../config.dart';
 import '../format_utils.dart';
 import '../main.dart';
+import '../vendor/latex.dart';
 import 'pret_card.dart';
 
 class EntryListView extends ConsumerStatefulWidget {
@@ -55,20 +58,25 @@ class EntryListViewState extends ConsumerState<EntryListView> {
                               left: Config.defaultElementSpacing),
                         ),
                         Flexible(
-                          //   child: MarkdownBody(
-                          // data: entry.input,
-                          // onTapLink: (text, href, title) =>
-                          //     launchUrl(Uri.parse(href!)),)
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: MarkdownGenerator(
+                                generators: [latexGenerator],
+                                inlineSyntaxes: [LatexSyntax()],
                                 linesMargin: const EdgeInsets.all(0),
-                                // config: MarkdownConfig(configs: [
-                                //   const ImgConfig(
-                                //       builder: (url, attributes) =>
-                                //           Image.memory(bytes))
-                                // ]),
+                                config: MarkdownConfig(configs: [
+                                  ImgConfig(builder: (url, attributes) {
+                                    if (url
+                                        .contains(r'data:image/png;base64,')) {
+                                      return Image.memory(base64Decode(
+                                          url.replaceAll(
+                                              'data:image/png;base64,', '')));
+                                    } else {
+                                      return Image.network(url);
+                                    }
+                                  })
+                                ]),
                               ).buildWidgets(entry.input)),
                         ),
                       ],
