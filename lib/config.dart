@@ -21,7 +21,6 @@ class Config {
     // HOWEVER: it is one of the few besides documents and temp
     // that are available on all platforms. Will consider
     // changing later.
-    print((await getApplicationSupportDirectory()).path);
     return p.join(
       (await getApplicationSupportDirectory()).path,
       'peregrinelog.json',

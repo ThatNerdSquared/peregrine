@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:markdown_widget/config/all.dart';
 
 import '../config.dart';
 import '../format_utils.dart';
@@ -39,9 +40,8 @@ class EntryListViewState extends ConsumerState<EntryListView> {
                     right: Config.preserveShadowSpacing,
                   ),
                   child: PretCard(
-                    child: Wrap(
-                      direction: Axis.horizontal,
-                      spacing: Config.defaultElementSpacing,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,7 +50,27 @@ class EntryListViewState extends ConsumerState<EntryListView> {
                             Text(formatTime(entry.date)),
                           ],
                         ),
-                        Text(entry.input),
+                        const Padding(
+                          padding: EdgeInsets.only(
+                              left: Config.defaultElementSpacing),
+                        ),
+                        Flexible(
+                          //   child: MarkdownBody(
+                          // data: entry.input,
+                          // onTapLink: (text, href, title) =>
+                          //     launchUrl(Uri.parse(href!)),)
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: MarkdownGenerator(
+                                linesMargin: const EdgeInsets.all(0),
+                                // config: MarkdownConfig(configs: [
+                                //   const ImgConfig(
+                                //       builder: (url, attributes) =>
+                                //           Image.memory(bytes))
+                                // ]),
+                              ).buildWidgets(entry.input)),
+                        ),
                       ],
                     ),
                   ));
