@@ -61,23 +61,42 @@ class EntryListViewState extends ConsumerState<EntryListView> {
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.start,
-                              children: MarkdownGenerator(
-                                generators: [latexGenerator],
-                                inlineSyntaxes: [LatexSyntax()],
-                                linesMargin: const EdgeInsets.all(0),
-                                config: MarkdownConfig(configs: [
-                                  ImgConfig(builder: (url, attributes) {
-                                    if (url
-                                        .contains(r'data:image/png;base64,')) {
-                                      return Image.memory(base64Decode(
-                                          url.replaceAll(
-                                              'data:image/png;base64,', '')));
-                                    } else {
-                                      return Image.network(url);
-                                    }
-                                  })
-                                ]),
-                              ).buildWidgets(entry.input)),
+                              children: [
+                                ...MarkdownGenerator(
+                                  generators: [latexGenerator],
+                                  inlineSyntaxes: [LatexSyntax()],
+                                  linesMargin: const EdgeInsets.all(0),
+                                  config: MarkdownConfig(configs: [
+                                    ImgConfig(builder: (url, attributes) {
+                                      if (url.contains(
+                                          r'data:image/png;base64,')) {
+                                        return Image.memory(base64Decode(
+                                            url.replaceAll(
+                                                'data:image/png;base64,', '')));
+                                      } else {
+                                        return Image.network(url);
+                                      }
+                                    })
+                                  ]),
+                                ).buildWidgets(stripTagOnlyLines(entry.input)),
+                                Wrap(
+                                    spacing: Config.tagPadding,
+                                    runSpacing: Config.tagPadding,
+                                    children: entry.tags
+                                        .map((tag) => Container(
+                                              decoration: BoxDecoration(
+                                                  color: Colors.pink[300]!
+                                                      .withOpacity(0.5),
+                                                  borderRadius:
+                                                      Config.tagBorderRadius),
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(
+                                                    Config.tagPadding),
+                                                child: Text(tag),
+                                              ),
+                                            ))
+                                        .toList())
+                              ]),
                         ),
                       ],
                     ),

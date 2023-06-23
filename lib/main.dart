@@ -3,17 +3,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
 import 'model/entry_data.dart';
+import 'model/tag_data.dart';
 import 'widgets/entry_list_view.dart';
 import 'widgets/sidebar.dart';
 import 'widgets/splitview.dart';
 
 const uuID = Uuid();
 
-final mockIds = [uuID.v4(), uuID.v4(), uuID.v4()];
-
 final entryListProvider =
     StateNotifierProvider<PeregrineEntryList, Map<String, PeregrineEntry>>(
   (_) => PeregrineEntryList(),
+);
+final tagsProvider =
+    StateNotifierProvider<TagsList, List<String>>(
+  (_) => TagsList(),
 );
 
 void main() {
@@ -26,6 +29,7 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.read(entryListProvider.notifier).readLog();
+    ref.read(tagsProvider.notifier).readTags();
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(

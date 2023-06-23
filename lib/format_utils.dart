@@ -25,3 +25,13 @@ List<String> findContacts(String input) {
   var findContacts = RegExp(r'@[^\s]+');
   return findContacts.allMatches(input).map((e) => e[0]!).toList();
 }
+
+String stripTagOnlyLines(String input) {
+  var items = input.split('\n');
+  if (items.last.replaceAll(RegExp(r'#[^\s]+'), '').replaceAll(' ', '') == '') {
+    items.removeLast();
+    return items.join('\n');
+  } else {
+    return input;
+  }
+}

@@ -34,16 +34,29 @@ class JsonBackend {
     return _parseV2(contentsMap);
   }
 
+  Future<List<String>> readTagsFromJson() async {
+    final logFile = File(await Config().logFilePath);
+    final file = logFile;
+    final contents = await file.readAsString();
+    final contentsMap = jsonDecode(contents);
+    if (contentsMap is List || contentsMap['tags'] == null) {
+      throw 'No tags field!';
+    } else {
+      return contentsMap['tags'];
+    }
+  }
+
   Map<String, PeregrineEntry> _parseV1(contentsMap) {
-    return contentsMap.map((value) => MapEntry(
-        uuID.v4(),
-        PeregrineEntry(
-          date: value['date'],
+    return Map<String, PeregrineEntry>.from({
+      for (final value in contentsMap)
+        uuID.v4(): PeregrineEntry(
+          date: DateTime.parse(value['date']),
           input: value['input'],
-          isEncrypted: value['encrypted'],
+          isEncrypted: value['encrypted'] ?? false,
           tags: findTags(value['input']),
           mentionedContacts: findContacts(value['input']),
-        )));
+        )
+    });
   }
 
   Map<String, PeregrineEntry> _parseV2(contentsMap) {

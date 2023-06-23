@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../config.dart';
+import '../main.dart';
+import 'pret_card.dart';
 
-class Sidebar extends StatelessWidget {
+class Sidebar extends ConsumerWidget {
   const Sidebar({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    var tags = ref.watch(tagsProvider);
     return Container(
       decoration: const BoxDecoration(
         color: Color(0xffb69d7c),
@@ -21,7 +25,15 @@ class Sidebar extends StatelessWidget {
         left: Config.defaultElementSpacing,
         right: Config.defaultElementSpacing,
       ),
-      child: const Text('whee'),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: tags
+            .map((tag) => PretCard(
+                  padding: Config.tagPadding,
+                  child: Text(tag),
+                ))
+            .toList(),
+      ),
     );
   }
 }
