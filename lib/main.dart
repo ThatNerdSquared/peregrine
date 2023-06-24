@@ -17,6 +17,18 @@ final entryListProvider =
 final tagsProvider = StateNotifierProvider<TagsList, Map<String, int>>(
   (_) => TagsList(),
 );
+final entryFilterProvider = StateProvider<String?>((_) => null);
+final filteredListProvider = Provider((ref) {
+  final entries = ref.watch(entryListProvider);
+  final filter = ref.watch(entryFilterProvider);
+  return switch (filter) {
+    null => entries,
+    _ => {
+        for (final entryId in entries.keys)
+          if (entries[entryId]!.tags.contains(filter)) entryId: entries[entryId]
+      }
+  };
+});
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));

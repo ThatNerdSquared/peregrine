@@ -23,7 +23,7 @@ class EntryListViewState extends ConsumerState<EntryListView> {
 
   @override
   Widget build(BuildContext context) {
-    var entries = ref.watch(entryListProvider).keys.toList();
+    var entries = ref.watch(filteredListProvider).keys.toList();
     return Column(children: [
       const Padding(
           padding: EdgeInsets.only(
