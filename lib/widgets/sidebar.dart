@@ -25,14 +25,25 @@ class Sidebar extends ConsumerWidget {
         left: Config.defaultElementSpacing,
         right: Config.defaultElementSpacing,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: tags
-            .map((tag) => PretCard(
-                  padding: Config.tagPadding,
-                  child: Text(tag),
-                ))
-            .toList(),
+      child: ListView.builder(
+        itemCount: tags.length,
+        itemBuilder: (context, index) => PretCard(
+          padding: Config.tagPadding,
+          child: Row(children: [
+            Expanded(
+              flex: 3,
+              child: Text(
+                tags.keys.elementAt(index),
+                textAlign: TextAlign.left,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            Text(
+              tags[tags.keys.elementAt(index)].toString(),
+              textAlign: TextAlign.right,
+            ),
+          ]),
+        ),
       ),
     );
   }

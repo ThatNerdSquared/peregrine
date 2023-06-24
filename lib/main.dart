@@ -12,10 +12,9 @@ const uuID = Uuid();
 
 final entryListProvider =
     StateNotifierProvider<PeregrineEntryList, Map<String, PeregrineEntry>>(
-  (_) => PeregrineEntryList(),
+  (ref) => PeregrineEntryList(ref: ref),
 );
-final tagsProvider =
-    StateNotifierProvider<TagsList, List<String>>(
+final tagsProvider = StateNotifierProvider<TagsList, Map<String, int>>(
   (_) => TagsList(),
 );
 

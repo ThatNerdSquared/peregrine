@@ -6,17 +6,20 @@ import '../main.dart';
 import 'json_backend.dart';
 
 class PeregrineEntryList extends StateNotifier<Map<String, PeregrineEntry>> {
+  final Ref ref;
+
   PeregrineEntryList({
     Map<String, PeregrineEntry>? initialEntries,
+    required this.ref,
   }) : super(initialEntries ?? <String, PeregrineEntry>{});
 
   void readLog() async {
     state = await JsonBackend().readEntriesFromJson();
   }
 
-  void writeLog() {
+  void _writeLog() {
     var mappifiedLog = state.map((key, value) => MapEntry(key, value.toJson()));
-    JsonBackend().writeJsonToFile({'schema': '2.0.0', 'entries': mappifiedLog});
+    JsonBackend().writeEntriesToJson(mappifiedLog);
   }
 
   void addNewEntry(String input) {
@@ -30,7 +33,8 @@ class PeregrineEntryList extends StateNotifier<Map<String, PeregrineEntry>> {
         mentionedContacts: findContacts(input),
       ),
     };
-    writeLog();
+    ref.read(tagsProvider.notifier).scanForTags(input);
+    _writeLog();
   }
 }
 
