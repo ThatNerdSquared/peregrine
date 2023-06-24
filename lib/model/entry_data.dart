@@ -17,12 +17,11 @@ class PeregrineEntryList extends StateNotifier<Map<String, PeregrineEntry>> {
     state = await JsonBackend().readEntriesFromJson();
   }
 
-  void _writeLog() {
-    var mappifiedLog = state.map((key, value) => MapEntry(key, value.toJson()));
-    JsonBackend().writeEntriesToJson(mappifiedLog);
+  Future<void> _writeLog() async {
+    await JsonBackend().writeEntriesToJson(state);
   }
 
-  void addNewEntry(String input) {
+  void addNewEntry(String input) async {
     state = {
       ...state,
       uuID.v4(): PeregrineEntry(
@@ -33,8 +32,8 @@ class PeregrineEntryList extends StateNotifier<Map<String, PeregrineEntry>> {
         mentionedContacts: findContacts(input),
       ),
     };
-    ref.read(tagsProvider.notifier).scanForTags(input);
-    _writeLog();
+    await ref.read(tagsProvider.notifier).scanForTags(input);
+    await _writeLog();
   }
 }
 

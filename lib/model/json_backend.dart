@@ -23,25 +23,38 @@ class JsonBackend {
     return jsonDecode(contents);
   }
 
-  void _putJson(String stringifiedLog) async {
+  Future<void> _putJson(String stringifiedLog) async {
     final logFile = File(await Config().logFilePath);
     logFile.writeAsString(stringifiedLog);
   }
 
-  void writeEntriesToJson(
-    Map<String, Map<String, dynamic>> mappifiedLog,
+  String assembleFreshJson({
+    required Map<String, PeregrineEntry> entries,
+    List<String>? tags,
+  }) {
+    return encoder.convert(<String, dynamic>{
+      'schema': Config.currentSchemaVersion,
+      'tags': tags ?? [],
+      'entries': entries,
+    });
+  }
+
+  Future<void> writeEntriesToJson(
+    Map<String, PeregrineEntry> logToWrite,
   ) async {
     _checkForLogFile();
     var rawLog = await _loadJson();
+    final mappifiedLog =
+        logToWrite.map((key, value) => MapEntry(key, value.toJson()));
     rawLog['entries'] = mappifiedLog;
     final stringifiedLog = encoder.convert(rawLog);
-    _putJson(stringifiedLog);
+    await _putJson(stringifiedLog);
   }
 
-  void writeTagsToJson(List<String> tags) async {
+  Future<void> writeTagsToJson(Map<String, int> tagsToWrite) async {
     _checkForLogFile();
     var rawLog = await _loadJson();
-    rawLog['tags'] = tags;
+    rawLog['tags'] = tagsToWrite.keys.toList();
     final stringifiedLog = encoder.convert(rawLog);
     _putJson(stringifiedLog);
   }
@@ -80,7 +93,7 @@ class JsonBackend {
   }
 
   Map<String, PeregrineEntry> _parseV1(contentsMap) {
-    return Map<String, PeregrineEntry>.from({
+    final data = Map<String, PeregrineEntry>.from({
       for (final value in contentsMap)
         uuID.v4(): PeregrineEntry(
           date: DateTime.parse(value['date']),
@@ -90,6 +103,8 @@ class JsonBackend {
           mentionedContacts: findContacts(value['input']),
         )
     });
+    _putJson(assembleFreshJson(entries: data));
+    return data;
   }
 
   Map<String, PeregrineEntry> _parseV2(contentsMap) {

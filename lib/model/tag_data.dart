@@ -11,11 +11,11 @@ class TagsList extends StateNotifier<Map<String, int>> {
     state = await JsonBackend().readTagsFromJson();
   }
 
-  void _writeTags() {
-    JsonBackend().writeTagsToJson(state.keys.toList());
+  Future<void> _writeTags() async {
+    await JsonBackend().writeTagsToJson(state);
   }
 
-  void scanForTags(String input) {
+  Future<void> scanForTags(String input) async {
     // NOTE: deduplicate w json_backend
     var foundTags = findTags(input);
     for (final tag in foundTags) {
@@ -28,6 +28,6 @@ class TagsList extends StateNotifier<Map<String, int>> {
     final sortedEntries = state.entries.toList()
       ..sort((a, b) => b.value.compareTo(a.value));
     state = {for (final entry in sortedEntries) entry.key: entry.value};
-    _writeTags();
+    await _writeTags();
   }
 }

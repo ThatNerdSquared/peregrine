@@ -3,6 +3,7 @@ import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
 class Config {
+  static const currentSchemaVersion = '2.0.0';
   static const defaultBorderRounding = Radius.circular(20);
   static const tagBorderRounding = Radius.circular(10);
   static const BorderRadius defaultBorderRadius =
