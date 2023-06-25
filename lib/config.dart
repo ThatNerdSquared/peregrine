@@ -11,13 +11,18 @@ class Config {
   static const double defaultElementSpacing = 15.0;
   static const double preserveShadowSpacing = defaultElementSpacing + 2;
   static const double titleBarSafeArea = defaultElementSpacing * 2;
-  static const double tagPadding = defaultElementSpacing / 3;
+  static const double tagPadding = defaultElementSpacing / 2;
   static const BorderRadius tagBorderRadius =
       BorderRadius.all(tagBorderRounding);
   static const BoxShadow defaultShadow = BoxShadow(
     color: Color.fromRGBO((0), 0, 0, 0.20),
     offset: Offset(0, 4),
     blurRadius: 20.0,
+  );
+  static const BoxShadow lightShadow = BoxShadow(
+    color: Color.fromRGBO((0), 0, 0, 0.10),
+    offset: Offset(0, 4),
+    blurRadius: 10.0,
   );
 
   Future<String> get logFilePath async {

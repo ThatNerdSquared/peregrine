@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../config.dart';
 import '../main.dart';
-import 'pret_card.dart';
+import 'pret_tag_button.dart';
 
 class Sidebar extends ConsumerWidget {
   const Sidebar({super.key});
@@ -27,41 +27,18 @@ class Sidebar extends ConsumerWidget {
         right: Config.defaultElementSpacing,
       ),
       child: ListView.builder(
-        itemCount: tags.length,
-        itemBuilder: (context, index) => TextButton(
-            onPressed: () => ref.read(entryFilterProvider.notifier).state =
-                tags.keys.elementAt(index),
-            child: PretCard(
-              color: filter == tags.keys.elementAt(index)
-                  ? const Color(0xffb69d7c)
-                  : null,
-              padding: Config.tagPadding,
-              child: Row(children: [
-                Expanded(
-                  flex: 3,
-                  child: Text(
-                    style: TextStyle(
-                      color: filter == tags.keys.elementAt(index)
-                          ? Colors.white
-                          : null,
-                    ),
-                    tags.keys.elementAt(index),
-                    textAlign: TextAlign.left,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                Text(
-                  style: TextStyle(
-                    color: filter == tags.keys.elementAt(index)
-                        ? Colors.white
-                        : null,
-                  ),
-                  tags[tags.keys.elementAt(index)].toString(),
-                  textAlign: TextAlign.right,
-                ),
-              ]),
-            )),
-      ),
+          itemCount: tags.length,
+          itemBuilder: (context, index) {
+            var currentTag = tags.keys.elementAt(index);
+            return PretTagButton(
+              isSidebarButton: true,
+              color: Color(filter == currentTag ? 0xfff7f2f2 : 0xffdac6b0),
+              onPressedCallback: () =>
+                  ref.read(entryFilterProvider.notifier).state = currentTag,
+              tagName: currentTag,
+              tagCount: tags[currentTag],
+            );
+          }),
     );
   }
 }

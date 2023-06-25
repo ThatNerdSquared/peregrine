@@ -10,6 +10,7 @@ import '../format_utils.dart';
 import '../main.dart';
 import '../vendor/latex.dart';
 import 'pret_card.dart';
+import 'pret_tag_button.dart';
 
 class EntryListView extends ConsumerStatefulWidget {
   const EntryListView({super.key});
@@ -80,21 +81,15 @@ class EntryListViewState extends ConsumerState<EntryListView> {
                                   ]),
                                 ).buildWidgets(stripTagOnlyLines(entry.input)),
                                 Wrap(
-                                    spacing: Config.tagPadding,
-                                    runSpacing: Config.tagPadding,
                                     children: entry.tags
-                                        .map((tag) => Container(
-                                              decoration: BoxDecoration(
-                                                  color: Colors.pink[300]!
-                                                      .withOpacity(0.5),
-                                                  borderRadius:
-                                                      Config.tagBorderRadius),
-                                              child: Padding(
-                                                padding: const EdgeInsets.all(
-                                                    Config.tagPadding),
-                                                child: Text(tag),
-                                              ),
-                                            ))
+                                        .map((tag) => PretTagButton(
+                                            isSidebarButton: false,
+                                            color: Colors.pink[100]!,
+                                            onPressedCallback: () => ref
+                                                .read(entryFilterProvider
+                                                    .notifier)
+                                                .state = tag,
+                                            tagName: tag))
                                         .toList())
                               ]),
                         ),
