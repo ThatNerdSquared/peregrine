@@ -14,6 +14,7 @@ final entryListProvider =
     StateNotifierProvider<PeregrineEntryList, Map<String, PeregrineEntry>>(
   (ref) => PeregrineEntryList(ref: ref),
 );
+final entryCount = Provider<int>((ref) => ref.watch(entryListProvider).length);
 final tagsProvider = StateNotifierProvider<TagsList, Map<String, int>>(
   (_) => TagsList(),
 );
