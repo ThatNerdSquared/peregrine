@@ -30,14 +30,18 @@ class EntryListView extends ConsumerWidget {
                         padding:
                             const EdgeInsets.all(Config.defaultElementSpacing),
                         child: Row(children: [
-                          Expanded(flex: 2, child: Text(filter)),
-                          const Expanded(
+                          Expanded(flex: 2, child: Text(filter.name)),
+                          Expanded(
                               flex: 2,
-                              child: TextField(
-                                decoration: InputDecoration(
+                              child: TextFormField(
+                                decoration: const InputDecoration(
                                     contentPadding: EdgeInsets.all(
                                         Config.defaultElementSpacing),
-                                    border: OutlineInputBorder()),
+                                    border: OutlineInputBorder(),
+                                    hintText: 'Search...'),
+                                onChanged: (value) => ref
+                                    .read(entryFilterProvider.notifier)
+                                    .addSearch(value),
                               )),
                         ])),
                   )),

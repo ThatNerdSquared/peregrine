@@ -69,7 +69,7 @@ class PeregrineEntryCard extends ConsumerWidget {
                                   color: Colors.pink[100]!,
                                   onPressedCallback: () => ref
                                       .read(entryFilterProvider.notifier)
-                                      .state = tag,
+                                      .setTagFilter(tag),
                                   tagName: tag))
                               .toList())
                     ]),

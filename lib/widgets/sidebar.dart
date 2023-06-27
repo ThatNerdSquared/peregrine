@@ -36,10 +36,10 @@ class Sidebar extends ConsumerWidget {
                   child: PretTagButton(
                     isSidebarButton: true,
                     color: Color(
-                        filter == 'All Entries' ? 0xfff7f2f2 : 0xffdac6b0),
+                        filter.name == 'All Entries' ? 0xfff7f2f2 : 0xffdac6b0),
                     onPressedCallback: () => ref
                         .read(entryFilterProvider.notifier)
-                        .state = 'All Entries',
+                        .setAllEntriesFilter(),
                     tagName: 'All Entries',
                     tagCount: ref.read(entryCount),
                   )),
@@ -70,10 +70,12 @@ class Sidebar extends ConsumerWidget {
                             child: PretTagButton(
                               isSidebarButton: true,
                               color: Color(
-                                  filter == tagName ? 0xfff7f2f2 : 0xffdac6b0),
+                                  filter.name == tagName.replaceAll('#', '')
+                                      ? 0xfff7f2f2
+                                      : 0xffdac6b0),
                               onPressedCallback: () => ref
                                   .read(entryFilterProvider.notifier)
-                                  .state = tagName,
+                                  .setTagFilter(tagName),
                               tagName: tagName,
                               tagCount: tags[tagName],
                             ));
