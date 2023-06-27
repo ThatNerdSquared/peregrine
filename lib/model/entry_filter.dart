@@ -23,6 +23,14 @@ class PeregrineEntryFilter extends StateNotifier<EntryFilter> {
         icon: Icons.tag_rounded);
   }
 
+  void setContactsFilter(String contact) {
+    state = EntryFilter(
+        includes: {FilterType.contact: contact},
+        excludes: const {},
+        name: contact.replaceAll('@', ''),
+        icon: Icons.account_circle_rounded);
+  }
+
   void addSearch(String search) {
     state = EntryFilter(
         includes: {...state.includes, FilterType.search: search},
