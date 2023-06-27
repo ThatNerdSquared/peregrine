@@ -19,32 +19,31 @@ class EntryListView extends ConsumerWidget {
           child: CustomScrollView(
             slivers: [
               SliverPadding(
-                  padding: const EdgeInsets.all(Config.preserveShadowSpacing),
-                  sliver: SliverAppBar(
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: Config.defaultBorderRadius),
-                    pinned: true,
+                padding: const EdgeInsets.all(Config.preserveShadowSpacing),
+                sliver: SliverAppBar(
                     centerTitle: false,
                     backgroundColor: const Color(0xffb69d7c),
-                    title: Padding(
-                        padding:
-                            const EdgeInsets.all(Config.defaultElementSpacing),
-                        child: Row(children: [
-                          Expanded(flex: 2, child: Text(filter.name)),
-                          Expanded(
-                              flex: 2,
-                              child: TextFormField(
-                                decoration: const InputDecoration(
-                                    contentPadding: EdgeInsets.all(
-                                        Config.defaultElementSpacing),
-                                    border: OutlineInputBorder(),
-                                    hintText: 'Search...'),
-                                onChanged: (value) => ref
-                                    .read(entryFilterProvider.notifier)
-                                    .addSearch(value),
-                              )),
-                        ])),
-                  )),
+                    leading: Icon(filter.icon),
+                    pinned: true,
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: Config.defaultBorderRadius),
+                    titleSpacing: 0,
+                    title: Row(children: [
+                      Expanded(flex: 2, child: Text(filter.name)),
+                      Expanded(
+                          flex: 2,
+                          child: TextFormField(
+                            decoration: const InputDecoration(
+                                contentPadding: EdgeInsets.all(
+                                    Config.defaultElementSpacing),
+                                border: OutlineInputBorder(),
+                                hintText: 'Search...'),
+                            onChanged: (value) => ref
+                                .read(entryFilterProvider.notifier)
+                                .addSearch(value),
+                          )),
+                    ])),
+              ),
               SliverList.builder(
                   itemCount: entries.length,
                   itemBuilder: (context, index) {

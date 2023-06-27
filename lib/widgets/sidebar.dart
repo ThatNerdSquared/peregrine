@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../config.dart';
 import '../main.dart';
-import 'pret_tag_button.dart';
+import 'pret_sidebar_button.dart';
 
 class Sidebar extends ConsumerWidget {
   const Sidebar({super.key});
@@ -33,15 +33,15 @@ class Sidebar extends ConsumerWidget {
                       top: Config.defaultElementSpacing,
                       left: Config.defaultElementSpacing,
                       right: Config.defaultElementSpacing),
-                  child: PretTagButton(
-                    isSidebarButton: true,
+                  child: PretSidebarButton(
                     color: Color(
                         filter.name == 'All Entries' ? 0xfff7f2f2 : 0xffdac6b0),
                     onPressedCallback: () => ref
                         .read(entryFilterProvider.notifier)
                         .setAllEntriesFilter(),
-                    tagName: 'All Entries',
-                    tagCount: ref.read(entryCount),
+                    buttonText: 'All Entries',
+                    count: ref.read(entryCount),
+                    icon: Icons.all_inbox_rounded,
                   )),
             ),
             SliverToBoxAdapter(
@@ -67,8 +67,7 @@ class Sidebar extends ConsumerWidget {
                             padding: const EdgeInsets.only(
                                 left: Config.defaultElementSpacing,
                                 right: Config.defaultElementSpacing),
-                            child: PretTagButton(
-                              isSidebarButton: true,
+                            child: PretSidebarButton(
                               color: Color(
                                   filter.name == tagName.replaceAll('#', '')
                                       ? 0xfff7f2f2
@@ -76,8 +75,9 @@ class Sidebar extends ConsumerWidget {
                               onPressedCallback: () => ref
                                   .read(entryFilterProvider.notifier)
                                   .setTagFilter(tagName),
-                              tagName: tagName,
-                              tagCount: tags[tagName],
+                              buttonText: tagName.replaceAll('#', ''),
+                              count: tags[tagName],
+                              icon: Icons.tag,
                             ));
                       }),
                       const Padding(

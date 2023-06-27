@@ -12,6 +12,7 @@ class Config {
   static const double preserveShadowSpacing = defaultElementSpacing + 2;
   static const double titleBarSafeArea = defaultElementSpacing * 2;
   static const double tagPadding = defaultElementSpacing / 2;
+  static const double tilePadding = defaultElementSpacing / 3;
   static const BorderRadius tagBorderRadius =
       BorderRadius.all(tagBorderRounding);
   static const BoxShadow defaultShadow = BoxShadow(

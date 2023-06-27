@@ -65,7 +65,6 @@ class PeregrineEntryCard extends ConsumerWidget {
                       Wrap(
                           children: entry.tags
                               .map((tag) => PretTagButton(
-                                  isSidebarButton: false,
                                   color: Colors.pink[100]!,
                                   onPressedCallback: () => ref
                                       .read(entryFilterProvider.notifier)
