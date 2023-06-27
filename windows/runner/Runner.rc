@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "peregrine" "\0"
+            VALUE "FileDescription", "Peregrine" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "peregrine" "\0"
+            VALUE "InternalName", "Peregrine" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2023 com.example. All rights reserved." "\0"
             VALUE "OriginalFilename", "peregrine.exe" "\0"
-            VALUE "ProductName", "peregrine" "\0"
+            VALUE "ProductName", "Peregrine" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

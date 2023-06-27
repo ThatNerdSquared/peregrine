@@ -42,6 +42,7 @@ dependencies:
   markdown_widget: ^2.2.0
   flutter_math_fork: ^0.7.1
   markdown: ^7.1.0
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
@@ -95,3 +96,14 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+flutter_launcher_icons:
+  image_path: "assets/peregrine-icon.png"
+  android: true
+  ios: true
+  web:
+    generate: true
+  windows:
+    generate: true
+  macos:
+    generate: true
