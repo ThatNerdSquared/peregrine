@@ -18,12 +18,12 @@ final entryCount = Provider<int>((ref) => ref.watch(entryListProvider).length);
 final tagsProvider = StateNotifierProvider<TagsList, Map<String, int>>(
   (_) => TagsList(),
 );
-final entryFilterProvider = StateProvider<String?>((_) => null);
+final entryFilterProvider = StateProvider<String>((_) => 'All Entries');
 final filteredListProvider = Provider((ref) {
   final entries = ref.watch(entryListProvider);
   final filter = ref.watch(entryFilterProvider);
   return switch (filter) {
-    null => entries,
+    'All Entries' => entries,
     _ => {
         for (final entryId in entries.keys)
           if (entries[entryId]!.tags.contains(filter)) entryId: entries[entryId]

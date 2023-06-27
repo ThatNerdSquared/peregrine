@@ -30,13 +30,16 @@ class Sidebar extends ConsumerWidget {
             SliverToBoxAdapter(
               child: Container(
                   padding: const EdgeInsets.only(
+                      top: Config.defaultElementSpacing,
                       left: Config.defaultElementSpacing,
                       right: Config.defaultElementSpacing),
                   child: PretTagButton(
                     isSidebarButton: true,
-                    color: Color(filter == null ? 0xfff7f2f2 : 0xffdac6b0),
-                    onPressedCallback: () =>
-                        ref.read(entryFilterProvider.notifier).state = null,
+                    color: Color(
+                        filter == 'All Entries' ? 0xfff7f2f2 : 0xffdac6b0),
+                    onPressedCallback: () => ref
+                        .read(entryFilterProvider.notifier)
+                        .state = 'All Entries',
                     tagName: 'All Entries',
                     tagCount: ref.read(entryCount),
                   )),
@@ -74,7 +77,10 @@ class Sidebar extends ConsumerWidget {
                               tagName: tagName,
                               tagCount: tags[tagName],
                             ));
-                      })
+                      }),
+                      const Padding(
+                          padding: EdgeInsets.only(
+                              top: Config.defaultElementSpacing)),
                     ],
                   )),
             )
