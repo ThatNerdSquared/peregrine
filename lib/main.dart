@@ -6,8 +6,8 @@ import 'model/entry_data.dart';
 import 'model/entry_filter.dart';
 import 'model/tag_data.dart';
 import 'widgets/entry_list_view.dart';
+import 'widgets/pret_view.dart';
 import 'widgets/sidebar.dart';
-import 'widgets/splitview.dart';
 
 const uuID = Uuid();
 
@@ -92,11 +92,9 @@ class PeregrineHomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: SplitView(
-        axis: Axis.horizontal,
-        providedFirstFraction: 0.3,
-        child1: Sidebar(),
-        child2: EntryListView(),
+      body: PretMainView(
+        leftSidebar: Sidebar(),
+        mainView: EntryListView(),
       ),
     );
   }

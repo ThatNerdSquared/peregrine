@@ -9,21 +9,24 @@ import 'entry_data.dart';
 class JsonBackend {
   static const JsonEncoder encoder = JsonEncoder.withIndent('    ');
 
-  void _checkForLogFile() async {
+  Future<void> _checkForLogFile() async {
     final logFile = File(await Config().logFilePath);
     final doesFileExist = await logFile.exists();
     if (!doesFileExist) {
       logFile.create();
+      await _putJson(assembleFreshJson(entries: {}));
     }
   }
 
   dynamic _loadJson() async {
+    await _checkForLogFile();
     final logFile = File(await Config().logFilePath);
     final contents = await logFile.readAsString();
     return jsonDecode(contents);
   }
 
   Future<void> _putJson(String stringifiedLog) async {
+    await _checkForLogFile();
     final logFile = File(await Config().logFilePath);
     logFile.writeAsString(stringifiedLog);
   }
@@ -42,7 +45,6 @@ class JsonBackend {
   Future<void> writeEntriesToJson(
     Map<String, PeregrineEntry> logToWrite,
   ) async {
-    _checkForLogFile();
     var rawLog = await _loadJson();
     final mappifiedLog =
         logToWrite.map((key, value) => MapEntry(key, value.toJson()));
@@ -52,7 +54,6 @@ class JsonBackend {
   }
 
   Future<void> writeTagsToJson(Map<String, int> tagsToWrite) async {
-    _checkForLogFile();
     var rawLog = await _loadJson();
     rawLog['tags'] = tagsToWrite.keys.toList();
     final stringifiedLog = encoder.convert(rawLog);
@@ -60,9 +61,7 @@ class JsonBackend {
   }
 
   Future<Map<String, PeregrineEntry>> readEntriesFromJson() async {
-    final logFile = File(await Config().logFilePath);
-    final contents = await logFile.readAsString();
-    final contentsMap = jsonDecode(contents);
+    final contentsMap = await _loadJson();
     if (contentsMap is List) {
       return _parseV1(contentsMap);
     }
@@ -70,9 +69,7 @@ class JsonBackend {
   }
 
   Future<Map<String, int>> readTagsFromJson() async {
-    final logFile = File(await Config().logFilePath);
-    final contents = await logFile.readAsString();
-    final contentsMap = jsonDecode(contents);
+    final contentsMap = await _loadJson();
     var tags = <String, int>{};
     if (contentsMap is! List && contentsMap['tags'] != null) {
       tags = {for (final item in contentsMap['tags']) item: 0};

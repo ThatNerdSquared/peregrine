@@ -1,18 +1,34 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../config.dart';
 import '../main.dart';
+import 'entry_list_view.dart';
 import 'pret_sidebar_button.dart';
 
 class Sidebar extends ConsumerWidget {
   const Sidebar({super.key});
 
+  void _onSidebarButtonPress(ref, context, tagName) {
+    ref.read(entryFilterProvider.notifier).setTagFilter(tagName);
+    if (Platform.isAndroid || Platform.isIOS) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const Scaffold(body: EntryListView()),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tags = ref.watch(tagsProvider);
     final filter = ref.watch(entryFilterProvider);
-    return Container(
+    return Scaffold(
+      body: Container(
         decoration: const BoxDecoration(
           color: Color(0xffb69d7c),
           borderRadius: BorderRadius.only(
@@ -54,37 +70,21 @@ class Sidebar extends ConsumerWidget {
                     color: Color(filter.name == tagName.replaceAll('#', '')
                         ? 0xfff7f2f2
                         : 0xffdac6b0),
-                    onPressedCallback: () => ref
-                        .read(entryFilterProvider.notifier)
-                        .setTagFilter(tagName),
+                    onPressedCallback: () => _onSidebarButtonPress(
+                      ref,
+                      context,
+                      tagName,
+                    ),
+                    // _onSidebarButtonPress(ref, context, tagName),
                     buttonText: tagName.replaceAll('#', ''),
                     count: tags[tagName],
                     icon: Icons.tag,
                   ));
             }),
           )),
-          // SliverToBoxAdapter(
-          //     child: SidebarToggleList(
-          //   toggleTitle: 'Contacts',
-          //   items: tags.keys.map((tagName) {
-          //     return Container(
-          //         padding: const EdgeInsets.only(
-          //             left: Config.defaultElementSpacing,
-          //             right: Config.defaultElementSpacing),
-          //         child: PretSidebarButton(
-          //           color: Color(filter.name == tagName.replaceAll('#', '')
-          //               ? 0xfff7f2f2
-          //               : 0xffdac6b0),
-          //           onPressedCallback: () => ref
-          //               .read(entryFilterProvider.notifier)
-          //               .setTagFilter(tagName),
-          //           buttonText: tagName.replaceAll('#', ''),
-          //           count: tags[tagName],
-          //           icon: Icons.tag,
-          //         ));
-          //   }),
-          // ))
-        ]));
+        ]),
+      ),
+    );
   }
 }
 
