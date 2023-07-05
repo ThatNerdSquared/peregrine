@@ -42,7 +42,7 @@ class PeregrineEntryCard extends ConsumerWidget {
               const Padding(
                 padding: EdgeInsets.only(left: Config.defaultElementSpacing),
               ),
-              Flexible(
+              Expanded(
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,

@@ -34,7 +34,6 @@ class PeregrineEntryBoxState extends ConsumerState<PeregrineEntryBox> {
             },
             child: Row(children: [
               Expanded(
-                flex: 4,
                 child: Container(
                   decoration: BoxDecoration(
                     boxShadow: const [Config.defaultShadow],
@@ -55,13 +54,26 @@ class PeregrineEntryBoxState extends ConsumerState<PeregrineEntryBox> {
                 ),
               ),
               const Padding(padding: EdgeInsets.all(Config.tilePadding)),
-              Expanded(
-                flex: 1,
+              Container(
+                decoration: const BoxDecoration(
+                  borderRadius: Config.defaultBorderRadius,
+                  boxShadow: [Config.defaultShadow],
+                ),
                 child: IconButton.filled(
+                  style: IconButton.styleFrom(
+                      backgroundColor: const Color(0xffb69d7c),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.all(Config.tagBorderRounding),
+                      )),
                   onPressed: submitNewLogEntry,
-                  icon: const Icon(Icons.send_rounded),
+                  icon: Icon(
+                    Icons.send_rounded,
+                    color: Theme.of(context).colorScheme.surface,
+                  ),
                 ),
               )
+              // )
             ])));
   }
 }

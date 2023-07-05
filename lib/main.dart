@@ -95,6 +95,7 @@ class PeregrineHomeView extends StatelessWidget {
       body: PretMainView(
         leftSidebar: Sidebar(),
         mainView: EntryListView(),
+        barColor: Color(0xffb69d7c),
       ),
     );
   }

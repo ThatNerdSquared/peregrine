@@ -11,8 +11,16 @@ import 'pret_sidebar_button.dart';
 class Sidebar extends ConsumerWidget {
   const Sidebar({super.key});
 
-  void _onSidebarButtonPress(ref, context, tagName) {
-    ref.read(entryFilterProvider.notifier).setTagFilter(tagName);
+  void _onSidebarButtonPress({
+    required ref,
+    required context,
+    tagName,
+  }) {
+    if (tagName == null) {
+      ref.read(entryFilterProvider.notifier).setAllEntriesFilter();
+    } else {
+      ref.read(entryFilterProvider.notifier).setTagFilter(tagName);
+    }
     if (Platform.isAndroid || Platform.isIOS) {
       Navigator.push(
         context,
@@ -27,64 +35,49 @@ class Sidebar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final tags = ref.watch(tagsProvider);
     final filter = ref.watch(entryFilterProvider);
-    return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          color: Color(0xffb69d7c),
-          borderRadius: BorderRadius.only(
-            topRight: Config.defaultBorderRounding,
-            bottomRight: Config.defaultBorderRounding,
-          ),
-          boxShadow: [Config.defaultShadow],
-        ),
-        padding: const EdgeInsets.only(
-          top: Config.titleBarSafeArea,
-        ),
-        child: CustomScrollView(slivers: [
-          SliverToBoxAdapter(
-            child: Container(
-                padding: const EdgeInsets.only(
-                    top: Config.defaultElementSpacing,
-                    left: Config.defaultElementSpacing,
-                    right: Config.defaultElementSpacing),
-                child: PretSidebarButton(
-                  color: Color(
-                      filter.name == 'All Entries' ? 0xfff7f2f2 : 0xffdac6b0),
-                  onPressedCallback: () => ref
-                      .read(entryFilterProvider.notifier)
-                      .setAllEntriesFilter(),
-                  buttonText: 'All Entries',
-                  count: ref.read(entryCount),
-                  icon: Icons.all_inbox_rounded,
-                )),
-          ),
-          SliverToBoxAdapter(
-              child: SidebarToggleList(
-            toggleTitle: 'Tags',
-            items: tags.keys.map((tagName) {
-              return Container(
-                  padding: const EdgeInsets.only(
-                      left: Config.defaultElementSpacing,
-                      right: Config.defaultElementSpacing),
-                  child: PretSidebarButton(
-                    color: Color(filter.name == tagName.replaceAll('#', '')
-                        ? 0xfff7f2f2
-                        : 0xffdac6b0),
-                    onPressedCallback: () => _onSidebarButtonPress(
-                      ref,
-                      context,
-                      tagName,
-                    ),
-                    // _onSidebarButtonPress(ref, context, tagName),
-                    buttonText: tagName.replaceAll('#', ''),
-                    count: tags[tagName],
-                    icon: Icons.tag,
-                  ));
-            }),
-          )),
-        ]),
+    return CustomScrollView(slivers: [
+      SliverToBoxAdapter(
+        child: Container(
+            padding: const EdgeInsets.only(
+                top: Config.defaultElementSpacing,
+                left: Config.defaultElementSpacing,
+                right: Config.defaultElementSpacing),
+            child: PretSidebarButton(
+              color:
+                  Color(filter.name == 'All Entries' ? 0xfff7f2f2 : 0xffdac6b0),
+              onPressedCallback: () => _onSidebarButtonPress(
+                ref: ref,
+                context: context,
+              ),
+              buttonText: 'All Entries',
+              count: ref.read(entryCount),
+              icon: Icons.all_inbox_rounded,
+            )),
       ),
-    );
+      SliverToBoxAdapter(
+          child: SidebarToggleList(
+        toggleTitle: 'Tags',
+        items: tags.keys.map((tagName) {
+          return Container(
+              padding: const EdgeInsets.only(
+                  left: Config.defaultElementSpacing,
+                  right: Config.defaultElementSpacing),
+              child: PretSidebarButton(
+                color: Color(filter.name == tagName.replaceAll('#', '')
+                    ? 0xfff7f2f2
+                    : 0xffdac6b0),
+                onPressedCallback: () => _onSidebarButtonPress(
+                  ref: ref,
+                  context: context,
+                  tagName: tagName,
+                ),
+                buttonText: tagName.replaceAll('#', ''),
+                count: tags[tagName],
+                icon: Icons.tag,
+              ));
+        }),
+      )),
+    ]);
   }
 }
 
