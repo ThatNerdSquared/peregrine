@@ -1,8 +1,10 @@
-# Peregrine
+<p align="center"><img src="./assets/peregrine-icon.png" width=200></p>
+
+# 🦅 Peregrine
 
 Peregrine is a rapid, append-only logging and note-taking app, inspired by thesephist's [Inc](https://github.com/thesephist/inc). 
 
-<img src="assets/readme-image.png" style="max-width:800px">
+<img src="assets/readme-image.png" style="max-width:400px">
 
 ## Installation
 Peregrine now offers prebuilt app packages! You can get the latest one on our [releases page](https://github.com/ThatNerdSquared/peregrine/releases/latest). I currently have releases for Windows and M1 macs. On macOS, copy the `.app` bundle into `/Applications/`. On Windows, copy the `.exe` into `C:\Program Files`. If you're on an Intel mac or Linux, follow the instructions below to build from source. 
