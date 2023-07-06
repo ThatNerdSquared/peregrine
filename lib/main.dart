@@ -79,6 +79,7 @@ class MyApp extends ConsumerWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xffb69d7c)),
+        fontFamily: 'Krete',
         useMaterial3: true,
       ),
       home: const PeregrineHomeView(),

@@ -59,7 +59,13 @@ class PeregrineEntryCard extends ConsumerWidget {
                             } else {
                               return Image.network(url);
                             }
-                          })
+                          }),
+                          const CodeConfig(
+                            style: TextStyle(
+                              fontFamily: 'Menlo',
+                              backgroundColor: Color(0xffeff1f3),
+                            ),
+                          ),
                         ]),
                       ).buildWidgets(stripTagOnlyLines(entry.input)),
                       Wrap(
