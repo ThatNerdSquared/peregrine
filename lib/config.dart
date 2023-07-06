@@ -25,6 +25,11 @@ class Config {
     offset: Offset(0, 4),
     blurRadius: 10.0,
   );
+  static const BoxShadow intenseShadow = BoxShadow(
+    color: Color.fromRGBO((0), 0, 0, 0.40),
+    offset: Offset(0, 4),
+    blurRadius: 30.0,
+  );
 
   Future<String> get logFilePath async {
     //  I'm aware that according to the `path_provider` docs, we

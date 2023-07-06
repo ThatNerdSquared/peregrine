@@ -18,6 +18,7 @@ class PeregrineEntryBoxState extends ConsumerState<PeregrineEntryBox> {
   final TextEditingController _controller = TextEditingController();
 
   void submitNewLogEntry() {
+    if (_controller.text.trim() == '') return;
     ref.read(entryListProvider.notifier).addNewEntry(_controller.text);
     _controller.text = '';
   }
@@ -68,7 +69,7 @@ class PeregrineEntryBoxState extends ConsumerState<PeregrineEntryBox> {
                       )),
                   onPressed: submitNewLogEntry,
                   icon: Icon(
-                    Icons.send_rounded,
+                    Icons.move_to_inbox_rounded,
                     color: Theme.of(context).colorScheme.surface,
                   ),
                 ),
