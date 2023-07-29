@@ -3,13 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:markdown_widget/markdown_widget.dart';
+import 'package:pret_a_porter/pret_a_porter.dart';
 
 import '../config.dart';
 import '../format_utils.dart';
 import '../main.dart';
 import '../vendor/latex.dart';
-import 'pret_card.dart';
-import 'pret_tag_button.dart';
 
 class PeregrineEntryCard extends ConsumerWidget {
   const PeregrineEntryCard({

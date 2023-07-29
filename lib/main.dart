@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pret_a_porter/pret_a_porter.dart';
 import 'package:uuid/uuid.dart';
 
 import 'model/entry_data.dart';
 import 'model/entry_filter.dart';
 import 'model/tag_data.dart';
 import 'widgets/entry_list_view.dart';
-import 'widgets/pret_view.dart';
 import 'widgets/sidebar.dart';
 
 const uuID = Uuid();

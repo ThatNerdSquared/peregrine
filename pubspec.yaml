@@ -43,6 +43,8 @@ dependencies:
   flutter_math_fork: ^0.7.1
   markdown: ^7.1.0
   flutter_launcher_icons: ^0.13.1
+  pret_a_porter:
+    path: ../pret_a_porter
 
 dev_dependencies:
   flutter_test:

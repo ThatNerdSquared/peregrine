@@ -2,11 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pret_a_porter/pret_a_porter.dart';
 
 import '../config.dart';
 import '../main.dart';
 import 'entry_list_view.dart';
-import 'pret_sidebar_button.dart';
 
 class Sidebar extends ConsumerWidget {
   const Sidebar({super.key});
