@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pret_a_porter/pret_a_porter.dart';
 
-import '../config.dart';
 import '../main.dart';
 import 'entry_list_view.dart';
 
@@ -39,9 +38,9 @@ class Sidebar extends ConsumerWidget {
       SliverToBoxAdapter(
         child: Container(
             padding: const EdgeInsets.only(
-                top: Config.defaultElementSpacing,
-                left: Config.defaultElementSpacing,
-                right: Config.defaultElementSpacing),
+                top: PretConfig.defaultElementSpacing,
+                left: PretConfig.defaultElementSpacing,
+                right: PretConfig.defaultElementSpacing),
             child: PretSidebarButton(
               color:
                   Color(filter.name == 'All Entries' ? 0xfff7f2f2 : 0xffdac6b0),
@@ -60,8 +59,8 @@ class Sidebar extends ConsumerWidget {
         items: tags.keys.map((tagName) {
           return Container(
               padding: const EdgeInsets.only(
-                  left: Config.defaultElementSpacing,
-                  right: Config.defaultElementSpacing),
+                  left: PretConfig.defaultElementSpacing,
+                  right: PretConfig.defaultElementSpacing),
               child: PretSidebarButton(
                 color: Color(filter.name == tagName.replaceAll('#', '')
                     ? 0xfff7f2f2
@@ -106,10 +105,12 @@ class SidebarToggleList extends StatelessWidget {
             }),
             children: [
               const Padding(
-                  padding: EdgeInsets.only(top: Config.defaultElementSpacing)),
+                  padding:
+                      EdgeInsets.only(top: PretConfig.defaultElementSpacing)),
               ...items,
               const Padding(
-                  padding: EdgeInsets.only(top: Config.defaultElementSpacing)),
+                  padding:
+                      EdgeInsets.only(top: PretConfig.defaultElementSpacing)),
             ],
           ));
     });

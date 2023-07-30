@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pret_a_porter/pret_a_porter.dart';
 
-import '../config.dart';
 import '../main.dart';
 
 class PeregrineAppBar extends ConsumerWidget {
@@ -15,17 +15,17 @@ class PeregrineAppBar extends ConsumerWidget {
     return Container(
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
-          bottomLeft: Config.defaultBorderRounding,
-          bottomRight: Config.defaultBorderRounding,
+          bottomLeft: PretConfig.defaultBorderRounding,
+          bottomRight: PretConfig.defaultBorderRounding,
         ),
-        boxShadow: [Config.intenseShadow],
+        boxShadow: [PretConfig.intenseShadow],
         color: Color(0xffb69d7c),
       ),
       margin: const EdgeInsets.only(
-        left: Config.preserveShadowSpacing,
-        right: Config.preserveShadowSpacing,
+        left: PretConfig.preserveShadowSpacing,
+        right: PretConfig.preserveShadowSpacing,
       ),
-      padding: const EdgeInsets.all(Config.tagPadding),
+      padding: const EdgeInsets.all(PretConfig.tagPadding),
       child: Row(children: [
         Icon(
           filter.icon,
@@ -35,7 +35,7 @@ class PeregrineAppBar extends ConsumerWidget {
           size: 30,
         ),
         const Padding(
-            padding: EdgeInsets.only(right: Config.defaultElementSpacing)),
+            padding: EdgeInsets.only(right: PretConfig.defaultElementSpacing)),
         Expanded(
             flex: 2,
             child: Text(
@@ -46,9 +46,10 @@ class PeregrineAppBar extends ConsumerWidget {
             flex: 2,
             child: TextFormField(
               decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.all(Config.defaultElementSpacing),
+                  contentPadding:
+                      EdgeInsets.all(PretConfig.defaultElementSpacing),
                   border: OutlineInputBorder(
-                      borderRadius: Config.defaultBorderRadius),
+                      borderRadius: PretConfig.defaultBorderRadius),
                   hintText: 'Search...'),
               onChanged: (value) =>
                   ref.read(entryFilterProvider.notifier).addSearch(value),

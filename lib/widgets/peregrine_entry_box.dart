@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pret_a_porter/pret_a_porter.dart';
 
-import '../config.dart';
 import '../main.dart';
 
 class PeregrineEntryBox extends ConsumerStatefulWidget {
@@ -37,14 +37,14 @@ class PeregrineEntryBoxState extends ConsumerState<PeregrineEntryBox> {
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
-                    boxShadow: const [Config.defaultShadow],
+                    boxShadow: const [PretConfig.defaultShadow],
                     color: Theme.of(context).colorScheme.surface,
-                    borderRadius: Config.defaultBorderRadius,
+                    borderRadius: PretConfig.defaultBorderRadius,
                   ),
                   child: TextField(
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(
-                        borderRadius: Config.defaultBorderRadius,
+                        borderRadius: PretConfig.defaultBorderRadius,
                       ),
                       hintText: 'Start a new entry...',
                     ),
@@ -54,18 +54,18 @@ class PeregrineEntryBoxState extends ConsumerState<PeregrineEntryBox> {
                   ),
                 ),
               ),
-              const Padding(padding: EdgeInsets.all(Config.tilePadding)),
+              const Padding(padding: EdgeInsets.all(PretConfig.tilePadding)),
               Container(
                 decoration: const BoxDecoration(
-                  borderRadius: Config.defaultBorderRadius,
-                  boxShadow: [Config.defaultShadow],
+                  borderRadius: PretConfig.defaultBorderRadius,
+                  boxShadow: [PretConfig.defaultShadow],
                 ),
                 child: IconButton.filled(
                   style: IconButton.styleFrom(
                       backgroundColor: const Color(0xffb69d7c),
                       shape: const RoundedRectangleBorder(
                         borderRadius:
-                            BorderRadius.all(Config.tagBorderRounding),
+                            BorderRadius.all(PretConfig.tagBorderRounding),
                       )),
                   onPressed: submitNewLogEntry,
                   icon: Icon(

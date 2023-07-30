@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pret_a_porter/pret_a_porter.dart';
 
-import '../config.dart';
 import '../main.dart';
 import 'peregrine_app_bar.dart';
 import 'peregrine_entry_box.dart';
@@ -21,7 +21,8 @@ class EntryListView extends ConsumerWidget {
             child: CustomScrollView(
               slivers: [
                 const SliverPadding(
-                  padding: EdgeInsets.all(Config.defaultElementSpacing * 5 / 2),
+                  padding:
+                      EdgeInsets.all(PretConfig.defaultElementSpacing * 5 / 2),
                 ),
                 SliverList.builder(
                     itemCount: entries.length,
@@ -33,7 +34,7 @@ class EntryListView extends ConsumerWidget {
             ),
           ),
           const Padding(
-            padding: EdgeInsets.all(Config.defaultElementSpacing),
+            padding: EdgeInsets.all(PretConfig.defaultElementSpacing),
             child: PeregrineEntryBox(),
           ),
         ]),

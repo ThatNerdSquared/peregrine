@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:markdown_widget/markdown_widget.dart';
 import 'package:pret_a_porter/pret_a_porter.dart';
 
-import '../config.dart';
 import '../format_utils.dart';
 import '../main.dart';
 import '../vendor/latex.dart';
@@ -24,8 +23,8 @@ class PeregrineEntryCard extends ConsumerWidget {
         ref.watch(entryListProvider.select((entryList) => entryList[entryId]!));
     return Padding(
         padding: const EdgeInsets.only(
-          left: Config.preserveShadowSpacing,
-          right: Config.preserveShadowSpacing,
+          left: PretConfig.preserveShadowSpacing,
+          right: PretConfig.preserveShadowSpacing,
         ),
         child: PretCard(
           child: Row(
@@ -39,7 +38,8 @@ class PeregrineEntryCard extends ConsumerWidget {
                 ],
               ),
               const Padding(
-                padding: EdgeInsets.only(left: Config.defaultElementSpacing),
+                padding:
+                    EdgeInsets.only(left: PretConfig.defaultElementSpacing),
               ),
               Expanded(
                 child: Column(
