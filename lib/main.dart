@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:pret_a_porter/pret_a_porter.dart';
 import 'package:uuid/uuid.dart';
 
 import 'model/entry_data.dart';
 import 'model/entry_filter.dart';
+import 'model/json_backend.dart';
 import 'model/tag_data.dart';
 import 'widgets/entry_list_view.dart';
 import 'widgets/sidebar.dart';
 
 const uuID = Uuid();
+String platformAppSupportDir = '';
 
 final entryListProvider =
     StateNotifierProvider<PeregrineEntryList, Map<String, PeregrineEntry>>(
-  (ref) => PeregrineEntryList(ref: ref),
+  (ref) => PeregrineEntryList(
+      initialEntries: JsonBackend().readEntriesFromJson(), ref: ref),
 );
 final entryCount = Provider<int>((ref) => ref.watch(entryListProvider).length);
 final tagsProvider = StateNotifierProvider<TagsList, Map<String, int>>(
-  (_) => TagsList(),
+  (_) => TagsList(initialTags: JsonBackend().readTagsFromJson()),
 );
 final entryFilterProvider =
     StateNotifierProvider<PeregrineEntryFilter, EntryFilter>(
@@ -64,7 +68,14 @@ final filteredListProvider = Provider((ref) {
   return entries;
 });
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  //  I'm aware that according to the `path_provider` docs, we
+  // 'should not use this directory for user data files'.
+  // HOWEVER: it is one of the few besides documents and temp
+  // that are available on all platforms. Will consider
+  // changing later.
+  platformAppSupportDir = (await getApplicationSupportDirectory()).path;
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -73,8 +84,6 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.read(entryListProvider.notifier).readLog();
-    ref.read(tagsProvider.notifier).readTags();
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(

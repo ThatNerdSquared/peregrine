@@ -7,15 +7,15 @@ class TagsList extends StateNotifier<Map<String, int>> {
   TagsList({Map<String, int>? initialTags})
       : super(initialTags ?? <String, int>{});
 
-  void readTags() async {
-    state = await JsonBackend().readTagsFromJson();
+  void readTags() {
+    state = JsonBackend().readTagsFromJson();
   }
 
-  Future<void> _writeTags() async {
-    await JsonBackend().writeTagsToJson(state);
+  void _writeTags() {
+    JsonBackend().writeTagsToJson(state);
   }
 
-  Future<void> scanForTags(String input) async {
+  void scanForTags(String input) {
     // NOTE: deduplicate w json_backend
     var foundTags = findTags(input);
     for (final tag in foundTags) {
@@ -28,6 +28,6 @@ class TagsList extends StateNotifier<Map<String, int>> {
     final sortedEntries = state.entries.toList()
       ..sort((a, b) => b.value.compareTo(a.value));
     state = {for (final entry in sortedEntries) entry.key: entry.value};
-    await _writeTags();
+    _writeTags();
   }
 }

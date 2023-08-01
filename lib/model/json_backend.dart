@@ -9,25 +9,25 @@ import 'entry_data.dart';
 class JsonBackend {
   static const JsonEncoder encoder = JsonEncoder.withIndent('    ');
 
-  Future<void> _checkForLogFile() async {
-    final logFile = File(await Config().logFilePath);
-    final doesFileExist = await logFile.exists();
+  void _checkForLogFile() {
+    final logFile = File(Config().logFilePath);
+    final doesFileExist = logFile.existsSync();
     if (!doesFileExist) {
       logFile.create();
-      await _putJson(assembleFreshJson(entries: {}));
+      _putJson(assembleFreshJson(entries: {}));
     }
   }
 
-  dynamic _loadJson() async {
-    await _checkForLogFile();
-    final logFile = File(await Config().logFilePath);
-    final contents = await logFile.readAsString();
+  dynamic _loadJson() {
+    _checkForLogFile();
+    final logFile = File(Config().logFilePath);
+    final contents = logFile.readAsStringSync();
     return jsonDecode(contents);
   }
 
-  Future<void> _putJson(String stringifiedLog) async {
-    await _checkForLogFile();
-    final logFile = File(await Config().logFilePath);
+  void _putJson(String stringifiedLog) {
+    _checkForLogFile();
+    final logFile = File(Config().logFilePath);
     logFile.writeAsString(stringifiedLog);
   }
 
@@ -42,39 +42,39 @@ class JsonBackend {
     });
   }
 
-  Future<void> writeEntriesToJson(
+  void writeEntriesToJson(
     Map<String, PeregrineEntry> logToWrite,
-  ) async {
-    var rawLog = await _loadJson();
+  ) {
+    var rawLog = _loadJson();
     final mappifiedLog =
         logToWrite.map((key, value) => MapEntry(key, value.toJson()));
     rawLog['entries'] = mappifiedLog;
     final stringifiedLog = encoder.convert(rawLog);
-    await _putJson(stringifiedLog);
+    _putJson(stringifiedLog);
   }
 
-  Future<void> writeTagsToJson(Map<String, int> tagsToWrite) async {
-    var rawLog = await _loadJson();
+  void writeTagsToJson(Map<String, int> tagsToWrite) {
+    var rawLog = _loadJson();
     rawLog['tags'] = tagsToWrite.keys.toList();
     final stringifiedLog = encoder.convert(rawLog);
     _putJson(stringifiedLog);
   }
 
-  Future<Map<String, PeregrineEntry>> readEntriesFromJson() async {
-    final contentsMap = await _loadJson();
+  Map<String, PeregrineEntry> readEntriesFromJson() {
+    final contentsMap = _loadJson();
     if (contentsMap is List) {
       return _parseV1(contentsMap);
     }
     return _parseV2(contentsMap);
   }
 
-  Future<Map<String, int>> readTagsFromJson() async {
-    final contentsMap = await _loadJson();
+  Map<String, int> readTagsFromJson() {
+    final contentsMap = _loadJson();
     var tags = <String, int>{};
     if (contentsMap is! List && contentsMap['tags'] != null) {
       tags = {for (final item in contentsMap['tags']) item: 0};
     }
-    final items = await readEntriesFromJson();
+    final items = readEntriesFromJson();
     for (final entryId in items.keys) {
       for (final tag in items[entryId]!.tags) {
         if (tags[tag] != null) {
