@@ -1,67 +1,44 @@
-import 'dart:convert';
 import 'dart:io';
+
+import 'package:pret_a_porter/pret_a_porter.dart';
 
 import '../config.dart';
 import '../format_utils.dart';
 import '../main.dart';
 import 'entry_data.dart';
 
-class JsonBackend {
-  static const JsonEncoder encoder = JsonEncoder.withIndent('    ');
-
-  void _checkForLogFile() {
-    final logFile = File(Config().logFilePath);
-    final doesFileExist = logFile.existsSync();
-    if (!doesFileExist) {
-      logFile.create();
-      _putJson(assembleFreshJson(entries: {}));
-    }
-  }
-
-  dynamic _loadJson() {
-    _checkForLogFile();
-    final logFile = File(Config().logFilePath);
-    final contents = logFile.readAsStringSync();
-    return jsonDecode(contents);
-  }
-
-  void _putJson(String stringifiedLog) {
-    _checkForLogFile();
-    final logFile = File(Config().logFilePath);
-    logFile.writeAsString(stringifiedLog);
-  }
-
-  String assembleFreshJson({
-    required Map<String, PeregrineEntry> entries,
-    List<String>? tags,
-  }) {
-    return encoder.convert(<String, dynamic>{
-      'schema': Config.currentSchemaVersion,
-      'tags': tags ?? [],
-      'entries': entries,
-    });
-  }
+class JsonBackend extends PretJsonManager {
+  @override
+  final dataFile = File(Config().logFilePath);
+  @override
+  final freshJson = <String, dynamic>{
+    'schema': Config.currentSchemaVersion,
+    'tags': [],
+    'entries': {},
+  };
 
   void writeEntriesToJson(
     Map<String, PeregrineEntry> logToWrite,
   ) {
-    var rawLog = _loadJson();
-    final mappifiedLog =
-        logToWrite.map((key, value) => MapEntry(key, value.toJson()));
-    rawLog['entries'] = mappifiedLog;
-    final stringifiedLog = encoder.convert(rawLog);
-    _putJson(stringifiedLog);
+    jsonWriteWrapper((initialData) {
+      final mappifiedLog = logToWrite.map((key, value) => MapEntry(
+            key,
+            value.toJson(),
+          ));
+      initialData['entries'] = mappifiedLog;
+      return initialData;
+    });
   }
 
   void writeTagsToJson(Map<String, int> tagsToWrite) {
-    var rawLog = _loadJson();
-    rawLog['tags'] = tagsToWrite.keys.toList();
-    final stringifiedLog = encoder.convert(rawLog);
-    _putJson(stringifiedLog);
+    jsonWriteWrapper((initialData) {
+      initialData['tags'] = tagsToWrite.keys.toList();
+      return initialData;
+    });
   }
 
   Map<String, PeregrineEntry> readEntriesFromJson() {
-    final contentsMap = _loadJson();
+    final contentsMap = pretLoadJson();
     if (contentsMap is List) {
       return _parseV1(contentsMap);
     }
@@ -69,7 +46,7 @@ class JsonBackend {
   }
 
   Map<String, int> readTagsFromJson() {
-    final contentsMap = _loadJson();
+    final contentsMap = pretLoadJson();
     var tags = <String, int>{};
     if (contentsMap is! List && contentsMap['tags'] != null) {
       tags = {for (final item in contentsMap['tags']) item: 0};
@@ -100,21 +77,27 @@ class JsonBackend {
           mentionedContacts: findContacts(value['input']),
         )
     });
-    _putJson(assembleFreshJson(entries: data));
+    jsonWriteWrapper((initialData) {
+      var item = freshJson;
+      item['entries'] = data;
+      return item;
+    });
     return data;
   }
 
   Map<String, PeregrineEntry> _parseV2(contentsMap) {
     final entriesMap = contentsMap['entries'];
-    return Map<String, PeregrineEntry>.from(
-        entriesMap.map((key, value) => MapEntry(
-            key,
-            PeregrineEntry(
-              date: DateTime.parse(value['date']),
-              input: value['input'],
-              isEncrypted: value['isEncrypted'],
-              tags: List<String>.from(value['tags']),
-              mentionedContacts: List<String>.from(value['mentionedContacts']),
-            ))));
+    return Map<String, PeregrineEntry>.from(entriesMap.map(
+      (key, value) => MapEntry(
+        key,
+        PeregrineEntry(
+          date: DateTime.parse(value['date']),
+          input: value['input'],
+          isEncrypted: value['isEncrypted'],
+          tags: List<String>.from(value['tags']),
+          mentionedContacts: List<String>.from(value['mentionedContacts']),
+        ),
+      ),
+    ));
   }
 }
