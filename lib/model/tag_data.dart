@@ -5,7 +5,9 @@ import 'json_backend.dart';
 
 class TagsList extends StateNotifier<Map<String, int>> {
   TagsList({Map<String, int>? initialTags})
-      : super(initialTags ?? <String, int>{});
+      : super(initialTags ?? <String, int>{}) {
+    readTags();
+  }
 
   void readTags() {
     state = JsonBackend().readTagsFromJson();

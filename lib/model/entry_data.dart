@@ -11,7 +11,9 @@ class PeregrineEntryList extends StateNotifier<Map<String, PeregrineEntry>> {
   PeregrineEntryList({
     Map<String, PeregrineEntry>? initialEntries,
     required this.ref,
-  }) : super(initialEntries ?? <String, PeregrineEntry>{});
+  }) : super(initialEntries ?? <String, PeregrineEntry>{}) {
+    readLog();
+  }
 
   void readLog() {
     state = JsonBackend().readEntriesFromJson();

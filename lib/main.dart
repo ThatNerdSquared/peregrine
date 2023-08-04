@@ -6,7 +6,6 @@ import 'package:uuid/uuid.dart';
 
 import 'model/entry_data.dart';
 import 'model/entry_filter.dart';
-import 'model/json_backend.dart';
 import 'model/tag_data.dart';
 import 'widgets/desktop_frame.dart';
 import 'widgets/entry_list_view.dart';
@@ -17,12 +16,11 @@ String platformAppSupportDir = '';
 
 final entryListProvider =
     StateNotifierProvider<PeregrineEntryList, Map<String, PeregrineEntry>>(
-  (ref) => PeregrineEntryList(
-      initialEntries: JsonBackend().readEntriesFromJson(), ref: ref),
+  (ref) => PeregrineEntryList(ref: ref),
 );
 final entryCount = Provider<int>((ref) => ref.watch(entryListProvider).length);
 final tagsProvider = StateNotifierProvider<TagsList, Map<String, int>>(
-  (_) => TagsList(initialTags: JsonBackend().readTagsFromJson()),
+  (_) => TagsList(),
 );
 final entryFilterProvider =
     StateNotifierProvider<PeregrineEntryFilter, EntryFilter>(

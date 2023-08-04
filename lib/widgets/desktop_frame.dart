@@ -153,7 +153,7 @@ class DesktopFrame extends ConsumerWidget {
             PlatformProvidedMenuItem(
                 type: PlatformProvidedMenuItemType.toggleFullScreen)
           ]),
-          PlatformMenu(label: 'Go To', menus: [
+          PlatformMenu(label: 'Go To Tag', menus: [
             PlatformMenuItem(
                 label: 'All Entries',
                 shortcut: const SingleActivator(LogicalKeyboardKey.digit0,
