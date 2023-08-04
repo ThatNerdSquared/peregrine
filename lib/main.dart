@@ -8,6 +8,7 @@ import 'model/entry_data.dart';
 import 'model/entry_filter.dart';
 import 'model/json_backend.dart';
 import 'model/tag_data.dart';
+import 'widgets/desktop_frame.dart';
 import 'widgets/entry_list_view.dart';
 import 'widgets/sidebar.dart';
 
@@ -68,6 +69,9 @@ final filteredListProvider = Provider((ref) {
   return entries;
 });
 
+FocusNode entryBoxFocusNode = FocusNode();
+FocusNode searchBoxFocusNode = FocusNode();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   //  I'm aware that according to the `path_provider` docs, we
@@ -101,11 +105,21 @@ class PeregrineHomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: PretMainView(
-        leftSidebar: Sidebar(),
-        mainView: EntryListView(),
-        barColor: Color(0xffb69d7c),
+    return Scaffold(
+      body: DesktopFrame(
+        entryBoxFocusNode: entryBoxFocusNode,
+        searchBoxFocusNode: searchBoxFocusNode,
+        child: PretMainView(
+          leftSidebar: Sidebar(
+            searchBoxFocusNode: searchBoxFocusNode,
+            entryBoxFocusNode: entryBoxFocusNode,
+          ),
+          mainView: EntryListView(
+            entryBoxFocusNode: entryBoxFocusNode,
+            searchBoxFocusNode: searchBoxFocusNode,
+          ),
+          barColor: const Color(0xffb69d7c),
+        ),
       ),
     );
   }

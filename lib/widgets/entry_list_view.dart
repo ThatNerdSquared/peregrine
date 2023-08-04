@@ -8,7 +8,14 @@ import 'peregrine_entry_box.dart';
 import 'peregrine_entry_card.dart';
 
 class EntryListView extends ConsumerWidget {
-  const EntryListView({super.key});
+  final FocusNode entryBoxFocusNode;
+  final FocusNode searchBoxFocusNode;
+
+  const EntryListView({
+    super.key,
+    required this.entryBoxFocusNode,
+    required this.searchBoxFocusNode,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -33,12 +40,16 @@ class EntryListView extends ConsumerWidget {
               ],
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.all(PretConfig.defaultElementSpacing),
-            child: PeregrineEntryBox(),
+          Padding(
+            padding: const EdgeInsets.all(PretConfig.defaultElementSpacing),
+            child: PeregrineEntryBox(
+              entryBoxFocusNode: entryBoxFocusNode,
+            ),
           ),
         ]),
-        const PeregrineAppBar(),
+        PeregrineAppBar(
+          searchBoxFocusNode: searchBoxFocusNode,
+        ),
       ]),
     );
   }

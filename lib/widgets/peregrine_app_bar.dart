@@ -5,8 +5,11 @@ import 'package:pret_a_porter/pret_a_porter.dart';
 import '../main.dart';
 
 class PeregrineAppBar extends ConsumerWidget {
+  final FocusNode searchBoxFocusNode;
+
   const PeregrineAppBar({
     super.key,
+    required this.searchBoxFocusNode,
   });
 
   @override
@@ -51,6 +54,7 @@ class PeregrineAppBar extends ConsumerWidget {
                   border: OutlineInputBorder(
                       borderRadius: PretConfig.defaultBorderRadius),
                   hintText: 'Search...'),
+              focusNode: searchBoxFocusNode,
               onChanged: (value) =>
                   ref.read(entryFilterProvider.notifier).addSearch(value),
             ))

@@ -8,7 +8,14 @@ import '../main.dart';
 import 'entry_list_view.dart';
 
 class Sidebar extends ConsumerWidget {
-  const Sidebar({super.key});
+  final FocusNode entryBoxFocusNode;
+  final FocusNode searchBoxFocusNode;
+
+  const Sidebar({
+    super.key,
+    required this.entryBoxFocusNode,
+    required this.searchBoxFocusNode,
+  });
 
   void _onSidebarButtonPress({
     required ref,
@@ -24,7 +31,12 @@ class Sidebar extends ConsumerWidget {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const Scaffold(body: EntryListView()),
+          builder: (context) => Scaffold(
+            body: EntryListView(
+              entryBoxFocusNode: entryBoxFocusNode,
+              searchBoxFocusNode: searchBoxFocusNode,
+            ),
+          ),
         ),
       );
     }

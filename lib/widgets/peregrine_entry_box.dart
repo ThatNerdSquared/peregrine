@@ -6,8 +6,11 @@ import 'package:pret_a_porter/pret_a_porter.dart';
 import '../main.dart';
 
 class PeregrineEntryBox extends ConsumerStatefulWidget {
+  final FocusNode entryBoxFocusNode;
+
   const PeregrineEntryBox({
     super.key,
+    required this.entryBoxFocusNode,
   });
 
   @override
@@ -48,6 +51,7 @@ class PeregrineEntryBoxState extends ConsumerState<PeregrineEntryBox> {
                       ),
                       hintText: 'Start a new entry...',
                     ),
+                    focusNode: entryBoxFocusNode,
                     keyboardType: TextInputType.multiline,
                     maxLines: null,
                     controller: _controller,
