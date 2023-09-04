@@ -58,7 +58,8 @@ class PeregrineEntryBoxState extends ConsumerState<PeregrineEntryBox> {
                   ),
                 ),
               ),
-              const Padding(padding: EdgeInsets.all(PretConfig.tilePadding)),
+              const Padding(
+                  padding: EdgeInsets.all(PretConfig.minElementSpacing)),
               Container(
                 decoration: const BoxDecoration(
                   borderRadius: PretConfig.defaultBorderRadius,
@@ -69,7 +70,7 @@ class PeregrineEntryBoxState extends ConsumerState<PeregrineEntryBox> {
                       backgroundColor: const Color(0xffb69d7c),
                       shape: const RoundedRectangleBorder(
                         borderRadius:
-                            BorderRadius.all(PretConfig.tagBorderRounding),
+                            BorderRadius.all(PretConfig.thinBorderRounding),
                       )),
                   onPressed: submitNewLogEntry,
                   icon: Icon(

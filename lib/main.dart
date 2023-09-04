@@ -79,6 +79,7 @@ void main() async {
   // changing later.
   platformAppSupportDir = (await getApplicationSupportDirectory()).path;
   runApp(const ProviderScope(child: MyApp()));
+  entryBoxFocusNode.requestFocus();
 }
 
 class MyApp extends ConsumerWidget {

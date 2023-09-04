@@ -28,7 +28,7 @@ class PeregrineAppBar extends ConsumerWidget {
         left: PretConfig.preserveShadowSpacing,
         right: PretConfig.preserveShadowSpacing,
       ),
-      padding: const EdgeInsets.all(PretConfig.tagPadding),
+      padding: const EdgeInsets.all(PretConfig.thinElementSpacing),
       child: Row(children: [
         Icon(
           filter.icon,
