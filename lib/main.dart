@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
@@ -77,7 +79,7 @@ void main() async {
   // HOWEVER: it is one of the few besides documents and temp
   // that are available on all platforms. Will consider
   // changing later.
-  platformAppSupportDir = (await getApplicationSupportDirectory()).path;
+  platformAppSupportDir = (await getApplicationDocumentsDirectory()).path;
   runApp(const ProviderScope(child: MyApp()));
   entryBoxFocusNode.requestFocus();
 }
@@ -104,21 +106,25 @@ class PeregrineHomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final view = PretMainView(
+      leftSidebar: Sidebar(
+        searchBoxFocusNode: searchBoxFocusNode,
+        entryBoxFocusNode: entryBoxFocusNode,
+      ),
+      mainView: EntryListView(
+        entryBoxFocusNode: entryBoxFocusNode,
+        searchBoxFocusNode: searchBoxFocusNode,
+      ),
+      barColor: const Color(0xffb69d7c),
+    );
+    if (Platform.isAndroid || Platform.isIOS) {
+      return view;
+    }
     return Scaffold(
       body: DesktopFrame(
         entryBoxFocusNode: entryBoxFocusNode,
         searchBoxFocusNode: searchBoxFocusNode,
-        child: PretMainView(
-          leftSidebar: Sidebar(
-            searchBoxFocusNode: searchBoxFocusNode,
-            entryBoxFocusNode: entryBoxFocusNode,
-          ),
-          mainView: EntryListView(
-            entryBoxFocusNode: entryBoxFocusNode,
-            searchBoxFocusNode: searchBoxFocusNode,
-          ),
-          barColor: const Color(0xffb69d7c),
-        ),
+        child: view,
       ),
     );
   }
