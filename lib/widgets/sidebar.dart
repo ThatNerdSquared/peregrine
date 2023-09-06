@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pret_a_porter/pret_a_porter.dart';
 
+import '../context_menu_utils.dart';
 import '../main.dart';
 import 'entry_list_view.dart';
 
@@ -73,18 +74,24 @@ class Sidebar extends ConsumerWidget {
               padding: const EdgeInsets.only(
                   left: PretConfig.defaultElementSpacing,
                   right: PretConfig.defaultElementSpacing),
-              child: PretSidebarButton(
-                color: Color(filter.name == tagName.replaceAll('#', '')
-                    ? 0xfff7f2f2
-                    : 0xffdac6b0),
-                onPressedCallback: () => _onSidebarButtonPress(
-                  ref: ref,
-                  context: context,
-                  tagName: tagName,
+              child: ContextMenuRegion(
+                contextMenu: buildTagButtonContextMenu(
+                  tagName.replaceAll('#', ''),
+                  ref.watch(entryListProvider).values.toList(),
                 ),
-                buttonText: tagName.replaceAll('#', ''),
-                count: tags[tagName],
-                icon: Icons.tag,
+                child: PretSidebarButton(
+                  color: Color(filter.name == tagName.replaceAll('#', '')
+                      ? 0xfff7f2f2
+                      : 0xffdac6b0),
+                  onPressedCallback: () => _onSidebarButtonPress(
+                    ref: ref,
+                    context: context,
+                    tagName: tagName,
+                  ),
+                  buttonText: tagName.replaceAll('#', ''),
+                  count: tags[tagName],
+                  icon: Icons.tag,
+                ),
               ));
         }),
       )),

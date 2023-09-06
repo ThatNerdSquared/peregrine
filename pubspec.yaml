@@ -45,6 +45,8 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   pret_a_porter:
     path: ../pret_a_porter
+  contextual_menu: ^0.1.2
+  file_picker: ^5.5.0
 
 dev_dependencies:
   flutter_test:
