@@ -1,11 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pret_a_porter/pret_a_porter.dart';
 import 'package:uuid/uuid.dart';
 
+import 'config.dart';
 import 'model/entry_data.dart';
 import 'model/entry_filter.dart';
 import 'model/tag_data.dart';
@@ -117,7 +116,7 @@ class PeregrineHomeView extends StatelessWidget {
       ),
       barColor: const Color(0xffb69d7c),
     );
-    if (Platform.isAndroid || Platform.isIOS) {
+    if (Config.isMobile) {
       return view;
     }
     return Scaffold(

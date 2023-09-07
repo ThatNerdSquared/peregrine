@@ -9,7 +9,7 @@ import 'entry_data.dart';
 
 class JsonBackend extends PretJsonManager {
   @override
-  final dataFile = File(Config().logFilePath);
+  final dataFile = File(Config.logFilePath);
   @override
   final freshJson = <String, dynamic>{
     'schema': Config.currentSchemaVersion,
