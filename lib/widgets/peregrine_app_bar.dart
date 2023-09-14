@@ -18,41 +18,42 @@ class PeregrineAppBar extends ConsumerWidget {
     return Container(
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
-          bottomLeft: PretConfig.defaultBorderRounding,
-          bottomRight: PretConfig.defaultBorderRounding,
+          bottomLeft: PretConfig.thinBorderRounding,
+          bottomRight: PretConfig.thinBorderRounding,
         ),
-        boxShadow: [PretConfig.intenseShadow],
+        boxShadow: [PretConfig.defaultShadow],
         color: Color(0xffb69d7c),
       ),
       margin: const EdgeInsets.only(
         left: PretConfig.preserveShadowSpacing,
         right: PretConfig.preserveShadowSpacing,
       ),
-      padding: const EdgeInsets.all(PretConfig.thinElementSpacing),
+      padding: const EdgeInsets.all(PretConfig.minElementSpacing),
       child: Row(children: [
         Icon(
           filter.icon,
           // yes, i know this is a magic number
           // at some point i will standardize the typography
           // it'll be fine
-          size: 30,
+          size: 20,
         ),
         const Padding(
-            padding: EdgeInsets.only(right: PretConfig.defaultElementSpacing)),
+            padding: EdgeInsets.only(right: PretConfig.thinElementSpacing)),
         Expanded(
             flex: 2,
             child: Text(
               filter.name,
-              style: Theme.of(context).textTheme.titleLarge,
+              style: Theme.of(context).textTheme.titleMedium,
             )),
         Expanded(
             flex: 2,
             child: TextFormField(
+              style: const TextStyle(inherit: true, fontSize: 15),
               decoration: const InputDecoration(
-                  contentPadding:
-                      EdgeInsets.all(PretConfig.defaultElementSpacing),
+                  isDense: true,
+                  contentPadding: EdgeInsets.all(PretConfig.thinElementSpacing),
                   border: OutlineInputBorder(
-                      borderRadius: PretConfig.defaultBorderRadius),
+                      borderRadius: PretConfig.thinBorderRadius),
                   hintText: 'Search...'),
               focusNode: searchBoxFocusNode,
               onChanged: (value) =>

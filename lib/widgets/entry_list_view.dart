@@ -37,7 +37,7 @@ class EntryListViewState extends ConsumerState<EntryListView> {
       controller: _scrollController,
       slivers: [
         const SliverPadding(
-          padding: EdgeInsets.all(PretConfig.defaultElementSpacing * 5 / 2),
+          padding: EdgeInsets.all(PretConfig.defaultElementSpacing * 1.5),
         ),
         SliverList.builder(
             itemCount: entries.length,
@@ -47,34 +47,37 @@ class EntryListViewState extends ConsumerState<EntryListView> {
             })
       ],
     );
-    return Scaffold(
-      floatingActionButton: Container(
-        margin:
-            const EdgeInsets.only(bottom: PretConfig.defaultElementSpacing * 6),
-        child: FloatingActionButton(
-            backgroundColor: const Color(0xffb69d7c).withOpacity(0.5),
-            onPressed: scrollToBottom,
-            child: const Icon(Icons.keyboard_double_arrow_down_sharp)),
-      ),
-      body: Stack(children: [
-        Column(children: [
-          Expanded(
-              flex: 3,
-              child: Config.isMobile
-                  ? CupertinoScrollbar(
-                      controller: _scrollController, child: listView)
-                  : listView),
-          Padding(
-            padding: const EdgeInsets.all(PretConfig.defaultElementSpacing),
-            child: PeregrineEntryBox(
-              entryBoxFocusNode: entryBoxFocusNode,
+    return Container(
+        decoration: const BoxDecoration(boxShadow: [PretConfig.intenseShadow]),
+        child: Scaffold(
+          floatingActionButton: Container(
+            margin: const EdgeInsets.only(
+              bottom: PretConfig.defaultElementSpacing * 6,
             ),
+            child: FloatingActionButton(
+                backgroundColor: const Color(0xffb69d7c).withOpacity(0.5),
+                onPressed: scrollToBottom,
+                child: const Icon(Icons.keyboard_double_arrow_down_sharp)),
           ),
-        ]),
-        PeregrineAppBar(
-          searchBoxFocusNode: searchBoxFocusNode,
-        ),
-      ]),
-    );
+          body: Stack(children: [
+            Column(children: [
+              Expanded(
+                  flex: 9,
+                  child: Config.isMobile
+                      ? CupertinoScrollbar(
+                          controller: _scrollController, child: listView)
+                      : listView),
+              Padding(
+                padding: const EdgeInsets.all(PretConfig.defaultElementSpacing),
+                child: PeregrineEntryBox(
+                  entryBoxFocusNode: entryBoxFocusNode,
+                ),
+              ),
+            ]),
+            PeregrineAppBar(
+              searchBoxFocusNode: searchBoxFocusNode,
+            ),
+          ]),
+        ));
   }
 }

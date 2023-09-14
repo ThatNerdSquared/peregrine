@@ -30,17 +30,6 @@ class PeregrineEntryCard extends ConsumerWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(formatDate(entry.date)),
-                  Text(formatTime(entry.date)),
-                ],
-              ),
-              const Padding(
-                padding:
-                    EdgeInsets.only(left: PretConfig.defaultElementSpacing),
-              ),
               Expanded(
                 child: entry.isEncrypted
                     ? const Text.rich(TextSpan(text: '🔒', children: [
@@ -58,6 +47,14 @@ class PeregrineEntryCard extends ConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('${formatDate(entry.date)} '),
+                                Text(formatTime(entry.date)),
+                              ],
+                            ),
+                            const Divider(),
                             ...MarkdownGenerator(
                               generators: [latexGenerator],
                               inlineSyntaxes: [LatexSyntax()],
@@ -80,14 +77,33 @@ class PeregrineEntryCard extends ConsumerWidget {
                                 ),
                               ]),
                             ).buildWidgets(stripTagOnlyLines(entry.input)),
+                            const Padding(
+                              padding: EdgeInsets.only(
+                                top: PretConfig.minElementSpacing,
+                              ),
+                            ),
                             Wrap(
+                                spacing: PretConfig.minElementSpacing,
+                                runSpacing: PretConfig.minElementSpacing,
                                 children: entry.tags
-                                    .map((tag) => PretTagButton(
-                                        color: Colors.pink[100]!,
-                                        onPressedCallback: () => ref
+                                    .map((tag) => OutlinedButton(
+                                        // color: Colors.pink[100]!,
+                                        style: const ButtonStyle(
+                                            shape: MaterialStatePropertyAll(
+                                              RoundedRectangleBorder(
+                                                borderRadius:
+                                                    PretConfig.thinBorderRadius,
+                                              ),
+                                            ),
+                                            padding: MaterialStatePropertyAll(
+                                              EdgeInsets.all(
+                                                PretConfig.minElementSpacing,
+                                              ),
+                                            )),
+                                        onPressed: () => ref
                                             .read(entryFilterProvider.notifier)
                                             .setTagFilter(tag),
-                                        tagName: tag))
+                                        child: Text(tag)))
                                     .toList())
                           ]),
               ),
