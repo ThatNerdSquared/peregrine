@@ -26,15 +26,12 @@ class EntryListView extends ConsumerStatefulWidget {
 class EntryListViewState extends ConsumerState<EntryListView> {
   final _scrollController = ScrollController();
 
-  void scrollToBottom() => _scrollController.animateTo(
+  void scrollToBottom() => _scrollController.jumpTo(
         _scrollController.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 200),
-        curve: Curves.easeInOut,
       );
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) => scrollToBottom());
     var entries = ref.watch(filteredListProvider).keys.toList();
     final listView = CustomScrollView(
       controller: _scrollController,

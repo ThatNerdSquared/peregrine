@@ -42,41 +42,54 @@ class PeregrineEntryCard extends ConsumerWidget {
                     EdgeInsets.only(left: PretConfig.defaultElementSpacing),
               ),
               Expanded(
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      ...MarkdownGenerator(
-                        generators: [latexGenerator],
-                        inlineSyntaxes: [LatexSyntax()],
-                        linesMargin: const EdgeInsets.all(0),
-                        config: MarkdownConfig(configs: [
-                          ImgConfig(builder: (url, attributes) {
-                            if (url.contains(r'data:image/png;base64,')) {
-                              return Image.memory(base64Decode(url.replaceAll(
-                                  'data:image/png;base64,', '')));
-                            } else {
-                              return Image.network(url);
-                            }
-                          }),
-                          const CodeConfig(
-                            style: TextStyle(
-                              fontFamily: 'Menlo',
-                              backgroundColor: Color(0xffeff1f3),
-                            ),
+                child: entry.isEncrypted
+                    ? const Text.rich(TextSpan(text: '🔒', children: [
+                        TextSpan(
+                          text:
+                              'This entry is encrypted. Unlock the app to view.',
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 16,
+                            fontStyle: FontStyle.italic,
                           ),
-                        ]),
-                      ).buildWidgets(stripTagOnlyLines(entry.input)),
-                      Wrap(
-                          children: entry.tags
-                              .map((tag) => PretTagButton(
-                                  color: Colors.pink[100]!,
-                                  onPressedCallback: () => ref
-                                      .read(entryFilterProvider.notifier)
-                                      .setTagFilter(tag),
-                                  tagName: tag))
-                              .toList())
-                    ]),
+                        )
+                      ]))
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                            ...MarkdownGenerator(
+                              generators: [latexGenerator],
+                              inlineSyntaxes: [LatexSyntax()],
+                              linesMargin: const EdgeInsets.all(0),
+                              config: MarkdownConfig(configs: [
+                                ImgConfig(builder: (url, attributes) {
+                                  if (url.contains(r'data:image/png;base64,')) {
+                                    return Image.memory(base64Decode(
+                                        url.replaceAll(
+                                            'data:image/png;base64,', '')));
+                                  } else {
+                                    return Image.network(url);
+                                  }
+                                }),
+                                const CodeConfig(
+                                  style: TextStyle(
+                                    fontFamily: 'Menlo',
+                                    backgroundColor: Color(0xffeff1f3),
+                                  ),
+                                ),
+                              ]),
+                            ).buildWidgets(stripTagOnlyLines(entry.input)),
+                            Wrap(
+                                children: entry.tags
+                                    .map((tag) => PretTagButton(
+                                        color: Colors.pink[100]!,
+                                        onPressedCallback: () => ref
+                                            .read(entryFilterProvider.notifier)
+                                            .setTagFilter(tag),
+                                        tagName: tag))
+                                    .toList())
+                          ]),
               ),
             ],
           ),
