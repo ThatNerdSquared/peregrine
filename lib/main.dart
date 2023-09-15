@@ -115,11 +115,13 @@ class PeregrineHomeView extends StatelessWidget {
         searchBoxFocusNode: searchBoxFocusNode,
       ),
       barColor: const Color(0xffb69d7c),
+      dividerColor: Theme.of(context).scaffoldBackgroundColor,
     );
     if (Config.isMobile) {
       return view;
     }
     return Scaffold(
+      backgroundColor: const Color(0xffb69d7c),
       body: DesktopFrame(
         entryBoxFocusNode: entryBoxFocusNode,
         searchBoxFocusNode: searchBoxFocusNode,
