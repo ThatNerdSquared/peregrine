@@ -18,6 +18,22 @@ class TagsList extends StateNotifier<Map<String, PeregrineTag>> {
     JsonBackend().writeTagsToJson(state);
   }
 
+  void toggleAutoEncrypt(String tagName) {
+    state = state.map((key, value) {
+      if (key == tagName) {
+        return MapEntry(
+            key,
+            PeregrineTag(
+              autoEncrypt: !value.autoEncrypt,
+              count: value.count,
+            ));
+      } else {
+        return MapEntry(key, value);
+      }
+    });
+    _writeTags();
+  }
+
   void scanForTags(String input) {
     var foundTags = findTags(input);
     for (final tag in foundTags) {
@@ -36,6 +52,18 @@ class TagsList extends StateNotifier<Map<String, PeregrineTag>> {
     state = sortTags(state);
     _writeTags();
   }
+
+  bool checkForAutoEncryptTag(List<String> tags) {
+    for (final tag in tags) {
+      var item = state[tag];
+      if (item!.autoEncrypt) {
+        return true;
+      }
+    }
+    return false;
+  }
+}
+
 Map<String, PeregrineTag> sortTags(Map<String, PeregrineTag> tags) {
   final sortedTagsList = tags.entries.toList()
     ..sort((a, b) => b.value.count.compareTo(a.value.count));

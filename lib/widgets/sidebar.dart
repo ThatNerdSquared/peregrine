@@ -61,7 +61,7 @@ class Sidebar extends ConsumerWidget {
                 ref: ref,
                 context: context,
               ),
-              buttonText: 'All Entries',
+              buttonText: const Text('All Entries'),
               count: ref.read(entryCount),
               icon: Icons.all_inbox_rounded,
             )),
@@ -76,20 +76,33 @@ class Sidebar extends ConsumerWidget {
                   right: PretConfig.defaultElementSpacing),
               child: ContextMenuRegion(
                 contextMenu: buildTagButtonContextMenu(
-                  tagName.replaceAll('#', ''),
+                  tagName,
+                  tags[tagName]!,
+                  (name) =>
+                      ref.read(tagsProvider.notifier).toggleAutoEncrypt(name),
                   ref.watch(entryListProvider).values.toList(),
                 ),
                 child: PretSidebarButton(
-                  color: Color(filter.name == tagName.replaceAll('#', '')
-                      ? 0xfff7f2f2
-                      : 0xffdac6b0),
+                  color:
+                      Color(filter.name == tagName ? 0xfff7f2f2 : 0xffdac6b0),
                   onPressedCallback: () => _onSidebarButtonPress(
                     ref: ref,
                     context: context,
                     tagName: tagName,
                   ),
-                  buttonText: tagName.replaceAll('#', ''),
-                  count: tags[tagName],
+                  buttonText: tags[tagName]!.autoEncrypt
+                      ? const Text.rich(TextSpan(text: '🔒', children: [
+                          TextSpan(
+                            text: 'Locked',
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 16,
+                              fontStyle: FontStyle.italic,
+                            ),
+                          )
+                        ]))
+                      : Text(tagName),
+                  count: tags[tagName]!.count,
                   icon: Icons.tag,
                 ),
               ));

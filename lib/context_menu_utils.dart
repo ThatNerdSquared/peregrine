@@ -1,9 +1,11 @@
 import 'package:contextual_menu/contextual_menu.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'export_utils.dart';
 import 'model/entry_data.dart';
+import 'model/tag_data.dart';
 
 class ContextMenuRegion extends StatefulWidget {
   final Widget child;
@@ -49,10 +51,17 @@ class ContextMenuRegionState extends State<ContextMenuRegion> {
 
 Menu buildTagButtonContextMenu(
   String tagName,
+  PeregrineTag tagInfo,
+  Function(String) autoEncryptToggleCallback,
   List<PeregrineEntry> entries,
 ) =>
     Menu(
       items: [
+        MenuItem.checkbox(
+          label: 'Auto Encrypt',
+          checked: tagInfo.autoEncrypt,
+          onClick: (_) => autoEncryptToggleCallback(tagName),
+        ),
         MenuItem.submenu(
           label: 'Export as...',
           submenu: Menu(

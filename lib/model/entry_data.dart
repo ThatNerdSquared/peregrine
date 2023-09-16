@@ -24,17 +24,21 @@ class PeregrineEntryList extends StateNotifier<Map<String, PeregrineEntry>> {
   }
 
   void addNewEntry(String input) {
+    // NOTE: dedupe the findTags here and the findTags inside scanForTags
+    ref.read(tagsProvider.notifier).scanForTags(input);
+    final foundTags = findTags(input);
+    final isAutoEncrypt =
+        ref.read(tagsProvider.notifier).checkForAutoEncryptTag(foundTags);
     state = {
       ...state,
       uuID.v4(): PeregrineEntry(
         date: DateTime.now(),
         input: input,
-        isEncrypted: false,
+        isEncrypted: isAutoEncrypt,
         tags: findTags(input),
         mentionedContacts: findContacts(input),
       ),
     };
-    ref.read(tagsProvider.notifier).scanForTags(input);
     _writeLog();
   }
 }
