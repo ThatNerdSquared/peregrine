@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../main.dart';
+import '../model/tag_data.dart';
 
 class DesktopFrame extends ConsumerWidget {
   final Widget child;
@@ -170,7 +171,7 @@ class DesktopFrame extends ConsumerWidget {
   }
 }
 
-List _buildTagMenuItems(WidgetRef ref, Map<String, int> tags) {
+List _buildTagMenuItems(WidgetRef ref, Map<String, PeregrineTag> tags) {
   var tagIndexKeys = [
     LogicalKeyboardKey.digit1,
     LogicalKeyboardKey.digit2,

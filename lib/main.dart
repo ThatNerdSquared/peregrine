@@ -20,7 +20,7 @@ final entryListProvider =
   (ref) => PeregrineEntryList(ref: ref),
 );
 final entryCount = Provider<int>((ref) => ref.watch(entryListProvider).length);
-final tagsProvider = StateNotifierProvider<TagsList, Map<String, int>>(
+final tagsProvider = StateNotifierProvider<TagsList, Map<String, PeregrineTag>>(
   (_) => TagsList(),
 );
 final entryFilterProvider =

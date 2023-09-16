@@ -18,7 +18,7 @@ String formatTime(DateTime datetime) {
 
 List<String> findTags(String input) {
   var findTags = RegExp(r'#[^\s]+');
-  return findTags.allMatches(input).toList().map((e) => e[0]!).toList();
+  return findTags.allMatches(input).toList().map((e) => e[0]!.replaceAll('#', '')).toList();
 }
 
 List<String> findContacts(String input) {

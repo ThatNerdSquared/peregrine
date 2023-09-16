@@ -19,7 +19,7 @@ class PeregrineEntryFilter extends StateNotifier<EntryFilter> {
     state = EntryFilter(
         includes: {FilterType.tag: tag},
         excludes: const {},
-        name: tag.replaceAll('#', ''),
+        name: tag,
         icon: Icons.tag_rounded);
   }
 

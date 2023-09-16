@@ -103,7 +103,7 @@ class PeregrineEntryCard extends ConsumerWidget {
                                         onPressed: () => ref
                                             .read(entryFilterProvider.notifier)
                                             .setTagFilter(tag),
-                                        child: Text(tag)))
+                                        child: Text('#$tag')))
                                     .toList())
                           ]),
               ),

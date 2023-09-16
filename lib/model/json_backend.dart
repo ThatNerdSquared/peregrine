@@ -6,6 +6,7 @@ import '../config.dart';
 import '../format_utils.dart';
 import '../main.dart';
 import 'entry_data.dart';
+import 'tag_data.dart';
 
 class JsonBackend extends PretJsonManager {
   @override
@@ -30,9 +31,12 @@ class JsonBackend extends PretJsonManager {
     });
   }
 
-  void writeTagsToJson(Map<String, int> tagsToWrite) {
+  void writeTagsToJson(Map<String, PeregrineTag> tagsToWrite) {
     jsonWriteWrapper((initialData) {
-      initialData['tags'] = tagsToWrite.keys.toList();
+      final stringifiedTagList = tagsToWrite.map(
+        (key, value) => MapEntry(key, value.toJson()),
+      );
+      initialData['tags'] = stringifiedTagList;
       return initialData;
     });
   }
@@ -45,25 +49,23 @@ class JsonBackend extends PretJsonManager {
     return _parseV2(contentsMap);
   }
 
-  Map<String, int> readTagsFromJson() {
+  // NOTE: write a version of this that doesn't break on v1 log format!
+  Map<String, PeregrineTag> readTagsFromJson() {
     final contentsMap = pretLoadJson();
-    var tags = <String, int>{};
+    final entries = readEntriesFromJson();
+    var tags = <String, PeregrineTag>{};
     if (contentsMap is! List && contentsMap['tags'] != null) {
-      tags = {for (final item in contentsMap['tags']) item: 0};
+      tags = {
+        for (final item in contentsMap['tags'].entries)
+          item.key: PeregrineTag(
+            autoEncrypt: item.value['autoEncrypt'],
+            count: entries.values
+                .where((entry) => entry.tags.contains(item.key))
+                .length,
+          )
+      };
     }
-    final items = readEntriesFromJson();
-    for (final entryId in items.keys) {
-      for (final tag in items[entryId]!.tags) {
-        if (tags[tag] != null) {
-          tags[tag] = tags[tag]! + 1;
-        } else {
-          tags[tag] = 1;
-        }
-      }
-    }
-    final sortedEntries = tags.entries.toList()
-      ..sort((a, b) => b.value.compareTo(a.value));
-    return {for (final entry in sortedEntries) entry.key: entry.value};
+    return sortTags(tags);
   }
 
   Map<String, PeregrineEntry> _parseV1(contentsMap) {
