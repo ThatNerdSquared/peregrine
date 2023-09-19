@@ -45,6 +45,25 @@ class PeregrineAppBar extends ConsumerWidget {
               filter.name,
               style: Theme.of(context).textTheme.titleMedium,
             )),
+        IconButton.filled(
+          style: IconButton.styleFrom(
+              iconSize: 20,
+              minimumSize: const Size(36, 36),
+              maximumSize: const Size(36, 36),
+              backgroundColor: const Color(0xffdac6b0),
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(PretConfig.thinBorderRounding),
+              )),
+          onPressed: () =>
+              ref.read(isLocked.notifier).update((state) => !state),
+          icon: Icon(
+            ref.watch(isLocked) ? Icons.lock : Icons.lock_open_rounded,
+            color: Theme.of(context).colorScheme.surface,
+          ),
+        ),
+        const Padding(
+          padding: EdgeInsets.only(right: PretConfig.minElementSpacing),
+        ),
         Expanded(
             flex: 2,
             child: TextFormField(

@@ -80,7 +80,7 @@ class Sidebar extends ConsumerWidget {
                   tags[tagName]!,
                   (name) =>
                       ref.read(tagsProvider.notifier).toggleAutoEncrypt(name),
-                  ref.watch(entryListProvider).values.toList(),
+                  ref.watch(filteredListProvider).values.toList(),
                 ),
                 child: PretSidebarButton(
                   color:
@@ -90,7 +90,7 @@ class Sidebar extends ConsumerWidget {
                     context: context,
                     tagName: tagName,
                   ),
-                  buttonText: tags[tagName]!.autoEncrypt
+                  buttonText: tags[tagName]!.autoEncrypt && ref.watch(isLocked)
                       ? const Text.rich(TextSpan(text: '🔒', children: [
                           TextSpan(
                             text: 'Locked',

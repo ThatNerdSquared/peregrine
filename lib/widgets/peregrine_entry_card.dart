@@ -31,7 +31,7 @@ class PeregrineEntryCard extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                child: entry.isEncrypted
+                child: entry.isEncrypted && ref.watch(isLocked)
                     ? const Text.rich(TextSpan(text: '🔒', children: [
                         TextSpan(
                           text:
