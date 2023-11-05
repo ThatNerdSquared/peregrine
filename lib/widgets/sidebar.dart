@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pret_a_porter/pret_a_porter.dart';
 
-import '../context_menu_utils.dart';
+import '../context_menus.dart';
 import '../main.dart';
 import 'entry_list_view.dart';
 

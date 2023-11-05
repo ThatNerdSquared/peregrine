@@ -74,11 +74,6 @@ FocusNode searchBoxFocusNode = FocusNode();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //  I'm aware that according to the `path_provider` docs, we
-  // 'should not use this directory for user data files'.
-  // HOWEVER: it is one of the few besides documents and temp
-  // that are available on all platforms. Will consider
-  // changing later.
   platformAppSupportDir = (await getApplicationDocumentsDirectory()).path;
   runApp(const ProviderScope(child: MyApp()));
   entryBoxFocusNode.requestFocus();

@@ -74,7 +74,7 @@ packages:
     source: hosted
     version: "1.17.2"
   contextual_menu:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: contextual_menu
       sha256: "169f31af8cd090deb3ce92af65d170e6059af638b614263ad685165b07fe6bbf"
