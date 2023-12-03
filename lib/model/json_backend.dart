@@ -12,34 +12,13 @@ class JsonBackend extends PretJsonManager {
   @override
   final dataFile = File(Config.logFilePath);
   @override
-  final freshJson = <String, dynamic>{
-    'schema': Config.currentSchemaVersion,
+  String schemaVersion = '2.0.0';
+  @override
+  Map get freshJson => <String, dynamic>{
+    'schema': schemaVersion,
     'tags': [],
     'entries': {},
   };
-
-  void writeEntriesToJson(
-    Map<String, PeregrineEntry> logToWrite,
-  ) {
-    jsonWriteWrapper((initialData) {
-      final mappifiedLog = logToWrite.map((key, value) => MapEntry(
-            key,
-            value.toJson(),
-          ));
-      initialData['entries'] = mappifiedLog;
-      return initialData;
-    });
-  }
-
-  void writeTagsToJson(Map<String, PeregrineTag> tagsToWrite) {
-    jsonWriteWrapper((initialData) {
-      final stringifiedTagList = tagsToWrite.map(
-        (key, value) => MapEntry(key, value.toJson()),
-      );
-      initialData['tags'] = stringifiedTagList;
-      return initialData;
-    });
-  }
 
   Map<String, PeregrineEntry> readEntriesFromJson() {
     final contentsMap = pretLoadJson();

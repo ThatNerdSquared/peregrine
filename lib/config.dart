@@ -6,7 +6,6 @@ import 'main.dart';
 
 class Config {
   Config._();
-  static const currentSchemaVersion = '2.0.0';
 
   static String get logFilePath {
     return p.join(

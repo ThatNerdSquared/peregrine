@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pret_a_porter/pret_a_porter.dart';
 
 import '../format_utils.dart';
 import 'json_backend.dart';
@@ -15,7 +15,7 @@ class TagsList extends StateNotifier<Map<String, PeregrineTag>> {
   }
 
   void _writeTags() {
-    JsonBackend().writeTagsToJson(state);
+    JsonBackend().writeDataToJson(state, 'tags');
   }
 
   void toggleAutoEncrypt(String tagName) {
@@ -43,7 +43,7 @@ class TagsList extends StateNotifier<Map<String, PeregrineTag>> {
           count: state[tag]!.count + 1,
         );
       } else {
-        state[tag] = const PeregrineTag(
+        state[tag] = PeregrineTag(
           autoEncrypt: false,
           count: 1,
         );
@@ -70,16 +70,16 @@ Map<String, PeregrineTag> sortTags(Map<String, PeregrineTag> tags) {
   return {for (final mapEntry in sortedTagsList) mapEntry.key: mapEntry.value};
 }
 
-@immutable
-class PeregrineTag {
+class PeregrineTag extends PretDataclass {
   final bool autoEncrypt;
   final int count;
 
-  const PeregrineTag({
+  PeregrineTag({
     required this.autoEncrypt,
     required this.count,
   });
 
+  @override
   Map<String, dynamic> toJson() {
     return {
       'autoEncrypt': autoEncrypt,

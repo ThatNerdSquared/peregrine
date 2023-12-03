@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pret_a_porter/pret_a_porter.dart';
 
 import '../format_utils.dart';
 import '../main.dart';
@@ -20,7 +20,7 @@ class PeregrineEntryList extends StateNotifier<Map<String, PeregrineEntry>> {
   }
 
   void _writeLog() {
-    JsonBackend().writeEntriesToJson(state);
+    JsonBackend().writeDataToJson(state, 'entries');
   }
 
   void addNewEntry(String input) {
@@ -43,15 +43,14 @@ class PeregrineEntryList extends StateNotifier<Map<String, PeregrineEntry>> {
   }
 }
 
-@immutable
-class PeregrineEntry {
+class PeregrineEntry extends PretDataclass {
   final DateTime date;
   final String input;
   final bool isEncrypted;
   final List<String> tags;
   final List<String> mentionedContacts;
 
-  const PeregrineEntry({
+  PeregrineEntry({
     required this.date,
     required this.input,
     required this.isEncrypted,
@@ -59,6 +58,7 @@ class PeregrineEntry {
     required this.mentionedContacts,
   });
 
+  @override
   Map<String, dynamic> toJson() {
     return {
       'date': date.toIso8601String(),
