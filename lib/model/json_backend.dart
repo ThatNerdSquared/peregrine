@@ -14,11 +14,13 @@ class JsonBackend extends PretJsonManager {
   @override
   String schemaVersion = '2.0.0';
   @override
+  Map<String, List<String>> dropFields = {};
+  @override
   Map get freshJson => <String, dynamic>{
-    'schema': schemaVersion,
-    'tags': [],
-    'entries': {},
-  };
+        'schema': schemaVersion,
+        'tags': {}, 
+        'entries': {},
+      };
 
   Map<String, PeregrineEntry> readEntriesFromJson() {
     final contentsMap = pretLoadJson();
@@ -58,10 +60,8 @@ class JsonBackend extends PretJsonManager {
           mentionedContacts: findContacts(value['input']),
         )
     });
-    jsonWriteWrapper((initialData) {
-      var item = freshJson;
-      item['entries'] = data;
-      return item;
+    dangerousJsonReplace({
+      'entries': data,
     });
     return data;
   }

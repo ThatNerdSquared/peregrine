@@ -57,8 +57,10 @@ class PeregrineEntryCard extends ConsumerWidget {
                             const Divider(),
                             ...MarkdownGenerator(
                               generators: [latexGenerator],
-                              inlineSyntaxes: [LatexSyntax()],
+                              inlineSyntaxList: [LatexSyntax()],
                               linesMargin: const EdgeInsets.all(0),
+                            ).buildWidgets(
+                              stripTagOnlyLines(entry.input),
                               config: MarkdownConfig(configs: [
                                 ImgConfig(builder: (url, attributes) {
                                   if (url.contains(r'data:image/png;base64,')) {
@@ -76,7 +78,7 @@ class PeregrineEntryCard extends ConsumerWidget {
                                   ),
                                 ),
                               ]),
-                            ).buildWidgets(stripTagOnlyLines(entry.input)),
+                            ),
                             const Padding(
                               padding: EdgeInsets.only(
                                 top: PretConfig.minElementSpacing,
