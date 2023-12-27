@@ -18,7 +18,7 @@ class JsonBackend extends PretJsonManager {
   @override
   Map get freshJson => <String, dynamic>{
         'schema': schemaVersion,
-        'tags': {}, 
+        'tags': {},
         'entries': {},
       };
 
