@@ -27,89 +27,117 @@ class PeregrineEntryCard extends ConsumerWidget {
           right: PretConfig.preserveShadowSpacing,
         ),
         child: PretCard(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: entry.isEncrypted && ref.watch(isLocked)
-                    ? const Text.rich(TextSpan(text: '🔒', children: [
-                        TextSpan(
-                          text:
-                              'This entry is encrypted. Unlock the app to view.',
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 16,
-                            fontStyle: FontStyle.italic,
-                          ),
-                        )
-                      ]))
-                    : Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('${formatDate(entry.date)} '),
-                                Text(formatTime(entry.date)),
-                              ],
+          padding: const EdgeInsets.only(
+            left: PretConfig.defaultElementSpacing,
+            right: PretConfig.defaultElementSpacing,
+            bottom: PretConfig.defaultElementSpacing,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.only(top: PretConfig.thinElementSpacing),
+            child: Row(
+              children: [
+                Expanded(
+                  child: entry.isEncrypted && ref.watch(isLocked)
+                      ? const Text.rich(TextSpan(text: '🔒', children: [
+                          TextSpan(
+                            text:
+                                'This entry is encrypted. Unlock the app to view.',
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 16,
+                              fontStyle: FontStyle.italic,
                             ),
-                            const Divider(),
-                            ...MarkdownGenerator(
-                              generators: [latexGenerator],
-                              inlineSyntaxList: [LatexSyntax()],
-                              linesMargin: const EdgeInsets.all(0),
-                            ).buildWidgets(
-                              stripTagOnlyLines(entry.input),
-                              config: MarkdownConfig(configs: [
-                                ImgConfig(builder: (url, attributes) {
-                                  if (url.contains(r'data:image/png;base64,')) {
-                                    return Image.memory(base64Decode(
-                                        url.replaceAll(
-                                            'data:image/png;base64,', '')));
-                                  } else {
-                                    return Image.network(url);
-                                  }
-                                }),
-                                const CodeConfig(
-                                  style: TextStyle(
-                                    fontFamily: 'Menlo',
-                                    backgroundColor: Color(0xffeff1f3),
+                          )
+                        ]))
+                      : Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text('${formatDate(entry.date)} '),
+                                      Text(formatTime(entry.date)),
+                                    ],
                                   ),
-                                ),
-                              ]),
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.only(
-                                top: PretConfig.minElementSpacing,
+                                  const Padding(
+                                      padding: EdgeInsets.all(
+                                          PretConfig.minElementSpacing)),
+                                  Expanded(
+                                    child: Wrap(
+                                        spacing: PretConfig.minElementSpacing,
+                                        runSpacing:
+                                            PretConfig.minElementSpacing,
+                                        alignment: WrapAlignment.end,
+                                        children: entry.tags
+                                            .map((tag) => OutlinedButton(
+                                                // color: Colors.pink[100]!,
+                                                style: const ButtonStyle(
+                                                    visualDensity:
+                                                        VisualDensity.compact,
+                                                    shape:
+                                                        MaterialStatePropertyAll(
+                                                      RoundedRectangleBorder(
+                                                        borderRadius: PretConfig
+                                                            .thinBorderRadius,
+                                                      ),
+                                                    ),
+                                                    padding:
+                                                        MaterialStatePropertyAll(
+                                                      EdgeInsets.all(
+                                                        PretConfig
+                                                                .minElementSpacing /
+                                                            2,
+                                                      ),
+                                                    )),
+                                                onPressed: () => ref
+                                                    .read(entryFilterProvider
+                                                        .notifier)
+                                                    .setTagFilter(tag),
+                                                child: Text(
+                                                  '#$tag',
+                                                )))
+                                            .toList()),
+                                  ),
+                                ],
                               ),
-                            ),
-                            Wrap(
-                                spacing: PretConfig.minElementSpacing,
-                                runSpacing: PretConfig.minElementSpacing,
-                                children: entry.tags
-                                    .map((tag) => OutlinedButton(
-                                        // color: Colors.pink[100]!,
-                                        style: const ButtonStyle(
-                                            shape: MaterialStatePropertyAll(
-                                              RoundedRectangleBorder(
-                                                borderRadius:
-                                                    PretConfig.thinBorderRadius,
-                                              ),
-                                            ),
-                                            padding: MaterialStatePropertyAll(
-                                              EdgeInsets.all(
-                                                PretConfig.minElementSpacing,
-                                              ),
-                                            )),
-                                        onPressed: () => ref
-                                            .read(entryFilterProvider.notifier)
-                                            .setTagFilter(tag),
-                                        child: Text('#$tag')))
-                                    .toList())
-                          ]),
-              ),
-            ],
+                              const Divider(),
+                              ...MarkdownGenerator(
+                                generators: [latexGenerator],
+                                inlineSyntaxList: [LatexSyntax()],
+                                linesMargin: const EdgeInsets.all(0),
+                              ).buildWidgets(
+                                stripTagOnlyLines(entry.input),
+                                config: MarkdownConfig(configs: [
+                                  ImgConfig(builder: (url, attributes) {
+                                    if (url
+                                        .contains(r'data:image/png;base64,')) {
+                                      return Image.memory(base64Decode(
+                                          url.replaceAll(
+                                              'data:image/png;base64,', '')));
+                                    } else {
+                                      return Image.network(url);
+                                    }
+                                  }),
+                                  const CodeConfig(
+                                    style: TextStyle(
+                                      fontFamily: 'Menlo',
+                                      backgroundColor: Color(0xffeff1f3),
+                                    ),
+                                  ),
+                                ]),
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.only(
+                                  top: PretConfig.minElementSpacing,
+                                ),
+                              ),
+                            ]),
+                ),
+              ],
+            ),
           ),
         ));
   }
