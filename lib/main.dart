@@ -86,7 +86,6 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
       restorationScopeId: uuID.v4(),
-      title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xffb69d7c)),
         fontFamily: 'Krete',

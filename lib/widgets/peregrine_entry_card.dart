@@ -34,6 +34,8 @@ class PeregrineEntryCard extends ConsumerWidget {
           ),
           child: Padding(
             padding: const EdgeInsets.only(top: PretConfig.thinElementSpacing),
+            // this row is useless, but taking it out gives a box drawing error,
+            // i think i'm doing something wrong
             child: Row(
               children: [
                 Expanded(

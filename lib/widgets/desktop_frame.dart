@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pret_a_porter/pret_a_porter.dart';
 
 import '../main.dart';
 import '../model/tag_data.dart';
@@ -17,82 +18,12 @@ class DesktopFrame extends ConsumerWidget {
     required this.searchBoxFocusNode,
   });
 
-  PlatformMenu _appNameMenu() => PlatformMenu(
-        label: 'Peregrine',
-        menus: [
-          PlatformMenuItemGroup(
-            members: [
-              if (PlatformProvidedMenuItem.hasMenu(
-                  PlatformProvidedMenuItemType.about))
-                const PlatformProvidedMenuItem(
-                    type: PlatformProvidedMenuItemType.about),
-            ],
-          ),
-          PlatformMenuItemGroup(
-            members: [
-              if (PlatformProvidedMenuItem.hasMenu(
-                  PlatformProvidedMenuItemType.servicesSubmenu))
-                const PlatformProvidedMenuItem(
-                    type: PlatformProvidedMenuItemType.servicesSubmenu),
-            ],
-          ),
-          PlatformMenuItemGroup(
-            members: [
-              if (PlatformProvidedMenuItem.hasMenu(
-                  PlatformProvidedMenuItemType.hide))
-                const PlatformProvidedMenuItem(
-                    type: PlatformProvidedMenuItemType.hide),
-              if (PlatformProvidedMenuItem.hasMenu(
-                  PlatformProvidedMenuItemType.hideOtherApplications))
-                const PlatformProvidedMenuItem(
-                    type: PlatformProvidedMenuItemType.hideOtherApplications),
-              if (PlatformProvidedMenuItem.hasMenu(
-                  PlatformProvidedMenuItemType.showAllApplications))
-                const PlatformProvidedMenuItem(
-                    type: PlatformProvidedMenuItemType.showAllApplications),
-            ],
-          ),
-          PlatformMenuItemGroup(members: [
-            if (PlatformProvidedMenuItem.hasMenu(
-                PlatformProvidedMenuItemType.quit))
-              const PlatformProvidedMenuItem(
-                  type: PlatformProvidedMenuItemType.quit),
-          ]),
-        ],
-      );
-
-  PlatformMenu _defaultWindowMenu() => PlatformMenu(
-        label: 'Window',
-        menus: [
-          PlatformMenuItemGroup(
-            members: [
-              if (PlatformProvidedMenuItem.hasMenu(
-                  PlatformProvidedMenuItemType.minimizeWindow))
-                const PlatformProvidedMenuItem(
-                    type: PlatformProvidedMenuItemType.minimizeWindow),
-              if (PlatformProvidedMenuItem.hasMenu(
-                  PlatformProvidedMenuItemType.zoomWindow))
-                const PlatformProvidedMenuItem(
-                    type: PlatformProvidedMenuItemType.zoomWindow),
-            ],
-          ),
-          PlatformMenuItemGroup(
-            members: [
-              if (PlatformProvidedMenuItem.hasMenu(
-                  PlatformProvidedMenuItemType.arrangeWindowsInFront))
-                const PlatformProvidedMenuItem(
-                    type: PlatformProvidedMenuItemType.arrangeWindowsInFront),
-            ],
-          ),
-        ],
-      );
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var tags = ref.watch(tagsProvider);
+    final tags = ref.watch(tagsProvider);
     return PlatformMenuBar(
       menus: [
-        _appNameMenu(),
+        pretAppNameMenu(appName: 'Peregrine'),
         PlatformMenu(
           label: 'File',
           menus: [
@@ -110,36 +41,7 @@ class DesktopFrame extends ConsumerWidget {
             ),
           ],
         ),
-        PlatformMenu(label: 'Edit', menus: [
-          const PlatformMenuItemGroup(
-            members: [
-              PlatformMenuItem(
-                label: 'Undo',
-                shortcut: SingleActivator(LogicalKeyboardKey.keyZ, meta: true),
-              ),
-              PlatformMenuItem(
-                label: 'Redo',
-                shortcut: SingleActivator(LogicalKeyboardKey.keyZ,
-                    meta: true, shift: true),
-              ),
-            ],
-          ),
-          const PlatformMenuItemGroup(
-            members: [
-              PlatformMenuItem(
-                label: 'Cut',
-                shortcut: SingleActivator(LogicalKeyboardKey.keyX, meta: true),
-              ),
-              PlatformMenuItem(
-                label: 'Copy',
-                shortcut: SingleActivator(LogicalKeyboardKey.keyC, meta: true),
-              ),
-              PlatformMenuItem(
-                label: 'Paste',
-                shortcut: SingleActivator(LogicalKeyboardKey.keyV, meta: true),
-              ),
-            ],
-          ),
+        addItemToPlatformMenu(menu: pretDefaultEditMenu, itemsToAdd: [
           PlatformMenuItemGroup(members: [
             PlatformMenuItem(
               label: 'Find',
@@ -147,7 +49,7 @@ class DesktopFrame extends ConsumerWidget {
                   const SingleActivator(LogicalKeyboardKey.keyF, meta: true),
               onSelected: searchBoxFocusNode.requestFocus,
             ),
-          ])
+          ]),
         ]),
         PlatformMenu(label: 'View', menus: [
           const PlatformMenuItemGroup(members: [
@@ -164,7 +66,7 @@ class DesktopFrame extends ConsumerWidget {
             ..._buildTagMenuItems(ref, tags),
           ]),
         ]),
-        _defaultWindowMenu()
+        pretDefaultWindowMenu,
       ],
       child: child,
     );
@@ -172,7 +74,7 @@ class DesktopFrame extends ConsumerWidget {
 }
 
 List _buildTagMenuItems(WidgetRef ref, Map<String, PeregrineTag> tags) {
-  var tagIndexKeys = [
+  final tagIndexKeys = [
     LogicalKeyboardKey.digit1,
     LogicalKeyboardKey.digit2,
     LogicalKeyboardKey.digit3,
@@ -183,7 +85,7 @@ List _buildTagMenuItems(WidgetRef ref, Map<String, PeregrineTag> tags) {
     LogicalKeyboardKey.digit8,
     LogicalKeyboardKey.digit9,
   ];
-  var items = [];
+  final items = [];
   var idx = 0;
   for (final tag in tags.keys) {
     items.add(PlatformMenuItem(
