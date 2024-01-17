@@ -10,6 +10,7 @@ import 'model/entry_filter.dart';
 import 'model/tag_data.dart';
 import 'widgets/desktop_frame.dart';
 import 'widgets/entry_list_view.dart';
+import 'widgets/pret_command_palette.dart';
 import 'widgets/sidebar.dart';
 
 const uuID = Uuid();
@@ -96,11 +97,11 @@ class MyApp extends ConsumerWidget {
   }
 }
 
-class PeregrineHomeView extends StatelessWidget {
+class PeregrineHomeView extends ConsumerWidget {
   const PeregrineHomeView({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final view = PretMainView(
       leftSidebar: Sidebar(
         searchBoxFocusNode: searchBoxFocusNode,
@@ -121,7 +122,10 @@ class PeregrineHomeView extends StatelessWidget {
       body: DesktopFrame(
         entryBoxFocusNode: entryBoxFocusNode,
         searchBoxFocusNode: searchBoxFocusNode,
-        child: view,
+        child: PretCmdPaletteScope(
+          searchItems: ref.read(tagsProvider).keys.toList(),
+          child: view,
+        ),
       ),
     );
   }

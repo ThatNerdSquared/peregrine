@@ -37,6 +37,14 @@ class DesktopFrame extends ConsumerWidget {
                   ),
                   onSelected: entryBoxFocusNode.requestFocus,
                 ),
+                const PlatformMenuItem(
+                  label: 'Quick Open Tag',
+                  shortcut: SingleActivator(
+                    LogicalKeyboardKey.keyP,
+                    meta: true,
+                  ),
+                  //onSelected: () => PretCmdPalette.of(context).togglePalette(),
+                ),
               ],
             ),
           ],

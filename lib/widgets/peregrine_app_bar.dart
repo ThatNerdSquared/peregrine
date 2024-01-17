@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pret_a_porter/pret_a_porter.dart';
 
 import '../main.dart';
+import 'pret_command_palette.dart';
 
 class PeregrineAppBar extends ConsumerWidget {
   final FocusNode searchBoxFocusNode;
@@ -45,6 +46,23 @@ class PeregrineAppBar extends ConsumerWidget {
               filter.name,
               style: Theme.of(context).textTheme.titleMedium,
             )),
+        IconButton.filled(
+          style: IconButton.styleFrom(
+              iconSize: 20,
+              minimumSize: const Size(36, 36),
+              maximumSize: const Size(36, 36),
+              backgroundColor: const Color(0xffdac6b0),
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(PretConfig.thinBorderRounding),
+              )),
+          onPressed: () => PretPaletteToggle.of(context).togglePalette(),
+          icon: Icon(
+            Icons.tag,
+            color: Theme.of(context).colorScheme.surface,
+          ),
+        ),
+        const Padding(
+            padding: EdgeInsets.only(right: PretConfig.thinElementSpacing)),
         IconButton.filled(
           style: IconButton.styleFrom(
               iconSize: 20,

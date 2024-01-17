@@ -69,8 +69,8 @@ class Sidebar extends ConsumerWidget {
       SliverToBoxAdapter(
           child: SidebarToggleList(
         toggleTitle: 'Tags',
-        items: tags.keys.map((tagName) {
-          return Container(
+        items: tags.keys.map(
+          (tagName) => Container(
               padding: const EdgeInsets.only(
                   left: PretConfig.defaultElementSpacing,
                   right: PretConfig.defaultElementSpacing),
@@ -105,8 +105,8 @@ class Sidebar extends ConsumerWidget {
                   count: tags[tagName]!.count,
                   icon: Icons.tag,
                 ),
-              ));
-        }),
+              )),
+        ),
       )),
     ]);
   }

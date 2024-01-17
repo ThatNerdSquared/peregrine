@@ -26,6 +26,14 @@ class PeregrineEntryBoxState extends ConsumerState<PeregrineEntryBox> {
     _controller.text = '';
   }
 
+  void insertIndent() {
+    final cursor = _controller.selection.base.offset;
+    final beforeCursor = _controller.text.substring(0, cursor);
+    final afterCursor = _controller.text.substring(cursor);
+    // this should probably be abstracted into a setting
+    _controller.text = '$beforeCursor    $afterCursor';
+  }
+
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
@@ -33,8 +41,11 @@ class PeregrineEntryBoxState extends ConsumerState<PeregrineEntryBox> {
             BoxConstraints(maxHeight: MediaQuery.of(context).size.height / 2),
         child: CallbackShortcuts(
             bindings: <ShortcutActivator, VoidCallback>{
-              const SingleActivator(LogicalKeyboardKey.enter, meta: true):
-                  submitNewLogEntry
+              const SingleActivator(
+                LogicalKeyboardKey.enter,
+                meta: true,
+              ): submitNewLogEntry,
+              const SingleActivator(LogicalKeyboardKey.tab): insertIndent
             },
             child: Row(children: [
               Expanded(
