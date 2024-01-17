@@ -39,7 +39,8 @@ class PeregrineAppBar extends ConsumerWidget {
           size: 20,
         ),
         const Padding(
-            padding: EdgeInsets.only(right: PretConfig.thinElementSpacing)),
+          padding: EdgeInsets.only(right: PretConfig.thinElementSpacing),
+        ),
         Expanded(
             flex: 2,
             child: Text(
@@ -48,9 +49,10 @@ class PeregrineAppBar extends ConsumerWidget {
             )),
         IconButton.filled(
           style: IconButton.styleFrom(
-              iconSize: 20,
-              minimumSize: const Size(36, 36),
-              maximumSize: const Size(36, 36),
+              iconSize: 18,
+              padding: const EdgeInsets.all(PretConfig.minElementSpacing),
+              minimumSize: const Size(30, 30),
+              maximumSize: const Size(30, 30),
               backgroundColor: const Color(0xffdac6b0),
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(PretConfig.thinBorderRounding),
@@ -62,12 +64,14 @@ class PeregrineAppBar extends ConsumerWidget {
           ),
         ),
         const Padding(
-            padding: EdgeInsets.only(right: PretConfig.thinElementSpacing)),
+          padding: EdgeInsets.only(right: PretConfig.minElementSpacing),
+        ),
         IconButton.filled(
           style: IconButton.styleFrom(
-              iconSize: 20,
-              minimumSize: const Size(36, 36),
-              maximumSize: const Size(36, 36),
+              iconSize: 18,
+              minimumSize: const Size(30, 30),
+              maximumSize: const Size(30, 30),
+              padding: const EdgeInsets.all(PretConfig.minElementSpacing),
               backgroundColor: const Color(0xffdac6b0),
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(PretConfig.thinBorderRounding),

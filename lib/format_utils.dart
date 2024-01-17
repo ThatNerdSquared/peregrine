@@ -31,7 +31,7 @@ List<String> findContacts(String input) {
 }
 
 String stripTagOnlyLines(String input) {
-  var items = input.split('\n');
+  var items = input.trim().split('\n');
   if (items.last.replaceAll(RegExp(r'#[^\s]+'), '').replaceAll(' ', '') == '') {
     items.removeLast();
     return items.join('\n');
