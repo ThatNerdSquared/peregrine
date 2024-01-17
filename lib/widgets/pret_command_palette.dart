@@ -23,66 +23,121 @@ class PretCmdPaletteScope extends ConsumerStatefulWidget {
 
 class PretCmdPaletteScopeState extends ConsumerState<PretCmdPaletteScope> {
   bool _isPaletteShown = false;
+  int selectedIndex = 0;
+  final TextEditingController _controller = TextEditingController();
+  late List<String> filteredItems = widget.searchItems;
 
   void togglePalette() => setState(() {
         _isPaletteShown = !_isPaletteShown;
+        selectedIndex = 0;
+      });
+
+  void handleSelect() {
+    ref
+        .read(entryFilterProvider.notifier)
+        .setTagFilter(filteredItems[selectedIndex]);
+    _controller.clear();
+    updateFilteredItems(null);
+    togglePalette();
+  }
+
+  void updateFilteredItems(_) => setState(() {
+        filteredItems = widget.searchItems
+            .where(
+              (x) => x.contains(_controller.text.trim()),
+            )
+            .toList();
       });
 
   @override
-  Widget build(BuildContext context) => PretPaletteToggle(
-        isPaletteShown: _isPaletteShown,
-        togglePalette: togglePalette,
-        child: !_isPaletteShown
-            ? widget.child
-            : LayoutBuilder(
-                builder: (context, constraints) => Container(
-                  alignment: Alignment.topCenter,
-                  child: Stack(
-                    children: [
-                      widget.child,
-                      CallbackShortcuts(
-                        bindings: <ShortcutActivator, VoidCallback>{
-                          const SingleActivator(
-                            LogicalKeyboardKey.escape,
-                          ): togglePalette
-                        },
-                        child: Container(
-                          constraints: BoxConstraints(
-                            maxHeight: min(0.8 * constraints.maxHeight, 600),
-                            maxWidth: min(0.8 * constraints.maxWidth, 900),
+  Widget build(BuildContext context) {
+    return PretPaletteToggle(
+      isPaletteShown: _isPaletteShown,
+      togglePalette: togglePalette,
+      child: LayoutBuilder(
+        builder: (context, constraints) => Container(
+          alignment: Alignment.topCenter,
+          child: Stack(
+            children: [
+              widget.child,
+              _isPaletteShown
+                  ? CallbackShortcuts(
+                      bindings: <ShortcutActivator, VoidCallback>{
+                        const SingleActivator(
+                          LogicalKeyboardKey.escape,
+                        ): togglePalette,
+                        const SingleActivator(
+                          LogicalKeyboardKey.enter,
+                        ): handleSelect,
+                        const SingleActivator(
+                          LogicalKeyboardKey.arrowDown,
+                        ): () => setState(() {
+                              selectedIndex = min(
+                                widget.searchItems.length,
+                                selectedIndex + 1,
+                              );
+                            }),
+                        const SingleActivator(
+                          LogicalKeyboardKey.arrowUp,
+                        ): () => setState(() {
+                              selectedIndex = max(selectedIndex - 1, 0);
+                            }),
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(
+                          bottom: max(
+                            0.2 * constraints.maxHeight,
+                            (constraints.maxHeight - 600),
                           ),
-                          child: PretCard(
-                            child: Column(
-                              children: [
-                                TextFormField(
-                                  autofocus: true,
-                                ),
-                                Expanded(
-                                  child: ListView.builder(
-                                    itemCount: widget.searchItems.length,
-                                    itemBuilder: (context, index) => ListTile(
-                                      title: Text(widget.searchItems[index]),
-                                      onTap: () {
-                                        togglePalette();
-                                        ref
-                                            .read(entryFilterProvider.notifier)
-                                            .setTagFilter(
-                                              widget.searchItems[index],
-                                            );
-                                      },
+                          left: max(
+                            0.1 * constraints.maxWidth,
+                            (constraints.maxWidth - 900) / 2,
+                          ),
+                          right: max(
+                            0.1 * constraints.maxWidth,
+                            (constraints.maxWidth - 900) / 2,
+                          ),
+                        ),
+                        child: PretCard(
+                          child: Column(
+                            children: [
+                              TextFormField(
+                                controller: _controller,
+                                autofocus: true,
+                                onChanged: updateFilteredItems,
+                              ),
+                              Expanded(
+                                child: ListView.builder(
+                                  itemCount: filteredItems.length,
+                                  itemBuilder: (context, index) => ListTile(
+                                    dense: true,
+                                    title: Text('#${filteredItems[index]}'),
+                                    onTap: () {
+                                      setState(() {
+                                        selectedIndex = index;
+                                        handleSelect();
+                                      });
+                                    },
+                                    tileColor: Color(
+                                      selectedIndex == index
+                                          ? 0xffdac6b0
+                                          : 0xfff7f2f2,
                                     ),
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-      );
+                      ),
+                    )
+                  : Container()
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class PretPaletteToggle extends InheritedWidget {
