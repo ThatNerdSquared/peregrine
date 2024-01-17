@@ -119,11 +119,11 @@ class PeregrineHomeView extends ConsumerWidget {
     }
     return Scaffold(
       backgroundColor: const Color(0xffb69d7c),
-      body: DesktopFrame(
-        entryBoxFocusNode: entryBoxFocusNode,
-        searchBoxFocusNode: searchBoxFocusNode,
-        child: PretCmdPaletteScope(
-          searchItems: ref.read(tagsProvider).keys.toList(),
+      body: PretCmdPaletteScope(
+        searchItems: ref.read(tagsProvider).keys.toList(),
+        child: DesktopFrame(
+          entryBoxFocusNode: entryBoxFocusNode,
+          searchBoxFocusNode: searchBoxFocusNode,
           child: view,
         ),
       ),

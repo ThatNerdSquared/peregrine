@@ -5,6 +5,7 @@ import 'package:pret_a_porter/pret_a_porter.dart';
 
 import '../main.dart';
 import '../model/tag_data.dart';
+import 'pret_command_palette.dart';
 
 class DesktopFrame extends ConsumerWidget {
   final Widget child;
@@ -37,13 +38,14 @@ class DesktopFrame extends ConsumerWidget {
                   ),
                   onSelected: entryBoxFocusNode.requestFocus,
                 ),
-                const PlatformMenuItem(
+                PlatformMenuItem(
                   label: 'Quick Open Tag',
-                  shortcut: SingleActivator(
+                  shortcut: const SingleActivator(
                     LogicalKeyboardKey.keyP,
                     meta: true,
                   ),
-                  //onSelected: () => PretCmdPalette.of(context).togglePalette(),
+                  onSelected: () =>
+                      PretPaletteToggle.of(context).togglePalette(),
                 ),
               ],
             ),

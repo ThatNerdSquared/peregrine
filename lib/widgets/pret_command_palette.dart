@@ -7,6 +7,9 @@ import 'package:pret_a_porter/pret_a_porter.dart';
 
 import '../main.dart';
 
+/// this only works above a PlatformMenuBar widget if
+/// you comment out the `return false` in
+/// [DefaultPlatformMenuDelegate.debugLockDelegate]. No idea why.
 class PretCmdPaletteScope extends ConsumerStatefulWidget {
   final Widget child;
   final List<String> searchItems;
@@ -26,10 +29,12 @@ class PretCmdPaletteScopeState extends ConsumerState<PretCmdPaletteScope> {
   int selectedIndex = 0;
   final TextEditingController _controller = TextEditingController();
   late List<String> filteredItems = widget.searchItems;
+  final FocusNode paletteFocusNode = FocusNode();
 
   void togglePalette() => setState(() {
         _isPaletteShown = !_isPaletteShown;
         selectedIndex = 0;
+        _isPaletteShown ? paletteFocusNode.requestFocus() : null;
       });
 
   void handleSelect() {
@@ -105,6 +110,7 @@ class PretCmdPaletteScopeState extends ConsumerState<PretCmdPaletteScope> {
                                 controller: _controller,
                                 autofocus: true,
                                 onChanged: updateFilteredItems,
+                                focusNode: paletteFocusNode,
                               ),
                               Expanded(
                                 child: ListView.builder(
