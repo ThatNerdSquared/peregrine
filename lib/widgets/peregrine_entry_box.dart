@@ -19,18 +19,23 @@ class PeregrineEntryBox extends ConsumerStatefulWidget {
 
 class PeregrineEntryBoxState extends ConsumerState<PeregrineEntryBox> {
   final TextEditingController _controller = TextEditingController();
+  final List<String> ancestors = [];
 
   void submitNewLogEntry() {
     if (_controller.text.trim() == '') return;
-    ref.read(entryListProvider.notifier).addNewEntry(_controller.text);
+    ref.read(entryListProvider.notifier).addNewEntry(
+          input: _controller.text,
+          ancestors: ancestors,
+        );
     _controller.text = '';
+    ancestors.clear();
   }
 
   void insertIndent() {
     final cursor = _controller.selection.base.offset;
     final beforeCursor = _controller.text.substring(0, cursor);
     final afterCursor = _controller.text.substring(cursor);
-    // this should probably be abstracted into a setting
+    // TODO: this should probably be abstracted into a setting
     _controller.text = '$beforeCursor    $afterCursor';
   }
 

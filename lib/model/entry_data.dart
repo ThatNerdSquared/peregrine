@@ -23,20 +23,40 @@ class PeregrineEntryList extends StateNotifier<Map<String, PeregrineEntry>> {
     JsonBackend().writeDataToJson(state, 'entries');
   }
 
-  void addNewEntry(String input) {
+  void addNewEntry({required String input, required List<String> ancestors}) {
     // NOTE: dedupe the findTags here and the findTags inside scanForTags
     ref.read(tagsProvider.notifier).scanForTags(input);
     final foundTags = findTags(input);
     final isAutoEncrypt =
         ref.read(tagsProvider.notifier).checkForAutoEncryptTag(foundTags);
+    final newEntryId = uuID.v4();
+    state = state.map((key, value) {
+      if (ancestors.contains(key)) {
+        return MapEntry(
+            key,
+            PeregrineEntry(
+              date: value.date,
+              input: value.input,
+              isEncrypted: value.isEncrypted,
+              tags: value.tags,
+              mentionedContacts: value.mentionedContacts,
+              ancestors: value.ancestors,
+              descendants: [...value.descendants, newEntryId],
+            ));
+      } else {
+        return MapEntry(key, value);
+      }
+    });
     state = {
       ...state,
-      uuID.v4(): PeregrineEntry(
+      newEntryId: PeregrineEntry(
         date: DateTime.now(),
         input: input,
         isEncrypted: isAutoEncrypt,
         tags: findTags(input),
         mentionedContacts: findContacts(input),
+        ancestors: ancestors,
+        descendants: const [],
       ),
     };
     _writeLog();
@@ -49,6 +69,8 @@ class PeregrineEntry extends PretDataclass {
   final bool isEncrypted;
   final List<String> tags;
   final List<String> mentionedContacts;
+  final List<String> ancestors;
+  final List<String> descendants;
 
   PeregrineEntry({
     required this.date,
@@ -56,6 +78,8 @@ class PeregrineEntry extends PretDataclass {
     required this.isEncrypted,
     required this.tags,
     required this.mentionedContacts,
+    required this.ancestors,
+    required this.descendants,
   });
 
   @override
@@ -66,6 +90,8 @@ class PeregrineEntry extends PretDataclass {
       'isEncrypted': isEncrypted,
       'tags': tags,
       'mentionedContacts': mentionedContacts,
+      'ancestors': ancestors,
+      'descendants': descendants,
     };
   }
 }

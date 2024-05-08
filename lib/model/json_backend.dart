@@ -12,7 +12,7 @@ class JsonBackend extends PretJsonManager {
   @override
   final dataFile = File(Config.logFilePath);
   @override
-  String schemaVersion = '2.0.0';
+  String schemaVersion = '2.1.0';
   @override
   Map<String, List<String>> dropFields = {};
   @override
@@ -27,7 +27,12 @@ class JsonBackend extends PretJsonManager {
     if (contentsMap is List) {
       return _parseV1(contentsMap);
     }
-    return _parseV2(contentsMap);
+    return switch (contentsMap['schema'] as String) {
+      '2.0.0' => _parseV2_0(contentsMap),
+      '2.1.0' => _parseV2_1(contentsMap),
+      _ => throw UnimplementedError(
+          "Schema version ${contentsMap['schema']} invalid!")
+    };
   }
 
   // NOTE: write a version of this that doesn't break on v1 log format!
@@ -58,6 +63,8 @@ class JsonBackend extends PretJsonManager {
           isEncrypted: value['encrypted'] ?? false,
           tags: findTags(value['input']),
           mentionedContacts: findContacts(value['input']),
+          ancestors: const [],
+          descendants: const [],
         )
     });
     dangerousJsonReplace({
@@ -66,7 +73,27 @@ class JsonBackend extends PretJsonManager {
     return data;
   }
 
-  Map<String, PeregrineEntry> _parseV2(contentsMap) {
+  Map<String, PeregrineEntry> _parseV2_0(contentsMap) {
+    final entriesMap = contentsMap['entries'];
+    final data = Map<String, PeregrineEntry>.from(entriesMap.map(
+      (key, value) => MapEntry(
+        key,
+        PeregrineEntry(
+          date: DateTime.parse(value['date']),
+          input: value['input'],
+          isEncrypted: value['isEncrypted'],
+          tags: List<String>.from(value['tags']),
+          mentionedContacts: List<String>.from(value['mentionedContacts']),
+          ancestors: const [],
+          descendants: const [],
+        ),
+      ),
+    ));
+    writeDataToJson(data, 'entries');
+    return data;
+  }
+
+  Map<String, PeregrineEntry> _parseV2_1(contentsMap) {
     final entriesMap = contentsMap['entries'];
     return Map<String, PeregrineEntry>.from(entriesMap.map(
       (key, value) => MapEntry(
@@ -77,6 +104,8 @@ class JsonBackend extends PretJsonManager {
           isEncrypted: value['isEncrypted'],
           tags: List<String>.from(value['tags']),
           mentionedContacts: List<String>.from(value['mentionedContacts']),
+          ancestors: List<String>.from(value['ancestors']),
+          descendants: List<String>.from(value['descendants']),
         ),
       ),
     ));
