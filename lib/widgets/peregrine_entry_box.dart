@@ -19,16 +19,15 @@ class PeregrineEntryBox extends ConsumerStatefulWidget {
 
 class PeregrineEntryBoxState extends ConsumerState<PeregrineEntryBox> {
   final TextEditingController _controller = TextEditingController();
-  final List<String> ancestors = [];
 
   void submitNewLogEntry() {
     if (_controller.text.trim() == '') return;
     ref.read(entryListProvider.notifier).addNewEntry(
           input: _controller.text,
-          ancestors: ancestors,
+          ancestors: ref.read(currentAncestorsProvider),
         );
     _controller.text = '';
-    ancestors.clear();
+    ref.read(currentAncestorsProvider.notifier).clearAncestors();
   }
 
   void insertIndent() {
@@ -45,57 +44,58 @@ class PeregrineEntryBoxState extends ConsumerState<PeregrineEntryBox> {
         constraints:
             BoxConstraints(maxHeight: MediaQuery.of(context).size.height / 2),
         child: CallbackShortcuts(
-            bindings: <ShortcutActivator, VoidCallback>{
-              const SingleActivator(
-                LogicalKeyboardKey.enter,
-                meta: true,
-              ): submitNewLogEntry,
-              const SingleActivator(LogicalKeyboardKey.tab): insertIndent
-            },
-            child: Row(children: [
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    boxShadow: const [PretConfig.defaultShadow],
-                    color: Theme.of(context).colorScheme.surface,
-                    borderRadius: PretConfig.defaultBorderRadius,
-                  ),
-                  child: TextField(
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: PretConfig.defaultBorderRadius,
-                      ),
-                      hintText: 'Start a new entry...',
+          bindings: <ShortcutActivator, VoidCallback>{
+            const SingleActivator(
+              LogicalKeyboardKey.enter,
+              meta: true,
+            ): submitNewLogEntry,
+            const SingleActivator(LogicalKeyboardKey.tab): insertIndent
+          },
+          child: Row(children: [
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  boxShadow: const [PretConfig.defaultShadow],
+                  color: Theme.of(context).colorScheme.surface,
+                  borderRadius: PretConfig.defaultBorderRadius,
+                ),
+                child: TextField(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: PretConfig.defaultBorderRadius,
                     ),
-                    focusNode: entryBoxFocusNode,
-                    keyboardType: TextInputType.multiline,
-                    maxLines: null,
-                    controller: _controller,
+                    hintText: 'Start a new entry...',
                   ),
+                  focusNode: entryBoxFocusNode,
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
+                  controller: _controller,
                 ),
               ),
-              const Padding(
-                  padding: EdgeInsets.all(PretConfig.minElementSpacing)),
-              Container(
-                decoration: const BoxDecoration(
-                  borderRadius: PretConfig.defaultBorderRadius,
-                  boxShadow: [PretConfig.defaultShadow],
+            ),
+            const Padding(
+              padding: EdgeInsets.all(PretConfig.minElementSpacing),
+            ),
+            Container(
+              decoration: const BoxDecoration(
+                borderRadius: PretConfig.defaultBorderRadius,
+                boxShadow: [PretConfig.defaultShadow],
+              ),
+              child: IconButton.filled(
+                style: IconButton.styleFrom(
+                    backgroundColor: const Color(0xffb69d7c),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.all(PretConfig.thinBorderRounding),
+                    )),
+                onPressed: submitNewLogEntry,
+                icon: Icon(
+                  Icons.move_to_inbox_rounded,
+                  color: Theme.of(context).colorScheme.surface,
                 ),
-                child: IconButton.filled(
-                  style: IconButton.styleFrom(
-                      backgroundColor: const Color(0xffb69d7c),
-                      shape: const RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.all(PretConfig.thinBorderRounding),
-                      )),
-                  onPressed: submitNewLogEntry,
-                  icon: Icon(
-                    Icons.move_to_inbox_rounded,
-                    color: Theme.of(context).colorScheme.surface,
-                  ),
-                ),
-              )
-              // )
-            ])));
+              ),
+            )
+          ]),
+        ));
   }
 }

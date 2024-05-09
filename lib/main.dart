@@ -5,6 +5,7 @@ import 'package:pret_a_porter/pret_a_porter.dart';
 import 'package:uuid/uuid.dart';
 
 import 'config.dart';
+import 'model/current_ancestors.dart';
 import 'model/entry_data.dart';
 import 'model/entry_filter.dart';
 import 'model/tag_data.dart';
@@ -69,6 +70,10 @@ final filteredListProvider = Provider((ref) {
   }
   return entries;
 });
+final currentAncestorsProvider =
+    StateNotifierProvider<CurrentAncestors, List<String>>(
+  (_) => CurrentAncestors(),
+);
 
 FocusNode entryBoxFocusNode = FocusNode();
 FocusNode searchBoxFocusNode = FocusNode();

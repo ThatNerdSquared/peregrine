@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pret_a_porter/pret_a_porter.dart';
 
 import '../config.dart';
+import '../context_menus.dart';
 import '../main.dart';
 import 'peregrine_app_bar.dart';
 import 'peregrine_entry_box.dart';
@@ -33,20 +34,7 @@ class EntryListViewState extends ConsumerState<EntryListView> {
   @override
   Widget build(BuildContext context) {
     var entries = ref.watch(filteredListProvider).keys.toList();
-    final listView = CustomScrollView(
-      controller: _scrollController,
-      slivers: [
-        const SliverPadding(
-          padding: EdgeInsets.all(PretConfig.defaultElementSpacing * 1.5),
-        ),
-        SliverList.builder(
-            itemCount: entries.length,
-            itemBuilder: (context, index) {
-              var entryId = entries[index];
-              return PeregrineEntryCard(entryId: entryId);
-            })
-      ],
-    );
+    final listView = buildEntryList(entries);
     return Scaffold(
       floatingActionButton: Container(
         margin: const EdgeInsets.only(
@@ -57,25 +45,66 @@ class EntryListViewState extends ConsumerState<EntryListView> {
             onPressed: scrollToBottom,
             child: const Icon(Icons.keyboard_double_arrow_down_sharp)),
       ),
-      body: Stack(children: [
-        Column(children: [
-          Expanded(
-              flex: 9,
-              child: Config.isMobile
-                  ? CupertinoScrollbar(
-                      controller: _scrollController, child: listView)
-                  : listView),
-          Padding(
-            padding: const EdgeInsets.all(PretConfig.defaultElementSpacing),
-            child: PeregrineEntryBox(
-              entryBoxFocusNode: entryBoxFocusNode,
+      body: Stack(
+        children: [
+          Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+            Expanded(
+                flex: 9,
+                child: Config.isMobile
+                    ? CupertinoScrollbar(
+                        controller: _scrollController, child: listView)
+                    : listView),
+            Wrap(
+              children: ref
+                  .watch(currentAncestorsProvider)
+                  .map((id) => ContextMenuRegion(
+                      contextMenu: Menu(items: [
+                        MenuItem(
+                            label: 'Remove as ancestor',
+                            onClick: (_) => ref
+                                .read(currentAncestorsProvider.notifier)
+                                .removeAncestor(id))
+                      ]),
+                      child: PretCard(child: Text(id))))
+                  .toList(),
             ),
+            Padding(
+              padding: const EdgeInsets.all(PretConfig.defaultElementSpacing),
+              child: PeregrineEntryBox(
+                entryBoxFocusNode: entryBoxFocusNode,
+              ),
+            ),
+          ]),
+          PeregrineAppBar(
+            searchBoxFocusNode: searchBoxFocusNode,
           ),
-        ]),
-        PeregrineAppBar(
-          searchBoxFocusNode: searchBoxFocusNode,
+        ],
+      ),
+    );
+  }
+
+  CustomScrollView buildEntryList(List<String> entries) {
+    return CustomScrollView(
+      controller: _scrollController,
+      slivers: [
+        const SliverPadding(
+          padding: EdgeInsets.all(PretConfig.defaultElementSpacing * 1.5),
         ),
-      ]),
+        SliverList.builder(
+            itemCount: entries.length,
+            itemBuilder: (context, index) {
+              var entryId = entries[index];
+              return ContextMenuRegion(
+                contextMenu: buildEntryCardContextMenu(
+                  entryId: entryId,
+                  addAncestorCallback: (_) => ref
+                      .read(currentAncestorsProvider.notifier)
+                      .addAncestor(entryId),
+                ),
+                child: PeregrineEntryCard(entryId: entryId),
+              );
+            })
+      ],
     );
   }
 }

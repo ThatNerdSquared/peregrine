@@ -33,3 +33,16 @@ Menu buildTagButtonContextMenu(
         )
       ],
     );
+
+Menu buildEntryCardContextMenu({
+  required String entryId,
+  required Function(String) addAncestorCallback,
+}) =>
+    Menu(
+      items: [
+        MenuItem(
+          label: 'Add as ancestor',
+          onClick: (_) => addAncestorCallback(entryId),
+        )
+      ],
+    );
