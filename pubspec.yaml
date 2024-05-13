@@ -46,6 +46,7 @@ dependencies:
   pret_a_porter:
     path: ../pret_a_porter
   file_picker: ^5.5.0
+  super_sliver_list: ^0.4.1
 
 dev_dependencies:
   flutter_test:

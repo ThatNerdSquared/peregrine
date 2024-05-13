@@ -14,11 +14,11 @@ class PeregrineEntryCard extends ConsumerStatefulWidget {
   const PeregrineEntryCard({
     super.key,
     required this.entryId,
-    this.isNested = false,
+    this.isTopLevel = true,
   });
 
   final String entryId;
-  final bool isNested;
+  final bool isTopLevel;
 
   @override
   ConsumerState<PeregrineEntryCard> createState() => _PeregrineEntryCardState();
@@ -65,7 +65,7 @@ class _PeregrineEntryCardState extends ConsumerState<PeregrineEntryCard> {
                       children: entry.ancestors
                           .map((id) => PeregrineEntryCard(
                                 entryId: id,
-                                isNested: true,
+                                isTopLevel: false,
                               ))
                           .toList(),
                     ),
@@ -96,7 +96,7 @@ class _PeregrineEntryCardState extends ConsumerState<PeregrineEntryCard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                          entry.ancestors.isNotEmpty && widget.isNested
+                          entry.ancestors.isNotEmpty && widget.isTopLevel
                               ? Text.rich(
                                   TextSpan(
                                     text: '${entry.ancestors.length} ancestors',
@@ -190,7 +190,7 @@ class _PeregrineEntryCardState extends ConsumerState<PeregrineEntryCard> {
                               ),
                             ]),
                           ),
-                          entry.descendants.isNotEmpty && widget.isNested
+                          entry.descendants.isNotEmpty && widget.isTopLevel
                               ? Text.rich(
                                   TextSpan(
                                     text:
@@ -234,7 +234,7 @@ class _PeregrineEntryCardState extends ConsumerState<PeregrineEntryCard> {
                       children: entry.descendants
                           .map((id) => PeregrineEntryCard(
                                 entryId: id,
-                                isNested: true,
+                                isTopLevel: false,
                               ))
                           .toList(),
                     ),

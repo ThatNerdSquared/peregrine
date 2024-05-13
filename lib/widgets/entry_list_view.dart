@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pret_a_porter/pret_a_porter.dart';
+import 'package:super_sliver_list/super_sliver_list.dart';
 
 import '../config.dart';
 import '../context_menus.dart';
@@ -90,7 +91,7 @@ class EntryListViewState extends ConsumerState<EntryListView> {
         const SliverPadding(
           padding: EdgeInsets.all(PretConfig.defaultElementSpacing * 1.5),
         ),
-        SliverList.builder(
+        SuperSliverList.builder(
             itemCount: entries.length,
             itemBuilder: (context, index) {
               var entryId = entries[index];
