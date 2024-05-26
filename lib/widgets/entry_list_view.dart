@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pret_a_porter/pret_a_porter.dart';
+import 'package:super_context_menu/super_context_menu.dart' as scm;
 import 'package:super_sliver_list/super_sliver_list.dart';
 
 import '../config.dart';
@@ -55,18 +56,37 @@ class EntryListViewState extends ConsumerState<EntryListView> {
                     ? CupertinoScrollbar(
                         controller: _scrollController, child: listView)
                     : listView),
-            Wrap(
+            Row(
               children: ref
                   .watch(currentAncestorsProvider)
-                  .map((id) => ContextMenuRegion(
-                      contextMenu: Menu(items: [
-                        MenuItem(
-                            label: 'Remove as ancestor',
-                            onClick: (_) => ref
-                                .read(currentAncestorsProvider.notifier)
-                                .removeAncestor(id))
-                      ]),
-                      child: PretCard(child: Text(id))))
+                  .map((id) => Flexible(
+                        child: Tooltip(
+                          richMessage: WidgetSpan(
+                            child: PeregrineEntryCard(
+                              entryId: id,
+                              isTopLevel: false,
+                            ),
+                          ),
+                          decoration: const BoxDecoration(
+                            color: Colors.transparent,
+                          ),
+                          child: scm.ContextMenuWidget(
+                              menuProvider: (_) => scm.Menu(children: [
+                                    scm.MenuAction(
+                                        title: 'Remove as ancestor',
+                                        callback: () => ref
+                                            .read(currentAncestorsProvider
+                                                .notifier)
+                                            .removeAncestor(id))
+                                  ]),
+                              child: PretCard(
+                                child: Text(
+                                  id,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              )),
+                        ),
+                      ))
                   .toList(),
             ),
             Padding(
@@ -95,8 +115,8 @@ class EntryListViewState extends ConsumerState<EntryListView> {
             itemCount: entries.length,
             itemBuilder: (context, index) {
               var entryId = entries[index];
-              return ContextMenuRegion(
-                contextMenu: buildEntryCardContextMenu(
+              return scm.ContextMenuWidget(
+                menuProvider: (_) => buildEntryCardContextMenu(
                   entryId: entryId,
                   addAncestorCallback: (_) => ref
                       .read(currentAncestorsProvider.notifier)

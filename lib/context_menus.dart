@@ -1,48 +1,48 @@
-import 'package:pret_a_porter/pret_a_porter.dart';
+import 'package:super_context_menu/super_context_menu.dart' as scm;
 
 import 'export_utils.dart';
 import 'model/entry_data.dart';
 import 'model/tag_data.dart';
 
-Menu buildTagButtonContextMenu(
+scm.Menu buildTagButtonContextMenu(
   String tagName,
   PeregrineTag tagInfo,
   Function(String) autoEncryptToggleCallback,
   List<PeregrineEntry> entries,
 ) =>
-    Menu(
-      items: [
-        MenuItem.checkbox(
-          label: 'Auto Encrypt',
-          checked: tagInfo.autoEncrypt,
-          onClick: (_) => autoEncryptToggleCallback(tagName),
+    scm.Menu(
+      children: [
+        scm.MenuAction(
+          title: 'Auto Encrypt',
+          state: tagInfo.autoEncrypt
+              ? scm.MenuActionState.checkOn
+              : scm.MenuActionState.checkOff,
+          callback: () => autoEncryptToggleCallback(tagName),
         ),
-        MenuItem.submenu(
-          label: 'Export as...',
-          submenu: Menu(
-            items: [
-              MenuItem(
-                label: 'Markdown',
-                onClick: (_) => exportMarkdown(
-                  entries: entries,
-                  logName: tagName,
-                ),
+        scm.Menu(
+          title: 'Export as...',
+          children: [
+            scm.MenuAction(
+              title: 'Markdown',
+              callback: () => exportMarkdown(
+                entries: entries,
+                logName: tagName,
               ),
-            ],
-          ),
-        )
+            ),
+          ],
+        ),
       ],
     );
 
-Menu buildEntryCardContextMenu({
+scm.Menu buildEntryCardContextMenu({
   required String entryId,
   required Function(String) addAncestorCallback,
 }) =>
-    Menu(
-      items: [
-        MenuItem(
-          label: 'Add as ancestor',
-          onClick: (_) => addAncestorCallback(entryId),
+    scm.Menu(
+      children: [
+        scm.MenuAction(
+          title: 'Add as ancestor',
+          callback: () => addAncestorCallback(entryId),
         )
       ],
     );

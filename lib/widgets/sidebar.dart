@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pret_a_porter/pret_a_porter.dart';
+import 'package:super_context_menu/super_context_menu.dart';
 
 import '../context_menus.dart';
 import '../main.dart';
@@ -74,8 +75,8 @@ class Sidebar extends ConsumerWidget {
               padding: const EdgeInsets.only(
                   left: PretConfig.defaultElementSpacing,
                   right: PretConfig.defaultElementSpacing),
-              child: ContextMenuRegion(
-                contextMenu: buildTagButtonContextMenu(
+              child: ContextMenuWidget(
+                menuProvider: (_) => buildTagButtonContextMenu(
                   tagName,
                   tags[tagName]!,
                   (name) =>
