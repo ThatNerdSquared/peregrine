@@ -8,6 +8,7 @@ import 'config.dart';
 import 'model/current_ancestors.dart';
 import 'model/entry_data.dart';
 import 'model/entry_filter.dart';
+import 'model/json_backend.dart';
 import 'model/tag_data.dart';
 import 'widgets/desktop_frame.dart';
 import 'widgets/entry_list_view.dart';
@@ -16,6 +17,7 @@ import 'widgets/sidebar.dart';
 
 const uuID = Uuid();
 String platformAppSupportDir = '';
+final String hashedPwd = JsonBackend().readHashedPwd();
 
 final entryListProvider =
     StateNotifierProvider<PeregrineEntryList, Map<String, PeregrineEntry>>(

@@ -12,12 +12,13 @@ class JsonBackend extends PretJsonManager {
   @override
   final dataFile = File(Config.logFilePath);
   @override
-  String schemaVersion = '2.1.0';
+  String schemaVersion = '2.2.0';
   @override
   Map<String, List<String>> dropFields = {};
   @override
   Map get freshJson => <String, dynamic>{
         'schema': schemaVersion,
+        'hashedPwd': '',
         'tags': {},
         'entries': {},
       };
@@ -30,6 +31,7 @@ class JsonBackend extends PretJsonManager {
     return switch (contentsMap['schema'] as String) {
       '2.0.0' => _parseV2_0(contentsMap),
       '2.1.0' => _parseV2_1(contentsMap),
+      '2.2.0' => _parseV2_2(contentsMap),
       _ => throw UnimplementedError(
           "Schema version ${contentsMap['schema']} invalid!")
     };
@@ -54,6 +56,11 @@ class JsonBackend extends PretJsonManager {
     return sortTags(tags);
   }
 
+  String readHashedPwd() {
+    final contentsMap = pretLoadJson();
+    return contentsMap['hashedPwd'];
+  }
+
   Map<String, PeregrineEntry> _parseV1(contentsMap) {
     final data = Map<String, PeregrineEntry>.from({
       for (final value in contentsMap)
@@ -61,6 +68,7 @@ class JsonBackend extends PretJsonManager {
           date: DateTime.parse(value['date']),
           input: value['input'],
           isEncrypted: value['encrypted'] ?? false,
+          entryType: EntryType.standard,
           tags: findTags(value['input']),
           mentionedContacts: findContacts(value['input']),
           ancestors: const [],
@@ -82,6 +90,7 @@ class JsonBackend extends PretJsonManager {
           date: DateTime.parse(value['date']),
           input: value['input'],
           isEncrypted: value['isEncrypted'],
+          entryType: EntryType.standard,
           tags: List<String>.from(value['tags']),
           mentionedContacts: List<String>.from(value['mentionedContacts']),
           ancestors: const [],
@@ -102,6 +111,26 @@ class JsonBackend extends PretJsonManager {
           date: DateTime.parse(value['date']),
           input: value['input'],
           isEncrypted: value['isEncrypted'],
+          entryType: EntryType.standard,
+          tags: List<String>.from(value['tags']),
+          mentionedContacts: List<String>.from(value['mentionedContacts']),
+          ancestors: List<String>.from(value['ancestors']),
+          descendants: List<String>.from(value['descendants']),
+        ),
+      ),
+    ));
+  }
+
+  Map<String, PeregrineEntry> _parseV2_2(contentsMap) {
+    final entriesMap = contentsMap['entries'];
+    return Map<String, PeregrineEntry>.from(entriesMap.map(
+      (key, value) => MapEntry(
+        key,
+        PeregrineEntry(
+          date: DateTime.parse(value['date']),
+          input: value['input'],
+          isEncrypted: value['isEncrypted'],
+          entryType: (value['entryType'] as String).toEntryType(),
           tags: List<String>.from(value['tags']),
           mentionedContacts: List<String>.from(value['mentionedContacts']),
           ancestors: List<String>.from(value['ancestors']),

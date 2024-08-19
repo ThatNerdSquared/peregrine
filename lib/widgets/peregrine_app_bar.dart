@@ -76,8 +76,16 @@ class PeregrineAppBar extends ConsumerWidget {
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(PretConfig.thinBorderRounding),
               )),
-          onPressed: () =>
-              ref.read(isLocked.notifier).update((state) => !state),
+          onPressed: () {
+            if (hashedPwd.isEmpty) {
+              showModalBottomSheet(
+                  context: context,
+                  builder: (context) => const Column(
+                        children: [Text('Set a password')],
+                      ));
+            }
+            ref.read(isLocked.notifier).update((state) => !state);
+          },
           icon: Icon(
             ref.watch(isLocked) ? Icons.lock : Icons.lock_open_rounded,
             color: Theme.of(context).colorScheme.surface,

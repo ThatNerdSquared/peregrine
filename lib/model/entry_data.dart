@@ -5,6 +5,21 @@ import '../format_utils.dart';
 import '../main.dart';
 import 'json_backend.dart';
 
+enum EntryType { standard, deprecated, archived }
+
+extension ToEntryType on String {
+  EntryType toEntryType() {
+    return switch (this) {
+      'EntryType.standard' => EntryType.standard,
+      'EntryType.deprecated' => EntryType.deprecated,
+      'EntryType.archived' => EntryType.archived,
+      _ => throw ArgumentError(
+          'String $this could not be converted to EntryType!',
+        )
+    };
+  }
+}
+
 class PeregrineEntryList extends StateNotifier<Map<String, PeregrineEntry>> {
   final Ref ref;
 
@@ -38,6 +53,7 @@ class PeregrineEntryList extends StateNotifier<Map<String, PeregrineEntry>> {
               date: value.date,
               input: value.input,
               isEncrypted: value.isEncrypted,
+              entryType: value.entryType,
               tags: value.tags,
               mentionedContacts: value.mentionedContacts,
               ancestors: value.ancestors,
@@ -53,6 +69,7 @@ class PeregrineEntryList extends StateNotifier<Map<String, PeregrineEntry>> {
         date: DateTime.now(),
         input: input,
         isEncrypted: isAutoEncrypt,
+        entryType: EntryType.standard,
         tags: findTags(input),
         mentionedContacts: findContacts(input),
         ancestors: ancestors,
@@ -67,6 +84,7 @@ class PeregrineEntry extends PretDataclass {
   final DateTime date;
   final String input;
   final bool isEncrypted;
+  final EntryType entryType;
   final List<String> tags;
   final List<String> mentionedContacts;
   final List<String> ancestors;
@@ -76,6 +94,7 @@ class PeregrineEntry extends PretDataclass {
     required this.date,
     required this.input,
     required this.isEncrypted,
+    required this.entryType,
     required this.tags,
     required this.mentionedContacts,
     required this.ancestors,
@@ -88,6 +107,7 @@ class PeregrineEntry extends PretDataclass {
       'date': date.toIso8601String(),
       'input': input,
       'isEncrypted': isEncrypted,
+      'entryType': entryType.toString(),
       'tags': tags,
       'mentionedContacts': mentionedContacts,
       'ancestors': ancestors,
