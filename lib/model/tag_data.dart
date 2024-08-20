@@ -62,6 +62,13 @@ class TagsList extends StateNotifier<Map<String, PeregrineTag>> {
     }
     return false;
   }
+
+  void deleteTag(String tag) {
+    state = Map.fromEntries(
+      state.entries.where((x) => x.key != tag),
+    );
+    _writeTags();
+  }
 }
 
 Map<String, PeregrineTag> sortTags(Map<String, PeregrineTag> tags) {

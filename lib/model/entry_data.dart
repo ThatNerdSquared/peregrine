@@ -78,6 +78,28 @@ class PeregrineEntryList extends StateNotifier<Map<String, PeregrineEntry>> {
     };
     _writeLog();
   }
+
+  void stripTagFromEntries(String tag) {
+    state = state.map((key, value) {
+      if (value.tags.contains(tag)) {
+        return MapEntry(
+            key,
+            PeregrineEntry(
+              date: value.date,
+              input: value.input,
+              isEncrypted: value.isEncrypted,
+              entryType: value.entryType,
+              tags: value.tags.where((x) => x != tag).toList(),
+              mentionedContacts: value.mentionedContacts,
+              ancestors: value.ancestors,
+              descendants: value.descendants,
+            ));
+      } else {
+        return MapEntry(key, value);
+      }
+    });
+    _writeLog();
+  }
 }
 
 class PeregrineEntry extends PretDataclass {

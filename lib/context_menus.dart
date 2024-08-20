@@ -1,14 +1,19 @@
+import 'package:flutter/material.dart';
 import 'package:super_context_menu/super_context_menu.dart' as scm;
 
 import 'export_utils.dart';
 import 'model/entry_data.dart';
 import 'model/tag_data.dart';
+import 'widgets/confirmation_modal.dart';
 
 scm.Menu buildTagButtonContextMenu(
+  BuildContext context,
   String tagName,
   PeregrineTag tagInfo,
   Function(String) autoEncryptToggleCallback,
   List<PeregrineEntry> entries,
+  void Function(String) stripTagFromEntriesCallback,
+  void Function(String) deleteTagCallback,
 ) =>
     scm.Menu(
       children: [
@@ -31,6 +36,24 @@ scm.Menu buildTagButtonContextMenu(
             ),
           ],
         ),
+        scm.MenuAction(
+            title: 'Delete Tag',
+            image: scm.MenuImage.icon(Icons.delete),
+            attributes: const scm.MenuActionAttributes(
+              destructive: true,
+            ),
+            callback: () async {
+              final confirmation = await showModalBottomSheet<bool>(
+                context: context,
+                isDismissible: false,
+                builder: (context) => ConfirmationModal(count: tagInfo.count),
+              );
+              // TODO: why is this nullable?
+              if (confirmation != null && confirmation) {
+                stripTagFromEntriesCallback(tagName);
+                deleteTagCallback(tagName);
+              }
+            })
       ],
     );
 

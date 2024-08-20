@@ -77,11 +77,16 @@ class Sidebar extends ConsumerWidget {
                   right: PretConfig.defaultElementSpacing),
               child: ContextMenuWidget(
                 menuProvider: (_) => buildTagButtonContextMenu(
+                  context,
                   tagName,
                   tags[tagName]!,
                   (name) =>
                       ref.read(tagsProvider.notifier).toggleAutoEncrypt(name),
                   ref.watch(filteredListProvider).values.toList(),
+                  (tag) => ref
+                      .read(entryListProvider.notifier)
+                      .stripTagFromEntries(tag),
+                  (tag) => ref.read(tagsProvider.notifier).deleteTag(tag),
                 ),
                 child: PretSidebarButton(
                   color:
