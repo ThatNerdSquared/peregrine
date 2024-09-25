@@ -47,7 +47,7 @@ class ConfirmationModal extends StatelessWidget {
                 ),
                 OutlinedButton(
                   style: const ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Colors.red),
+                    backgroundColor: WidgetStatePropertyAll(Colors.red),
                   ),
                   onPressed: () => Navigator.pop(context, true),
                   child: const Text('Delete'),

@@ -6,7 +6,6 @@ import 'package:super_context_menu/super_context_menu.dart' as scm;
 import 'package:super_sliver_list/super_sliver_list.dart';
 
 import '../config.dart';
-import '../context_menus.dart';
 import '../main.dart';
 import 'peregrine_app_bar.dart';
 import 'peregrine_entry_box.dart';

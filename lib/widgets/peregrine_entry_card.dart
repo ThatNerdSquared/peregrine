@@ -148,20 +148,19 @@ class _PeregrineEntryCardState extends ConsumerState<PeregrineEntryCard> {
                                           .map((tag) => OutlinedButton(
                                               style: const ButtonStyle(
                                                   minimumSize:
-                                                      MaterialStatePropertyAll(
+                                                      WidgetStatePropertyAll(
                                                     Size(32, 32),
                                                   ),
                                                   visualDensity:
                                                       VisualDensity.compact,
-                                                  shape:
-                                                      MaterialStatePropertyAll(
+                                                  shape: WidgetStatePropertyAll(
                                                     RoundedRectangleBorder(
                                                       borderRadius: PretConfig
                                                           .thinBorderRadius,
                                                     ),
                                                   ),
                                                   padding:
-                                                      MaterialStatePropertyAll(
+                                                      WidgetStatePropertyAll(
                                                     EdgeInsets.all(
                                                         //PretConfig.minElementSpacing / 2,
                                                         PretConfig
