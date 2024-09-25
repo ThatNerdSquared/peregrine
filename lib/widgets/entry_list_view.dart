@@ -113,18 +113,8 @@ class EntryListViewState extends ConsumerState<EntryListView> {
         ),
         SuperSliverList.builder(
             itemCount: entries.length,
-            itemBuilder: (context, index) {
-              var entryId = entries[index];
-              return scm.ContextMenuWidget(
-                menuProvider: (_) => buildEntryCardContextMenu(
-                  entryId: entryId,
-                  addAncestorCallback: (_) => ref
-                      .read(currentAncestorsProvider.notifier)
-                      .addAncestor(entryId),
-                ),
-                child: PeregrineEntryCard(entryId: entryId),
-              );
-            })
+            itemBuilder: (context, index) =>
+                PeregrineEntryCard(entryId: entries[index]))
       ],
     );
   }

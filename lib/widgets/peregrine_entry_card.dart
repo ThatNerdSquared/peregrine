@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:markdown_widget/markdown_widget.dart';
 import 'package:pret_a_porter/pret_a_porter.dart';
+import 'package:super_context_menu/super_context_menu.dart' as scm;
 
+import '../context_menus.dart';
 import '../format_utils.dart';
 import '../main.dart';
 import '../vendor/latex.dart';
@@ -71,143 +73,154 @@ class _PeregrineEntryCardState extends ConsumerState<PeregrineEntryCard> {
                     ),
                   )
                 : Container(),
-            PretCard(
-              padding: EdgeInsets.only(
-                top: PretConfig.thinElementSpacing,
-                left: PretConfig.defaultElementSpacing,
-                right: PretConfig.defaultElementSpacing,
-                bottom: entry.isEncrypted && ref.watch(isLocked)
-                    ? PretConfig.thinElementSpacing
-                    : PretConfig.defaultElementSpacing,
+            scm.ContextMenuWidget(
+              menuProvider: (_) => buildEntryCardContextMenu(
+                entryId: widget.entryId,
+                addAncestorCallback: (_) => ref
+                    .read(currentAncestorsProvider.notifier)
+                    .addAncestor(widget.entryId),
               ),
-              child: entry.isEncrypted && ref.watch(isLocked)
-                  ? const Text.rich(TextSpan(text: '🔒', children: [
-                      TextSpan(
-                        text:
-                            'This entry is encrypted. Unlock the app to view.',
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 16,
-                          fontStyle: FontStyle.italic,
-                        ),
-                      )
-                    ]))
-                  : Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                          entry.ancestors.isNotEmpty && widget.isTopLevel
-                              ? Text.rich(
-                                  TextSpan(
-                                    text: '${entry.ancestors.length} ancestors',
-                                    style: const TextStyle(
-                                      color: Colors.blue,
-                                      decoration: TextDecoration.underline,
+              child: PretCard(
+                padding: EdgeInsets.only(
+                  top: PretConfig.thinElementSpacing,
+                  left: PretConfig.defaultElementSpacing,
+                  right: PretConfig.defaultElementSpacing,
+                  bottom: entry.isEncrypted && ref.watch(isLocked)
+                      ? PretConfig.thinElementSpacing
+                      : PretConfig.defaultElementSpacing,
+                ),
+                child: entry.isEncrypted && ref.watch(isLocked)
+                    ? const Text.rich(TextSpan(text: '🔒', children: [
+                        TextSpan(
+                          text:
+                              'This entry is encrypted. Unlock the app to view.',
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 16,
+                            fontStyle: FontStyle.italic,
+                          ),
+                        )
+                      ]))
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                            entry.ancestors.isNotEmpty
+                                ? Text.rich(
+                                    TextSpan(
+                                      text:
+                                          '${entry.ancestors.length} ancestors',
+                                      style: const TextStyle(
+                                        color: Colors.blue,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () => setState(() {
+                                              _ancestorsShown =
+                                                  !_ancestorsShown;
+                                            }),
                                     ),
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () => setState(() {
-                                            _ancestorsShown = !_ancestorsShown;
-                                          }),
-                                  ),
-                                )
-                              : Container(),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Row(
-                                children: [
-                                  Text('${formatDate(entry.date)} '),
-                                  Text(formatTime(entry.date)),
-                                ],
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.all(
-                                    PretConfig.minElementSpacing),
-                              ),
-                              Expanded(
-                                child: Wrap(
-                                    spacing: PretConfig.minElementSpacing,
-                                    runSpacing: PretConfig.minElementSpacing,
-                                    alignment: WrapAlignment.end,
-                                    children: entry.tags
-                                        .map((tag) => OutlinedButton(
-                                            style: const ButtonStyle(
-                                                minimumSize:
-                                                    MaterialStatePropertyAll(
-                                                  Size(32, 32),
-                                                ),
-                                                visualDensity:
-                                                    VisualDensity.compact,
-                                                shape: MaterialStatePropertyAll(
-                                                  RoundedRectangleBorder(
-                                                    borderRadius: PretConfig
-                                                        .thinBorderRadius,
-                                                  ),
-                                                ),
-                                                padding:
-                                                    MaterialStatePropertyAll(
-                                                  EdgeInsets.all(
-                                                      //PretConfig.minElementSpacing / 2,
-                                                      PretConfig
-                                                          .minElementSpacing),
-                                                )),
-                                            onPressed: () => ref
-                                                .read(entryFilterProvider
-                                                    .notifier)
-                                                .setTagFilter(tag),
-                                            child: Text(
-                                              '#$tag',
-                                            )))
-                                        .toList()),
-                              ),
-                            ],
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(
-                                top: PretConfig.minElementSpacing),
-                          ),
-                          ...MarkdownGenerator(
-                            generators: [latexGenerator],
-                            inlineSyntaxList: [LatexSyntax()],
-                            linesMargin: const EdgeInsets.all(0),
-                          ).buildWidgets(
-                            stripTagOnlyLines(entry.input),
-                            config: MarkdownConfig(configs: [
-                              ImgConfig(builder: (url, attributes) {
-                                if (url.contains(r'data:image/png;base64,')) {
-                                  return Image.memory(base64Decode(
-                                      url.replaceAll(
-                                          'data:image/png;base64,', '')));
-                                } else {
-                                  return Image.network(url);
-                                }
-                              }),
-                              const CodeConfig(
-                                style: TextStyle(
-                                  fontFamily: 'Menlo',
-                                  backgroundColor: Color(0xffeff1f3),
+                                  )
+                                : Container(),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text('${formatDate(entry.date)} '),
+                                    Text(formatTime(entry.date)),
+                                  ],
                                 ),
-                              ),
-                            ]),
-                          ),
-                          entry.descendants.isNotEmpty && widget.isTopLevel
-                              ? Text.rich(
-                                  TextSpan(
-                                    text:
-                                        '${entry.descendants.length} descendants',
-                                    style: const TextStyle(
-                                      color: Colors.blue,
-                                      decoration: TextDecoration.underline,
-                                    ),
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () => setState(() {
-                                            _descendantsShown =
-                                                !_descendantsShown;
-                                          }),
+                                const Padding(
+                                  padding: EdgeInsets.all(
+                                      PretConfig.minElementSpacing),
+                                ),
+                                Expanded(
+                                  child: Wrap(
+                                      spacing: PretConfig.minElementSpacing,
+                                      runSpacing: PretConfig.minElementSpacing,
+                                      alignment: WrapAlignment.end,
+                                      children: entry.tags
+                                          .map((tag) => OutlinedButton(
+                                              style: const ButtonStyle(
+                                                  minimumSize:
+                                                      MaterialStatePropertyAll(
+                                                    Size(32, 32),
+                                                  ),
+                                                  visualDensity:
+                                                      VisualDensity.compact,
+                                                  shape:
+                                                      MaterialStatePropertyAll(
+                                                    RoundedRectangleBorder(
+                                                      borderRadius: PretConfig
+                                                          .thinBorderRadius,
+                                                    ),
+                                                  ),
+                                                  padding:
+                                                      MaterialStatePropertyAll(
+                                                    EdgeInsets.all(
+                                                        //PretConfig.minElementSpacing / 2,
+                                                        PretConfig
+                                                            .minElementSpacing),
+                                                  )),
+                                              onPressed: () => ref
+                                                  .read(entryFilterProvider
+                                                      .notifier)
+                                                  .setTagFilter(tag),
+                                              child: Text(
+                                                '#$tag',
+                                              )))
+                                          .toList()),
+                                ),
+                              ],
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(
+                                  top: PretConfig.minElementSpacing),
+                            ),
+                            ...MarkdownGenerator(
+                              generators: [latexGenerator],
+                              inlineSyntaxList: [LatexSyntax()],
+                              linesMargin: const EdgeInsets.all(0),
+                            ).buildWidgets(
+                              stripTagOnlyLines(entry.input),
+                              config: MarkdownConfig(configs: [
+                                ImgConfig(builder: (url, attributes) {
+                                  if (url.contains(r'data:image/png;base64,')) {
+                                    return Image.memory(base64Decode(
+                                        url.replaceAll(
+                                            'data:image/png;base64,', '')));
+                                  } else {
+                                    return Image.network(url);
+                                  }
+                                }),
+                                const CodeConfig(
+                                  style: TextStyle(
+                                    fontFamily: 'Menlo',
+                                    backgroundColor: Color(0xffeff1f3),
                                   ),
-                                )
-                              : Container(),
-                        ]),
+                                ),
+                              ]),
+                            ),
+                            entry.descendants.isNotEmpty
+                                ? Text.rich(
+                                    TextSpan(
+                                      text:
+                                          '${entry.descendants.length} descendants',
+                                      style: const TextStyle(
+                                        color: Colors.blue,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () => setState(() {
+                                              _descendantsShown =
+                                                  !_descendantsShown;
+                                            }),
+                                    ),
+                                  )
+                                : Container(),
+                          ]),
+              ),
             ),
             _descendantsShown
                 ? Container(
