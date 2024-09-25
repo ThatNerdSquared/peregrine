@@ -100,6 +100,28 @@ class PeregrineEntryList extends StateNotifier<Map<String, PeregrineEntry>> {
     });
     _writeLog();
   }
+
+  void toggleEncrypt(String entryID) {
+    state = state.map((key, value) {
+      if (key == entryID) {
+        return MapEntry(
+            key,
+            PeregrineEntry(
+              date: value.date,
+              input: value.input,
+              isEncrypted: !value.isEncrypted,
+              entryType: value.entryType,
+              tags: value.tags,
+              mentionedContacts: value.mentionedContacts,
+              ancestors: value.ancestors,
+              descendants: value.descendants,
+            ));
+      } else {
+        return MapEntry(key, value);
+      }
+    });
+    _writeLog();
+  }
 }
 
 class PeregrineEntry extends PretDataclass {

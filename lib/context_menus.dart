@@ -59,6 +59,8 @@ scm.Menu buildTagButtonContextMenu(
 
 scm.Menu buildEntryCardContextMenu({
   required String entryId,
+  required bool isEncrypted,
+  required VoidCallback toggleEncryptCallback,
   required Function(String) addAncestorCallback,
 }) =>
     scm.Menu(
@@ -66,6 +68,10 @@ scm.Menu buildEntryCardContextMenu({
         scm.MenuAction(
           title: 'Add as ancestor',
           callback: () => addAncestorCallback(entryId),
+        ),
+        scm.MenuAction(
+          title: isEncrypted ? 'Decrypt Entry' : 'Encrypt Entry',
+          callback: () => !isEncrypted ? toggleEncryptCallback() : null,
         )
       ],
     );

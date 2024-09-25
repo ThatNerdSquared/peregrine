@@ -75,6 +75,10 @@ class _PeregrineEntryCardState extends ConsumerState<PeregrineEntryCard> {
                 : Container(),
             scm.ContextMenuWidget(
               menuProvider: (_) => buildEntryCardContextMenu(
+                isEncrypted: entry.isEncrypted,
+                toggleEncryptCallback: () => ref
+                    .read(entryListProvider.notifier)
+                    .toggleEncrypt(widget.entryId),
                 entryId: widget.entryId,
                 addAncestorCallback: (_) => ref
                     .read(currentAncestorsProvider.notifier)
