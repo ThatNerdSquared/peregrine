@@ -154,10 +154,10 @@ class PretPaletteToggle extends InheritedWidget {
 
   const PretPaletteToggle({
     super.key,
+    required super.child,
     required this.isPaletteShown,
     required this.togglePalette,
-    required Widget child,
-  }) : super(child: child);
+  });
 
   static PretPaletteToggle of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<PretPaletteToggle>()!;

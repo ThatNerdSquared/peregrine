@@ -42,10 +42,10 @@ dependencies:
   markdown_widget: ^2.2.0
   flutter_math_fork: ^0.7.1
   markdown: ^7.1.0
-  flutter_launcher_icons: ^0.13.1
+  flutter_launcher_icons: ^0.14.2
   pret_a_porter:
     path: ../pret_a_porter
-  file_picker: ^5.5.0
+  file_picker: ^8.1.7
   super_sliver_list: ^0.4.1
   super_context_menu: ^0.8.15
   app_links: ^6.3.3
@@ -59,9 +59,9 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^2.0.0
+  flutter_lints: ^5.0.0
   riverpod_lint: ^2.3.7
-  custom_lint: ^0.5.8
+  custom_lint: ^0.7.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

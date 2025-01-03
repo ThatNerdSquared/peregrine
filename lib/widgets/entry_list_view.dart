@@ -55,7 +55,7 @@ class EntryListViewState extends ConsumerState<EntryListView> {
           bottom: PretConfig.defaultElementSpacing * 6,
         ),
         child: FloatingActionButton(
-            backgroundColor: const Color(0xffb69d7c).withOpacity(0.5),
+            backgroundColor: const Color(0xffb69d7c).withValues(alpha: 0.5),
             onPressed: scrollToBottom,
             child: const Icon(Icons.keyboard_double_arrow_down_sharp)),
       ),
