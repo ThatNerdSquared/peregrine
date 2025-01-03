@@ -63,6 +63,8 @@ scm.Menu buildEntryCardContextMenu({
   required bool isEncrypted,
   required VoidCallback toggleEncryptCallback,
   required Function(String) addAncestorCallback,
+  required VoidCallback showInContextCallback,
+  required VoidCallback showInMainLogCallback,
 }) =>
     scm.Menu(
       children: [
@@ -70,9 +72,20 @@ scm.Menu buildEntryCardContextMenu({
           title: 'Add as ancestor',
           callback: () => addAncestorCallback(entryId),
         ),
+        scm.MenuSeparator(),
+        scm.MenuAction(
+          title: 'Show in Context',
+          callback: showInContextCallback,
+        ),
+        scm.MenuAction(
+          title: 'Show in Main Log',
+          callback: showInMainLogCallback,
+        ),
+        scm.MenuSeparator(),
         scm.MenuAction(
           title: 'Copy Entry URL',
-          callback: () => Clipboard.setData(ClipboardData(text: 'peregrine://peregrine/entry/$entryId')),
+          callback: () => Clipboard.setData(
+              ClipboardData(text: 'peregrine://peregrine/entry/$entryId')),
         ),
         scm.MenuAction(
           title: isEncrypted ? 'Decrypt Entry' : 'Encrypt Entry',

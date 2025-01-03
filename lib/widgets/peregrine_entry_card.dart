@@ -75,15 +75,28 @@ class _PeregrineEntryCardState extends ConsumerState<PeregrineEntryCard> {
                 : Container(),
             scm.ContextMenuWidget(
               menuProvider: (_) => buildEntryCardContextMenu(
-                isEncrypted: entry.isEncrypted,
-                toggleEncryptCallback: () => ref
-                    .read(entryListProvider.notifier)
-                    .toggleEncrypt(widget.entryId),
-                entryId: widget.entryId,
-                addAncestorCallback: (_) => ref
-                    .read(currentAncestorsProvider.notifier)
-                    .addAncestor(widget.entryId),
-              ),
+                  isEncrypted: entry.isEncrypted,
+                  toggleEncryptCallback: () => ref
+                      .read(entryListProvider.notifier)
+                      .toggleEncrypt(widget.entryId),
+                  entryId: widget.entryId,
+                  addAncestorCallback: (_) => ref
+                      .read(currentAncestorsProvider.notifier)
+                      .addAncestor(widget.entryId),
+                  showInContextCallback: () {
+                    ref.read(entryFilterProvider.notifier).clearSearch();
+                    ref
+                        .read(currentJumpIdProvider.notifier)
+                        .update((_) => widget.entryId);
+                  },
+                  showInMainLogCallback: () {
+                    ref
+                        .read(entryFilterProvider.notifier)
+                        .setAllEntriesFilter();
+                    ref
+                        .read(currentJumpIdProvider.notifier)
+                        .update((_) => widget.entryId);
+                  }),
               child: PretCard(
                 padding: EdgeInsets.only(
                   top: PretConfig.thinElementSpacing,

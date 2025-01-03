@@ -38,6 +38,14 @@ class PeregrineEntryFilter extends StateNotifier<EntryFilter> {
         name: state.name,
         icon: state.icon);
   }
+
+  void clearSearch() {
+    state = EntryFilter(
+        includes: {...state.includes, FilterType.search: ''},
+        excludes: state.excludes,
+        name: state.name,
+        icon: state.icon);
+  }
 }
 
 enum FilterType { search, tag, contact }
