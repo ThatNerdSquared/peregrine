@@ -27,6 +27,7 @@ class EntryListView extends ConsumerStatefulWidget {
 
 class EntryListViewState extends ConsumerState<EntryListView> {
   final _scrollController = ScrollController();
+  final _listController = ListController();
 
   void scrollToBottom() => _scrollController.jumpTo(
         _scrollController.position.maxScrollExtent,
@@ -35,6 +36,18 @@ class EntryListViewState extends ConsumerState<EntryListView> {
   @override
   Widget build(BuildContext context) {
     var entries = ref.watch(filteredListProvider).keys.toList();
+    final currentJumpId = ref.watch(currentJumpIdProvider);
+
+    Future(() {
+      if (currentJumpId != '') {
+        ref.read(currentJumpIdProvider.notifier).update((state) => '');
+        _listController.jumpToItem(
+            index: entries.indexOf(currentJumpId),
+            scrollController: _scrollController,
+            alignment: 0.5);
+      }
+    });
+
     final listView = buildEntryList(entries);
     return Scaffold(
       floatingActionButton: Container(
@@ -111,6 +124,7 @@ class EntryListViewState extends ConsumerState<EntryListView> {
           padding: EdgeInsets.all(PretConfig.defaultElementSpacing * 1.5),
         ),
         SuperSliverList.builder(
+            listController: _listController,
             itemCount: entries.length,
             itemBuilder: (context, index) =>
                 PeregrineEntryCard(entryId: entries[index]))

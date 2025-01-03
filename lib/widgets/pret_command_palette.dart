@@ -33,6 +33,8 @@ class PretCmdPaletteScopeState extends ConsumerState<PretCmdPaletteScope> {
 
   void togglePalette() => setState(() {
         _isPaletteShown = !_isPaletteShown;
+        _controller.clear();
+        filteredItems = widget.searchItems;
         selectedIndex = 0;
         _isPaletteShown ? paletteFocusNode.requestFocus() : null;
       });

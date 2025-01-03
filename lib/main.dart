@@ -1,3 +1,4 @@
+import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
@@ -76,9 +77,12 @@ final currentAncestorsProvider =
     StateNotifierProvider<CurrentAncestors, List<String>>(
   (_) => CurrentAncestors(),
 );
+final currentJumpIdProvider = StateProvider<String>((ref) => '');
 
 FocusNode entryBoxFocusNode = FocusNode();
 FocusNode searchBoxFocusNode = FocusNode();
+
+final appLinks = AppLinks();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -107,8 +111,23 @@ class MyApp extends ConsumerWidget {
 class PeregrineHomeView extends ConsumerWidget {
   const PeregrineHomeView({super.key});
 
+  void _handleUrl(uri, ref) {
+    final uriParts = uri.pathSegments;
+    if (uriParts[0] != 'entry') return;
+
+    final entries = ref.read(filteredListProvider).keys.toList();
+    final entryIndex = entries.indexOf(uriParts[1]);
+    if (entryIndex == -1) {
+      ref.read(entryFilterProvider.notifier).setAllEntriesFilter();
+    }
+    ref
+        .read(currentJumpIdProvider.notifier)
+        .update((String state) => (uriParts[1]).toString());
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    appLinks.uriLinkStream.listen((uri) => _handleUrl(uri, ref));
     final view = PretMainView(
       leftSidebar: Sidebar(
         searchBoxFocusNode: searchBoxFocusNode,
@@ -127,7 +146,7 @@ class PeregrineHomeView extends ConsumerWidget {
     return Scaffold(
       backgroundColor: const Color(0xffb69d7c),
       body: PretCmdPaletteScope(
-        searchItems: ref.read(tagsProvider).keys.toList(),
+        searchItems: ref.watch(tagsProvider).keys.toList(),
         child: DesktopFrame(
           entryBoxFocusNode: entryBoxFocusNode,
           searchBoxFocusNode: searchBoxFocusNode,

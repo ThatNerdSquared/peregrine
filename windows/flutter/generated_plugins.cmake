@@ -3,6 +3,7 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  app_links
   contextual_menu
   irondash_engine_context
   super_native_extensions

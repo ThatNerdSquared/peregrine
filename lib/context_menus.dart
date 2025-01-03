@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:super_context_menu/super_context_menu.dart' as scm;
 
 import 'export_utils.dart';
@@ -68,6 +69,10 @@ scm.Menu buildEntryCardContextMenu({
         scm.MenuAction(
           title: 'Add as ancestor',
           callback: () => addAncestorCallback(entryId),
+        ),
+        scm.MenuAction(
+          title: 'Copy Entry URL',
+          callback: () => Clipboard.setData(ClipboardData(text: 'peregrine://peregrine/entry/$entryId')),
         ),
         scm.MenuAction(
           title: isEncrypted ? 'Decrypt Entry' : 'Encrypt Entry',

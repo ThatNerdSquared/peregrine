@@ -48,6 +48,7 @@ dependencies:
   file_picker: ^5.5.0
   super_sliver_list: ^0.4.1
   super_context_menu: ^0.8.15
+  app_links: ^6.3.3
 
 dev_dependencies:
   flutter_test:
